@@ -21,9 +21,9 @@ public class Table implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer numTable;
+    private int numTable;
     private String secteur;
-    private Integer nbre_place;
+    private int nbre_place;
 
     @OneToMany(mappedBy = "table")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

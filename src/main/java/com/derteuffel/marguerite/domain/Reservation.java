@@ -24,11 +24,13 @@ public class Reservation implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date timer;
-    private Integer nbre_nuits;
+    private int nbre_nuits;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date date_fin;
     private Boolean status;
+    private Float prixT;
+    private Date dateJour = new Date();
 
     @ManyToOne
     @JsonIgnoreProperties("reservations")

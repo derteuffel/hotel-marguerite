@@ -35,4 +35,10 @@ public class Stock implements Serializable {
     @OneToMany(mappedBy = "stock")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<MJ>mjs;
+
+    @OneToMany(mappedBy = "stock")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Collection<Distribution> distributions;
+
+
 }

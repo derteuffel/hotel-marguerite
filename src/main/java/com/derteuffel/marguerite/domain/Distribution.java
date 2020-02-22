@@ -19,10 +19,16 @@ public class Distribution implements Serializable {
 
     private String nom;
     private String secteur;
-    private Integer qty;
+    private int qty;
     private Date date;
 
     @ManyToOne
     @JsonIgnoreProperties("distributions")
     private Compte compte;
+
+    @ManyToOne
+    @JsonIgnoreProperties("distributions")
+    private Stock stock;
+
+
 }

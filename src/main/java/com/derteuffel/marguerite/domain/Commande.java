@@ -23,10 +23,13 @@ public class Commande implements Serializable {
     private Long id;
 
     @NotNull
-    private Integer numero;
+    private String numero;
     @NotNull
     private Float montantT;
-    private Integer numTable;
+    private int numTable;
+    private  int nbreSurTable;
+    private String heure;
+    private String date;
 
     @ManyToOne
     @JsonIgnoreProperties("commandes")
@@ -38,6 +41,7 @@ public class Commande implements Serializable {
     @OneToMany(mappedBy = "commande")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Article> articles;
-    @OneToOne
+    @OneToOne(mappedBy = "commande", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private Facture facture;
 }

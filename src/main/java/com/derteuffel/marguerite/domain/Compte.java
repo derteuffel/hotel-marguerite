@@ -23,7 +23,8 @@ public class Compte implements Serializable {
     private Boolean status;
     private String avatar;
 
-    @OneToOne
+    @OneToOne(mappedBy = "compte", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private User user;
     @OneToMany(mappedBy = "compte")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

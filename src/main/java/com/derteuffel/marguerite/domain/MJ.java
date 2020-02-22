@@ -20,8 +20,8 @@ public class MJ implements Serializable {
     private Long id;
 
     private String nom;
-    private Integer qty;
-    private Date date;
+    private int qty;
+    private Date date = new Date();
     private String commentaire;
 
     @ManyToOne
