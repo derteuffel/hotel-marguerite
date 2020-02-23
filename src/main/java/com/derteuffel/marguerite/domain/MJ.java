@@ -21,7 +21,7 @@ public class MJ implements Serializable {
 
     private String nom;
     private int qty;
-    private Date date = new Date();
+    private String date;
     private String commentaire;
 
     @ManyToOne

@@ -30,6 +30,8 @@ public class Reservation implements Serializable {
     private Date date_fin;
     private Boolean status;
     private Float prixT;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date dateJour = new Date();
 
     @ManyToOne

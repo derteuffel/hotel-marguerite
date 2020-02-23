@@ -20,7 +20,7 @@ public class Distribution implements Serializable {
     private String nom;
     private String secteur;
     private int qty;
-    private Date date;
+    private String date;
 
     @ManyToOne
     @JsonIgnoreProperties("distributions")

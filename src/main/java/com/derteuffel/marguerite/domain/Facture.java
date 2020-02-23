@@ -20,12 +20,12 @@ public class Facture implements Serializable {
 
     private ArrayList<String> articles = new ArrayList<>();
     private ArrayList<Integer> prices = new ArrayList<>();
-    private Integer numero_table;
-    private Integer num_cmd;
+    private int numero_table;
+    private int num_cmd;
     private Float montantT;
     private Float montantVerse;
     private Float remboursement;
-    private Date date = new Date();
+    private String date;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "commande_id", nullable = false)

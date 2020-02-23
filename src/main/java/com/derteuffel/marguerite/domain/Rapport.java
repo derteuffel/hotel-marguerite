@@ -18,7 +18,7 @@ public class Rapport implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date = new Date();
+    private String date;
     private String recette;
     private String resume;
     ArrayList<String> commandes = new ArrayList<>();

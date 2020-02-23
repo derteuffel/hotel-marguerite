@@ -25,7 +25,7 @@ public class Stock implements Serializable {
     private String nom;
     private String categorie;
     private String type;
-    private Integer qty;
+    private int qty;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date date;

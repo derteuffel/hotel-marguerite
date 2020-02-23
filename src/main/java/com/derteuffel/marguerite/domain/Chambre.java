@@ -21,16 +21,16 @@ public class Chambre implements Serializable {
     private Long id;
 
     @NotNull
-    private Integer numero;
+    private int numero;
     @NotNull
     private String categorie;
     @NotNull
     private Float prix;
     @NotNull
-    private Integer nbre_place;
+    private int nbre_place;
     @NotNull
-    private Integer nbre_lit;
-    private Integer nbre_piece;
+    private int nbre_lit;
+    private int nbre_piece;
     private Boolean status;
     @OneToMany(mappedBy = "chambre")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
