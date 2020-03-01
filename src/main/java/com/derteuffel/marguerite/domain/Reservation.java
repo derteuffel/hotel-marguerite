@@ -20,14 +20,14 @@ public class Reservation implements Serializable {
     private Long id;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date date_debut;
+    private Date dateDebut;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date timer;
-    private int nbre_nuits;
+    private int nbreNuits;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date date_fin;
+    private Date dateFin;
     private Boolean status;
     private Float prixT;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

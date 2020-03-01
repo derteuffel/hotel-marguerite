@@ -10,5 +10,5 @@ import java.util.List;
 public interface TableRepository extends JpaRepository<Table,Long> {
 
     List<Table> findAllBySecteur(String secteur);
-    List<Table> findAllByNbre_place(int number);
+    List<Table> findAllByNbrePlace(int number);
 }

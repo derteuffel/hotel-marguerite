@@ -11,8 +11,8 @@ public interface ChambreRepository extends JpaRepository<Chambre,Long> {
 
     List<Chambre> findAllByCategorie(String categorie);
     List<Chambre> findAllByPrix(Float prix);
-    List<Chambre> findAllByNbre_lit(int nbrLit);
-    List<Chambre> findAllByNbre_piece(int nbre_piece);
-    List<Chambre> findAllByNbre_place(int nbre_place);
+    List<Chambre> findAllByNbreLit(int nbrLit);
+    List<Chambre> findAllByNbrePiece(int nbre_piece);
+    List<Chambre> findAllByNbrePlace(int nbre_place);
     List<Chambre> findAllByStatus(Boolean status);
 }

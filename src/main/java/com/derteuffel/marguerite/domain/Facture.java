@@ -20,8 +20,8 @@ public class Facture implements Serializable {
 
     private ArrayList<String> articles = new ArrayList<>();
     private ArrayList<Integer> prices = new ArrayList<>();
-    private int numero_table;
-    private int num_cmd;
+    private int numeroTable;
+    private int numCmd;
     private Float montantT;
     private Float montantVerse;
     private Float remboursement;

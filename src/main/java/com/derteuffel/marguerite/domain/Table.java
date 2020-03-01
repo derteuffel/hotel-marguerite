@@ -23,7 +23,7 @@ public class Table implements Serializable {
 
     private int numTable;
     private String secteur;
-    private int nbre_place;
+    private int nbrePlace;
 
     @OneToMany(mappedBy = "table")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

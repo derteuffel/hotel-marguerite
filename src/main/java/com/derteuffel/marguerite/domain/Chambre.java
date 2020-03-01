@@ -27,10 +27,10 @@ public class Chambre implements Serializable {
     @NotNull
     private Float prix;
     @NotNull
-    private int nbre_place;
+    private int nbrePlace;
     @NotNull
-    private int nbre_lit;
-    private int nbre_piece;
+    private int nbreLit;
+    private int nbrePiece;
     private Boolean status;
     @OneToMany(mappedBy = "chambre")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
