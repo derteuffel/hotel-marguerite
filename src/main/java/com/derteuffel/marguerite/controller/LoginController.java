@@ -40,16 +40,20 @@ public class LoginController {
     }
 
     @PostMapping("/registration")
-    public String registerUserAccount(@ModelAttribute("user") @Valid CompteRegistrationDto compteDto,
+    public String registerUserAccount(@ModelAttribute("compte") @Valid CompteRegistrationDto compteDto,
                                       BindingResult result, RedirectAttributes redirectAttributes, Model model, @RequestParam("file") MultipartFile file) {
 
+        System.out.println(compteDto.getUsername());
         Compte existing = compteService.findByUsername(compteDto.getUsername());
         if (existing != null) {
-            result.rejectValue("login", null, "There is already an account registered with that login");
+            System.out.println("i'm there");
+            result.rejectValue("username", null, "There is already an account registered with that login");
             model.addAttribute("error","There is already an account registered with that login");
         }
 
         if (result.hasErrors()) {
+            System.out.println(result.toString());
+            System.out.println("i'm inside");
             return "registration";
         }
 

@@ -36,24 +36,37 @@
             <h1 class="text-base text-primary text-uppercase mb-4">Bubbly Dashboard</h1>
             <h2 class="mb-4">Welcome back!</h2>
             <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-            <form id="loginForm" action="index.html" class="mt-4">
+            <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
+               th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+              error</p>
+            <form id="loginForm" th:action="@{/registration}" method="post" th:object="${compte}" enctype="multipart/form-data" class="mt-4">
               <div class="form-group mb-4">
-                <input type="text" name="username" placeholder="Username or Email address" class="form-control border-0 shadow form-control-lg">
+                <input type="text" th:field="*{username}" placeholder="Username" class="form-control border-0 shadow form-control-lg">
               </div>
               <div class="form-group mb-4">
-                <input type="password" name="passowrd" placeholder="Password" class="form-control border-0 shadow form-control-lg text-violet">
+                <input type="email" th:field="*{email}" placeholder="Email address" class="form-control border-0 shadow form-control-lg">
+              </div>
+              <div class="form-group mb-4">
+                <input type="password" th:field="*{password}" placeholder="Password" class="form-control border-0 shadow form-control-lg text-violet">
+              </div>
+              <div class="form-group mb-4">
+                <input type="password" th:field="*{confirmPassword}" placeholder="Confirm Password" class="form-control border-0 shadow form-control-lg text-violet">
+              </div>
+
+              <div class="form-group mb-4">
+                <label >Photo de profile</label>
+                <input type="file" name="file" class="form-control-file border-0 shadow form-control-lg text-violet">
               </div>
               <div class="form-group mb-4">
                 <div class="custom-control custom-checkbox">
-                  <input id="customCheck1" type="checkbox" checked class="custom-control-input">
-                  <label for="customCheck1" class="custom-control-label">Remember Me</label>
+                  <label class="custom-control-label">Already have account? &nbsp;&nbsp;&nbsp;<a th:href="@{/login}">Sign In</a></label>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary shadow px-5">Log in</button>
+              <button type="submit" class="btn btn-primary shadow px-5">Sign Up</button>
             </form>
           </div>
         </div>
-        <p class="mt-5 mb-0 text-gray-400 text-center">Design by <a href="https://bootstrapious.com/admin-templates" class="external text-gray-400">Bootstrapious</a> & Your company</p>
+        <p class="mt-5 mb-0 text-gray-400 text-center">Design by <a href="https://bootstrapious.com/admin-templates" class="external text-gray-400">ZIG'S Enterprises</a> & Marguerite Hotel</p>
         <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)                 -->
       </div>
     </div>
