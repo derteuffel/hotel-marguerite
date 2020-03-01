@@ -31,6 +31,7 @@ public class StockController {
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("stock", new Stock());
+        model.addAttribute("comptes", compteRepository.findAll());
         return "stocks/new";
     }
 
@@ -51,6 +52,7 @@ public class StockController {
     public String updateForm(Model model, Long id) {
         Stock stock = stockRepository.findById(id).get();
         model.addAttribute("stock", stock);
+        model.addAttribute("comptes", compteRepository.findAll());
         return "stocks/edit";
     }
 
