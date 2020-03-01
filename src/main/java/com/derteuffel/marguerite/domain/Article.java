@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Article implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String nom;
     private String categorie;

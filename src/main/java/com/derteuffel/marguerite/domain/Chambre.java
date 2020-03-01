@@ -13,11 +13,10 @@ import java.util.Collection;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Chambre implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @NotNull
@@ -33,9 +32,7 @@ public class Chambre implements Serializable {
     private int nbrePiece;
     private Boolean status;
     @OneToMany(mappedBy = "chambre")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Reservation>reservations;
     @OneToMany(mappedBy = "chambre")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Commande> commandes;
 }

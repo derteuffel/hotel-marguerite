@@ -16,13 +16,12 @@ import java.util.List;
 public class Rapport implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String date;
     private String recette;
     private String resume;
     ArrayList<String> commandes = new ArrayList<>();
     @ManyToOne
-    @JsonIgnoreProperties("raports")
     private Compte compte;
 }

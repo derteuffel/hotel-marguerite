@@ -15,11 +15,10 @@ import java.util.Date;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Stock implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String nom;
@@ -30,14 +29,11 @@ public class Stock implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date date;
     @ManyToOne
-    @JsonIgnoreProperties("stocks")
     private Compte compte;
     @OneToMany(mappedBy = "stock")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<MJ>mjs;
 
     @OneToMany(mappedBy = "stock")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Distribution> distributions;
 
 
