@@ -15,11 +15,10 @@ import java.util.List;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Commande implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @NotNull
@@ -32,16 +31,10 @@ public class Commande implements Serializable {
     private String date;
 
     @ManyToOne
-    @JsonIgnoreProperties("commandes")
     private Chambre chambre;
     @ManyToOne
-    @JsonIgnoreProperties("commandes")
-    private Table table;
+    private Place place;
 
     @OneToMany(mappedBy = "commande")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Article> articles;
-    @OneToOne(mappedBy = "commande", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Facture facture;
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class Facture implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private ArrayList<String> articles = new ArrayList<>();
@@ -27,7 +27,6 @@ public class Facture implements Serializable {
     private Float remboursement;
     private String date;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "commande_id", nullable = false)
+    @OneToOne
     private Commande commande;
 }

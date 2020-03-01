@@ -16,7 +16,7 @@ import java.util.Timer;
 public class Reservation implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
@@ -35,10 +35,8 @@ public class Reservation implements Serializable {
     private Date dateJour = new Date();
 
     @ManyToOne
-    @JsonIgnoreProperties("reservations")
     private Chambre chambre;
     @ManyToOne
-    @JsonIgnoreProperties("reservations")
     private Compte compte;
 
 }

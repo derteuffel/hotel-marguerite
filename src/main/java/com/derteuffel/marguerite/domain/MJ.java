@@ -12,11 +12,10 @@ import java.util.Date;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-@Table(name = "mj")
 public class MJ implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String nom;
@@ -25,6 +24,5 @@ public class MJ implements Serializable {
     private String commentaire;
 
     @ManyToOne
-    @JsonIgnoreProperties("mjs")
     private Stock stock;
 }

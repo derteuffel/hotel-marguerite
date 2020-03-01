@@ -13,19 +13,18 @@ import java.util.Collection;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Table implements Serializable {
+@Table(name = "place")
+public class Place implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private int numTable;
     private String secteur;
     private int nbrePlace;
 
-    @OneToMany(mappedBy = "table")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @OneToMany(mappedBy = "place")
     private Collection<Commande> commandes;
 }

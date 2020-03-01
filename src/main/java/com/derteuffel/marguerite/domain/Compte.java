@@ -7,38 +7,44 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class Compte implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String username;
     private String password;
+    private String email;
     private Boolean status;
     private String avatar;
 
-    @OneToOne(mappedBy = "compte", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToOne
     private User user;
     @OneToMany(mappedBy = "compte")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Stock> stocks;
 
     @OneToMany(mappedBy = "compte")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Reservation> reservations;
 
     @OneToMany(mappedBy = "compte")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Rapport> rapports;
 
     @OneToMany(mappedBy = "compte")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Collection<Distribution> distributions;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "comptes_roles",
+            joinColumns = @JoinColumn(
+                    name = "compte_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 }

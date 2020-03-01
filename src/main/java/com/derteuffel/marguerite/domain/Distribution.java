@@ -14,7 +14,7 @@ import java.util.Date;
 public class Distribution implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String nom;
@@ -23,11 +23,9 @@ public class Distribution implements Serializable {
     private String date;
 
     @ManyToOne
-    @JsonIgnoreProperties("distributions")
     private Compte compte;
 
     @ManyToOne
-    @JsonIgnoreProperties("distributions")
     private Stock stock;
 
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String nom;
     private String prenom;
@@ -21,7 +21,4 @@ public class User implements Serializable {
     private String quartier;
     private String fonction;
     private String avatar;
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "compte_id", nullable = false)
-    private Compte compte;
 }
