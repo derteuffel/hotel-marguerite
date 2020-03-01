@@ -25,7 +25,7 @@ public class StockController {
     @GetMapping("")
     public String findAll(Model model){
         model.addAttribute("stocks", stockRepository.findAll());
-        return "stocks/stock";
+        return "stocks/stockList";
     }
 
     @GetMapping("/form")

@@ -66,9 +66,11 @@ public class LoginController {
             }catch (IOException e){
                 e.printStackTrace();
             }
+            compteService.save(compteDto, "/downloadFile/"+file.getOriginalFilename());
+        }else {
+            compteService.save(compteDto,"/img/default.jpeg");
         }
 
-        compteService.save(compteDto, "/downloadFile/"+file.getOriginalFilename());
         redirectAttributes.addFlashAttribute("success","You've been registered successfully, try to login to your account");
         return "redirect:/login";
     }

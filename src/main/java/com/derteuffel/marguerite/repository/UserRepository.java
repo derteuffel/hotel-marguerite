@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findAllByNom(String nom);
+    User findByNomOrEmailOrTelephone(String nom, String email, String telephone);
     User findByTelephone(String telephone);
     User findByEmail(String email);
 
