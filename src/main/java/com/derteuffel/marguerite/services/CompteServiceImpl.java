@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -72,6 +73,11 @@ public class CompteServiceImpl  implements CompteService{
     }
 
     @Override
+    public List<Compte> findAllCompte() {
+        return compteRepository.findAll();
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         System.out.println(username);
@@ -89,4 +95,6 @@ public class CompteServiceImpl  implements CompteService{
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
+
+
 }
