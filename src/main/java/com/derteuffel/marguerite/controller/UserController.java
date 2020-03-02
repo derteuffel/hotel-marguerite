@@ -28,24 +28,22 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("")
+    @GetMapping("/lists")
     public String findAll(Model model){
+        System.out.println(fileStorage);
+        model.addAttribute("userForm", new User());
         model.addAttribute("users", userRepository.findAll());
       return "user/all" ;
     }
 
-    @GetMapping("/registration")
-    public String form(Model model){
-        model.addAttribute("user", new User());
-        return "user/form";
-    }
 
     @PostMapping("/save")
     public String save(User user, Model model, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
+        System.out.println(user.getNom());
         User userExists = userRepository.findByNomOrEmailOrTelephone(user.getNom(),user.getEmail(),user.getTelephone());
         if (userExists != null) {
             bindingResult
-                    .rejectValue("email,nom,telephone", "error.user",
+                    .rejectValue("email", "error.user",
                             "there is already a user registered with an email or name or telephone provided ");
         }
 
@@ -62,7 +60,7 @@ public class UserController {
                 }catch (IOException e){
                     e.printStackTrace();
                 }
-                user.setAvatar("/downloasFile/"+file.getOriginalFilename());
+                user.setAvatar("/downloadFile/"+file.getOriginalFilename());
             }else {
                 user.setAvatar("/img/default.jpeg");
             }
@@ -71,7 +69,7 @@ public class UserController {
 
         }
 
-        return "redirect:/hotel/users";
+        return "redirect:/hotel/users/lists";
     }
 
 
@@ -110,13 +108,13 @@ public class UserController {
                 }catch (IOException e){
                     e.printStackTrace();
                 }
-                user.setAvatar("/downloasFile/"+file.getOriginalFilename());
+                user.setAvatar("/downloadFile/"+file.getOriginalFilename());
             }else {
                 user2.setAvatar(user.getAvatar());
             }
             userRepository.save(user2);
             redirectAttributes.addFlashAttribute("success", "The user has been updated successfully");
-            return "redirect:/hotel/users/"+user2.getId();
+            return "redirect:/hotel/users/get/"+user2.getId();
         }
         else {
             redirectAttributes.addFlashAttribute("error","There are no user with Id :"+id);
@@ -124,7 +122,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public String findUserById(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()){

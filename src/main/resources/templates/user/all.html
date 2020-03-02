@@ -1,10 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Users List</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" th:href="@{/css/orionicons.css}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" th:href="@{/css/style.default.css}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" th:href="@{/img/favicon.png?3}">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
 <body>
-
+<!-- navbar-->
+<header th:replace="~{../templates/fragments/header :: header}">
+</header>
+<div class="d-flex align-items-stretch">
+    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
+    <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+            <section class="py-5">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div class="flex-grow-1 d-flex align-items-center">
+                                <div class="dot mr-3 bg-violet"></div>
+                                <div class="text">
+                                    <h6 class="mb-0">Data consumed</h6><span class="text-gray">145,14 GB</span>
+                                </div>
+                            </div>
+                            <div class="icon text-white bg-violet"><i class="fas fa-server"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div class="flex-grow-1 d-flex align-items-center">
+                                <div class="dot mr-3 bg-green"></div>
+                                <div class="text">
+                                    <h6 class="mb-0">Open cases</h6><span class="text-gray">32</span>
+                                </div>
+                            </div>
+                            <div class="icon text-white bg-green"><i class="far fa-clipboard"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div class="flex-grow-1 d-flex align-items-center">
+                                <div class="dot mr-3 bg-blue"></div>
+                                <div class="text">
+                                    <h6 class="mb-0">Work orders</h6><span class="text-gray">400</span>
+                                </div>
+                            </div>
+                            <div class="icon text-white bg-blue"><i class="fa fa-dolly-flatbed"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div class="flex-grow-1 d-flex align-items-center">
+                                <div class="dot mr-3 bg-red"></div>
+                                <div class="text">
+                                    <h6 class="mb-0">New invoices</h6><span class="text-gray">123</span>
+                                </div>
+                            </div>
+                            <div class="icon text-white bg-red"><i class="fas fa-receipt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row mb-4">
+                    <div class="col-sm-6 col-lg-12 mb-4 mb-lg-0">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h6 class="text-uppercase mb-0">Users List Management</h6>
+                                    </div>
+                                    <div class="button col-md-2">
+                                        <button class="btn btn-outline-blue" data-toggle="modal" data-target="#addModal" th:attr="data-target='#addModal'" type="button" >New user</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body table-responsive" >
+                                <table id="stripped" class="table table-striped table-hover card-text">
+                                    <thead>
+                                    <tr>
+                                        <th>Photo</th>
+                                        <th>Nom</th>
+                                        <th>Telephone</th>
+                                        <th>E-mail</th>
+                                        <th>Fonction</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="user : ${users}">
+                                                <td>
+                                                    <img th:src="${user.avatar}" alt="..." style="max-width: 3rem" class="rounded-circle mx-3 my-2 my-lg-0">
+                                                </td>
+                                                <td>
+                                                        <p class="mb-0 mt-3 mt-lg-0" th:text="${user?.nom}">Lorem ipsum </p>
+                                                </td>
+                                                <td>
+                                                        <p class="mb-0 mt-3 mt-lg-0" th:text="${user?.telephone}">Lorem ipsum </p>
+                                                </td>
+                                                <td>
+                                                        <p class="mb-0 mt-3 mt-lg-0" th:text="${user?.email}">Lorem ipsum </p>
+                                                </td>
+                                                <td>
+                                                        <p class="mb-0 mt-3 mt-lg-0" th:text="${user?.fonction}">Lorem ipsum </p>
+                                                </td>
+                                                <td>
+                                                    <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'" ><i class="fa fa-eye"></i></a>
+                                                    <a th:href="@{/hotel/users/update}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
+                                                    <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                        <div class="modal card fade " th:id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="card-header modal-header no-bd">
+                                                        <h5 class="modal-title">
+														<span class="fw-mediumbold">
+														Fenetre de suppression d'un</span>
+                                                            <span class="fw-light">
+															Utilisateur
+														</span>
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="card-body modal-body">
+                                                        <p class="small">etes vous sure de vouloir supprimer cet element ?</p>
+                                                    </div>
+                                                    <div class="card-footer modal-footer no-bd">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                        <a th:href="@{/hotel/users/delete/}"  class="btn btn-success">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<!-- Modal-->
+<div id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/hotel/users/save}" th:object="${userForm}" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 id="exampleModalLabel" class="modal-title">Enregistrement d'un Utilisateur</h4>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>Veiller remplir les champs demander ci-dessous</p>
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" placeholder="Last Name" th:field="*{nom}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Prenom</label>
+                        <input type="text" placeholder="First Name" th:field="*{prenom}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Email Address" th:field="*{email}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Telephone</label>
+                        <input type="text" placeholder="Telephone" th:field="*{telephone}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Quartier</label>
+                        <input type="text" placeholder="Quartier" th:field="*{quartier}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Fonction</label>
+                        <input type="text" placeholder="Fonction" th:field="*{fonction}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <input type="file"  name="file"  class="form-control-file border-0 shadow form-control-lg text-violet">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- JavaScript files-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"> </script>
+<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script th:src="@{/js/charts-home.js}"></script>
+<script th:src="@{/js/front.js}"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
+<script >
+    $(document).ready(function() {
+        // Add Row
+        $('#stripped').DataTable({
+            "pageLength": 5,
+        });
+    });
+</script>
 </body>
 </html>
