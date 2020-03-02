@@ -6,6 +6,32 @@
     <title>Title</title>
 </head>
 <body>
-
+    <div class="card">
+    <div class="card-header">
+        <h6 class="text-uppercase mb-0">Striped Table</h6>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped card-text">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Categorie</th>
+                <th>Type</th>
+                <th>Quantité</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each = " stock : ${stocks}">
+                <td th:text="${stock.nom}"></td>
+                <td th:text="${stock.categorie}"></td>
+                <td th:text="${stock.type}"></td>
+                <td th:text="${stock.qty}"></td>
+                <td th:text="${stock.date}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

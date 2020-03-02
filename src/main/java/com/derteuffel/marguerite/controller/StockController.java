@@ -4,6 +4,7 @@ package com.derteuffel.marguerite.controller;
 import com.derteuffel.marguerite.domain.Stock;
 import com.derteuffel.marguerite.repository.CompteRepository;
 import com.derteuffel.marguerite.repository.StockRepository;
+import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,22 +21,22 @@ public class StockController {
     private StockRepository stockRepository;
 
     @Autowired
-    private CompteRepository compteRepository;
+    private CompteService compteService;
 
     @GetMapping("")
     public String findAll(Model model){
         model.addAttribute("stocks", stockRepository.findAll());
-        return "stocks/stock";
+        return "stocks/stockList";
     }
 
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("stock", new Stock());
-        model.addAttribute("comptes", compteRepository.findAll());
-        return "stocks/new";
+        model.addAttribute("comptes", compteService.findAllCompte());
+        return "stocks/formStock";
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public String save(Stock stock){
       stockRepository.save(stock);
       return "stocks/stockList";
@@ -52,7 +53,7 @@ public class StockController {
     public String updateForm(Model model, Long id) {
         Stock stock = stockRepository.findById(id).get();
         model.addAttribute("stock", stock);
-        model.addAttribute("comptes", compteRepository.findAll());
+        model.addAttribute("comptes", compteService.findAllCompte());
         return "stocks/edit";
     }
 
