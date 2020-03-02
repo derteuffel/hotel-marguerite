@@ -23,7 +23,7 @@ public class StockController {
     @Autowired
     private CompteService compteService;
 
-    @GetMapping("")
+    @GetMapping("/all")
     public String findAll(Model model){
         model.addAttribute("stocks", stockRepository.findAll());
         return "stocks/stockList";
@@ -42,7 +42,7 @@ public class StockController {
       return "stocks/stockList";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public String getStock(@PathVariable Long id, Model model) {
        Optional<Stock> stock = stockRepository.findById(id);
        model.addAttribute("stock", stock.get());
@@ -50,11 +50,11 @@ public class StockController {
     }
 
     @GetMapping("/edit/{id}")
-    public String updateForm(Model model, Long id) {
+    public String updateForm(Model model, @PathVariable Long id) {
         Stock stock = stockRepository.findById(id).get();
         model.addAttribute("stock", stock);
         model.addAttribute("comptes", compteService.findAllCompte());
-        return "stocks/edit";
+        return "stocks/editStock";
     }
 
     @PutMapping("/update/{id}")
@@ -67,7 +67,7 @@ public class StockController {
         stock.setQty(qty);
         stock.setDate(date);
         stockRepository.save(stock);
-        return "redirect: /hotel/stocks";
+        return "stocks/stockList";
     }
 
     @DeleteMapping("/{id}")
@@ -76,6 +76,6 @@ public class StockController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid stock id:" +id));
         stockRepository.deleteById(id);
         model.addAttribute("stocks", stockRepository.findAll());
-        return "redirect: /hotel/stocks";
+        return "stocks/stockList";
     }
 }
