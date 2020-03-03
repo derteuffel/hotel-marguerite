@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -77,5 +79,20 @@ public class StockController {
         stockRepository.deleteById(id);
         model.addAttribute("stocks", stockRepository.findAll());
         return "stocks/stockList";
+    }
+
+    @GetMapping("/categorie/{categorie}")
+    public String findAllByCategorie(@PathVariable String categorie) {
+        List<Stock> stocks = new ArrayList<>();
+            try {
+                stockRepository.findAllByCategorie(categorie).forEach(stocks :: add);
+                if ( stocks.isEmpty()) {
+                    return "";
+                }
+                return "";
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return "";
     }
 }
