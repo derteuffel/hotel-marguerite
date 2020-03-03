@@ -162,5 +162,14 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script th:src="@{/js/charts-home.js}"></script>
 <script th:src="@{/js/front.js}"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
+<script >
+    $(document).ready(function() {
+        // Add Row
+        $('#stripped').DataTable({
+            "pageLength": 5,
+        });
+    });
+</script>
 </body>
 </html>
