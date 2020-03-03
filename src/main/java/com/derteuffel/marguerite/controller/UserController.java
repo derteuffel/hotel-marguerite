@@ -36,6 +36,13 @@ public class UserController {
       return "user/all" ;
     }
 
+    @GetMapping("/form")
+    public String form(Model model){
+        User user = new User();
+        model.addAttribute("user", user);
+        return "user/form";
+    }
+
 
     @PostMapping("/save")
     public String save(User user, Model model, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
