@@ -37,106 +37,50 @@
         <div class="container-fluid px-xl-5">
             <section class="py-5">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
-                        <a th:href="@{/hotel/stocks/categories/}+'BOISSONS'">
-                         <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="text">
-                                    <h6 class="mb-0">BOISSONS</h6><span class="text-gray" th:text="${#lists.size(boissons)}"></span>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
-                        <a th:href="@{/hotel/stocks/categories/}+'ALIMENTS'">
-                            <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="text">
-                                    <h6 class="mb-0">ALIMENTS</h6><span class="text-gray" th:text="${#lists.size(aliments)}">32</span>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-2 col-lg-6 mb-4 mb-xl-0">
-                        <a th:href="@{/hotel/stocks/categories/}+'LINGERIES'">
-                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="text">
-                                    <h6 class="mb-0">LINGERIES</h6><span class="text-gray" th:text="${#lists.size(lingeries)}"></span>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-2 col-lg-6 mb-4 mb-xl-0">
-                        <a th:href="@{/hotel/stocks/categories/}+'COUVERTS'">
-                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="text">
-                                    <h6 class="mb-0">COUVERTS</h6><span class="text-gray" th:text="${#lists.size(couverts)}">400</span>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-2 col-lg-6 mb-4 mb-xl-0">
-                        <a th:href="@{/hotel/stocks/categories/}+'AUTRES'">
-                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="text">
-                                    <h6 class="mb-0">AUTRES</h6><span class="text-gray" th:text="${#lists.size(autres)}"></span>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-            <section class="py-5">
-                <div class="row">
                     <div class="col-lg-12 mb-5">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="h6 text-uppercase mb-0">Liste des stock</h3>
-                                <span class="text-danger" th:text="${error}"></span>
                             </div>
                             <div class="card-body table-responsive">
                                 <table id="stripped" class="table table-striped table-hover card-text">
                                     <thead>
                                     <tr>
-                                        <th>Nom</th>
-                                        <th>Categorie</th>
-                                        <th>Type</th>
-                                        <th>Quantité</th>
-                                        <th>Date</th>
+                                        <th>timer</th>
+                                        <th>nombre de nuits</th>
+                                        <th>date du jour</th>
+                                        <th>date de Fin</th>
+                                        <th>prix</th>
+                                        <th>status</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each=" stock : ${stocks}">
+                                    <tr th:each=" reservation : ${reservations}">
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.nom}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.timer}"></p>
                                         </td>
                                         <td >
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.categorie}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.nbreNuits}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.type}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.dateJour}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.qty}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.dateFin}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.date}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.prixT}"></p>
                                         </td>
                                         <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${stock.id}" ><i class="fa fa-eye"></i></a>
-                                            <a th:href="@{/hotel/stocks/edit/{id}(id=${stock.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${stock.id}"><i class="fa fa-trash"></i></a>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.status}"></p>
                                         </td>
-                                        <div class="modal card fade " th:id="deleteModal+${stock.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <td>
+                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${reservation.id}" ><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{/hotel/reservations/edit/{id}(id=${reservation.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${reservation.id}"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                        <div class="modal card fade " th:id="deleteModal+${reservation.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="card-header modal-header no-bd">
@@ -144,7 +88,7 @@
 														<span class="fw-mediumbold">
 														Fenetre de suppression d'un</span>
                                                             <span class="fw-light">
-															Stock
+															reservation
 														</span>
                                                         </h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -156,43 +100,47 @@
                                                     </div>
                                                     <div class="card-footer modal-footer no-bd">
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                                        <a th:href="@{/hotel/stocks/delete/{id}(id=${stock.id})}"  class="btn btn-success">Delete</a>
+                                                        <a th:href="@{/hotel/reservations/delete/{id}(id=${reservation.id})}"  class="btn btn-success">Delete</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div th:id="detailModal+${stock.id}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" class="modal fade text-left">
+                                        <div th:id="detailModal+${reservation.id}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" class="modal fade text-left">
                                             <div role="document" class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un Stock</h4>
+                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un commande</h4>
                                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label>Nom:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.nom}"></strong>
+                                                            <label>Timer:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${reservation.timer}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Categorie:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.categorie}"></strong>
+                                                            <label>Nombre de nuits:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${reservation.nbreNuits}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Type:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.type}"></strong>
+                                                            <label>Date jour:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${reservation.dateJour}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Quantité:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.qty}"></strong>
+                                                            <label>Date fin:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${reservation.dateFin}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Date:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.date}"></strong>
+                                                            <label>Prix total:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${reservation.prixT}"></strong>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Status</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${reservation.status}"></strong>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                                                        <a th:href="@{/hotel/stocks/edit/{id}(id=${stock.id})}"  class="btn btn-primary">Update</a>
+                                                        <a th:href="@{/hotel/reservations/edit/{id}(id=${reservation.id})}"  class="btn btn-primary">Update</a>
                                                     </div>
                                                     </form>
                                                 </div>
