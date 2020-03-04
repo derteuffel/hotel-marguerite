@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>User form</title>
+    <title>User details information</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -43,7 +43,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="justify-content-center d-flex">
-                                    <img th:src="${user.avatar}" height="80" weight="80" alt="">
+                                    <img th:src="${user.avatar}" height="80" weight="80" class="rounded-circle" alt="">
+                                    <p class="text-success" th:text="${success}"></p>
+                                    <p class="text-danger" th:text="${error}"></p>
                                 </div>
                                 <form action="#" class="form-horizontal">
                                     <div class="form-group row">
@@ -85,8 +87,8 @@
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
-                                            <a th:href="@{/hotel/users/lists}" class="btn btn-secondary">Cancel</a>
-                                            <a th:href="@{/hotel/users/update/}+${user.id}"  class="btn btn-primary">Update</a>
+                                            <a th:href="@{/hotel/users/lists}" class="btn btn-secondary"><i class="fa fa-closed-captioning"></i>Cancel</a>
+                                            <a th:href="@{/hotel/users/update/}+${user.id}"  class="btn btn-primary">Update <i class="fa fa-user-edit"></i></a>
                                         </div>
                                     </div>
                                 </form>

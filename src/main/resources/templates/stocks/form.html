@@ -54,14 +54,72 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Categorie</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="categorie" id="categorie" th:field="*{categorie}">
+                                            <select th:field="*{categorie}" class="form-control" id="">
+                                                <option th:each="category : ${T(com.derteuffel.marguerite.enums.ECategory).values()}" th:text="${category}" th:value="${category}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Choisir un secteur</label>
+                                        <div class="col-md-9 row">
+
+                                            <label for="aliment"> Aliments</label>&nbsp;&nbsp;
+                                            <input id="aliment" class="cb" type="checkbox"onchange="cbChange(this)" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label for="boisson"> Boissons</label>&nbsp;&nbsp;
+                                            <input type="checkbox" class="cb" id="boisson" onchange="cbChange(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label for="couvert"> Couverts</label>&nbsp;&nbsp;
+                                            <input type="checkbox" class="cb" id="couvert" onchange="cbChange(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label for="lingerie"> Lingeries</label>&nbsp;&nbsp;
+                                            <input type="checkbox" class="cb" id="lingerie" onchange="cbChange(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label for="autre"> Autres</label>&nbsp;&nbsp;
+                                            <input type="checkbox" class="cb" id="autre" onchange="cbChange(this)">
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group type row" id="alimenDiv" style="display: none" onchange="divChange(this)">
                                         <label class="col-md-3 form-control-label">Type</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="type" id="type" class="form-control" th:field="*{type}">
+                                            <select th:field="*{type}" class="form-control" >
+                                                <option value="">Choisir</option>
+                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeAliment).values()}" th:text="${type}" th:value="${type}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group type row" id="boissonDiv" style="display: none" onchange="divChange(this)">
+                                        <label class="col-md-3 form-control-label">Type</label>
+                                        <div class="col-md-9">
+                                            <select th:field="*{type}" class="form-control" >
+                                                <option value="">Choisir</option>
+                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeBoisson).values()}" th:text="${type}" th:value="${type}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group type row" id="couvertDiv" style="display: none" onchange="divChange(this)">
+                                        <label class="col-md-3 form-control-label">Type</label>
+                                        <div class="col-md-9">
+                                            <select th:field="*{type}" class="form-control" >
+                                                <option value="">Choisir</option>
+                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeCouvert).values()}" th:text="${type}" th:value="${type}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group type row" id="lingerieDiv" style="display: none" onchange="divChange(this)">
+                                        <label class="col-md-3 form-control-label">Type</label>
+                                        <div class="col-md-9">
+                                            <select th:field="*{type}" class="form-control" >
+                                                <option value="">Choisir</option>
+                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeLingerie).values()}" th:text="${type}" th:value="${type}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group type row" id="autreDiv" style="display: none" onchange="divChange(this)">
+                                        <label class="col-md-3 form-control-label">Type</label>
+                                        <div class="col-md-9">
+                                            <select th:field="*{type}" class="form-control" >
+                                                <option value="">Choisir</option>
+                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeAutre).values()}" th:text="${type}" th:value="${type}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -119,5 +177,18 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="js/charts-home.js"></script>
     <script src="js/front.js"></script>
+<script >
+    function cbChange(obj) {
+        var cbs = document.getElementsByClassName("cb");
+        for (var i = 0; i < cbs.length; i++) {
+            cbs[i].checked = false;
+        }
+        obj.checked = true;
+        var divs = document.getElementsByClassName("type");
+        for (var x = 0; x < divs.length; x++){
+
+        }
+    }
+</script>
 </body>
 </html>

@@ -27,8 +27,6 @@ public class Compte implements Serializable {
 
     @OneToOne
     private User user;
-    @OneToMany(mappedBy = "compte")
-    private Collection<Stock> stocks;
 
     @OneToMany(mappedBy = "compte")
     private Collection<Reservation> reservations;
