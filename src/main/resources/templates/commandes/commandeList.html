@@ -46,37 +46,41 @@
                                 <table id="stripped" class="table table-striped table-hover card-text">
                                     <thead>
                                     <tr>
-                                        <th>Nom</th>
-                                        <th>Categorie</th>
-                                        <th>Type</th>
-                                        <th>Quantité</th>
+                                        <th>numero</th>
+                                        <th>montant total</th>
+                                        <th>numero de table</th>
+                                        <th>nombre sur la table</th>
+                                        <th>Heure</th>
                                         <th>Date</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each=" stock : ${stocks}">
+                                    <tr th:each=" commande : ${commandes}">
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.nom}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${commande?.numero}"></p>
                                         </td>
                                         <td >
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.categorie}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${commande?.montantT}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.type}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${commande?.numTable}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.qty}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${commande?.nbreSurTable}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.date}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${commande?.heure}"></p>
                                         </td>
                                         <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${stock.id}" ><i class="fa fa-eye"></i></a>
-                                            <a th:href="@{/hotel/stocks/edit/{id}(id=${stock.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${stock.id}"><i class="fa fa-trash"></i></a>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${commande?.date}"></p>
                                         </td>
-                                        <div class="modal card fade " th:id="deleteModal+${stock.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <td>
+                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${commande.id}" ><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{/hotel/commandes/edit/{id}(id=${commande.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${commande.id}"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                        <div class="modal card fade " th:id="deleteModal+${commande.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="card-header modal-header no-bd">
@@ -84,7 +88,7 @@
 														<span class="fw-mediumbold">
 														Fenetre de suppression d'un</span>
                                                             <span class="fw-light">
-															Stock
+															commande
 														</span>
                                                         </h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -96,43 +100,43 @@
                                                     </div>
                                                     <div class="card-footer modal-footer no-bd">
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                                        <a th:href="@{/hotel/stocks/delete/{id}(id=${stock.id})}"  class="btn btn-success">Delete</a>
+                                                        <a th:href="@{/hotel/commandes/delete/{id}(id=${commande.id})}"  class="btn btn-success">Delete</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div th:id="detailModal+${stock.id}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" class="modal fade text-left">
+                                        <div th:id="detailModal+${commande.id}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" class="modal fade text-left">
                                             <div role="document" class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un Stock</h4>
+                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un commande</h4>
                                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label>Nom:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.nom}"></strong>
+                                                            <label>Numéro:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${commande.numero}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Categorie:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.categorie}"></strong>
+                                                            <label>Numéro de Table:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${commande.numTable}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Type:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.type}"></strong>
+                                                            <label>Nombre de personne sur la table:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${commande.nbreSurTable}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Quantité:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.qty}"></strong>
+                                                            <label>Heure:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${commande.heure}"></strong>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Date:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.date}"></strong>
+                                                            <strong th:text="${commande.date}"></strong>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                                                        <a th:href="@{/hotel/stocks/edit/{id}(id=${stock.id})}"  class="btn btn-primary">Update</a>
+                                                        <a th:href="@{/hotel/commandes/edit/{id}(id=${commande.id})}"  class="btn btn-primary">Update</a>
                                                     </div>
                                                     </form>
                                                 </div>

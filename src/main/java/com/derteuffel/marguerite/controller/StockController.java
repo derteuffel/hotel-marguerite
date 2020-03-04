@@ -41,7 +41,7 @@ public class StockController {
     @PostMapping("/save")
     public String save(Stock stock){
       stockRepository.save(stock);
-      return "stocks/stockList";
+      return "redirect:/hotel/stocks/all";
     }
 
     @GetMapping("/detail/{id}")
@@ -59,7 +59,7 @@ public class StockController {
         return "stocks/editStock";
     }
 
-    @PutMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public String update(Stock stock, @PathVariable Long id, String nom,
                          String categorie, String type, Integer qty, Date date){
 
@@ -69,16 +69,16 @@ public class StockController {
         stock.setQty(qty);
         stock.setDate(date);
         stockRepository.save(stock);
-        return "stocks/stockList";
+        return "redirect:/hotel/stocks/all";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String delete(Model model, @PathVariable Long id){
         Stock stock = stockRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid stock id:" +id));
         stockRepository.deleteById(id);
         model.addAttribute("stocks", stockRepository.findAll());
-        return "redirect: /hotel/stocks/all";
+        return "redirect:/hotel/stocks/all";
     }
 
     @GetMapping("/categorie/{categorie}")

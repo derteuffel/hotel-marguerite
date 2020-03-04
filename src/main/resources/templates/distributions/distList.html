@@ -47,36 +47,33 @@
                                     <thead>
                                     <tr>
                                         <th>Nom</th>
-                                        <th>Categorie</th>
-                                        <th>Type</th>
+                                        <th>Secteur</th>
                                         <th>Quantité</th>
                                         <th>Date</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each=" stock : ${stocks}">
+                                    <tr th:each=" distribution : ${distributions}">
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.nom}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${distribution?.nom}"></p>
                                         </td>
                                         <td >
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.categorie}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${distribution?.secteur}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.type}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${distribution?.qty}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.qty}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${distribution?.date}"></p>
                                         </td>
+
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.date}"></p>
+                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${distribution.id}" ><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{/hotel/distributions/update/{id}(id=${distribution.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${distribution.id}"><i class="fa fa-trash"></i></a>
                                         </td>
-                                        <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${stock.id}" ><i class="fa fa-eye"></i></a>
-                                            <a th:href="@{/hotel/stocks/edit/{id}(id=${stock.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${stock.id}"><i class="fa fa-trash"></i></a>
-                                        </td>
-                                        <div class="modal card fade " th:id="deleteModal+${stock.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal card fade " th:id="deleteModal+${distribution.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="card-header modal-header no-bd">
@@ -84,7 +81,7 @@
 														<span class="fw-mediumbold">
 														Fenetre de suppression d'un</span>
                                                             <span class="fw-light">
-															Stock
+															distribution
 														</span>
                                                         </h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -96,43 +93,40 @@
                                                     </div>
                                                     <div class="card-footer modal-footer no-bd">
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                                        <a th:href="@{/hotel/stocks/delete/{id}(id=${stock.id})}"  class="btn btn-success">Delete</a>
+                                                        <a th:href="@{/hotel/distributions/delete/{id}(id=${distribution.id})}"  class="btn btn-success">Delete</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div th:id="detailModal+${stock.id}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" class="modal fade text-left">
+                                        <div th:id="detailModal+${distribution.id}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" class="modal fade text-left">
                                             <div role="document" class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un Stock</h4>
+                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un commande</h4>
                                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label>Nom:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.nom}"></strong>
+                                                            <strong th:text="${distribution.nom}"></strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Categorie:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.categorie}"></strong>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Type:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.type}"></strong>
+                                                            <label>secteur:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <strong th:text="${distribution.secteur}"></strong>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Quantité:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.qty}"></strong>
+                                                            <strong th:text="${distribution.qty}"></strong>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Date:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${stock.date}"></strong>
+                                                            <strong th:text="${distribution.date}"></strong>
                                                         </div>
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                                                        <a th:href="@{/hotel/stocks/edit/{id}(id=${stock.id})}"  class="btn btn-primary">Update</a>
+                                                        <a th:href="@{/hotel/distributions/edit/{id}(id=${distribution.id})}"  class="btn btn-primary">Update</a>
                                                     </div>
                                                     </form>
                                                 </div>
