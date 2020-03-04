@@ -72,13 +72,13 @@ public class StockController {
         return "stocks/stockList";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(Model model, @PathVariable Long id){
         Stock stock = stockRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid stock id:" +id));
         stockRepository.deleteById(id);
         model.addAttribute("stocks", stockRepository.findAll());
-        return "stocks/stockList";
+        return "redirect: /hotel/stocks/all";
     }
 
     @GetMapping("/categorie/{categorie}")
