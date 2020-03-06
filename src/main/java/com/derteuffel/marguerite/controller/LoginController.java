@@ -34,7 +34,7 @@ public class LoginController {
         return new CompteRegistrationDto();
     }
 
-    @GetMapping("/registration")
+     @GetMapping("/registration")
     public String registrationForm(Model model){
         return "registration";
     }

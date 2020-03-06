@@ -65,7 +65,7 @@
                                         <div class="col-md-9 row">
 
                                             <label for="aliment"> Aliments</label>&nbsp;&nbsp;
-                                            <input id="aliment" class="cb" type="checkbox"onchange="cbChange(this)" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input id="aliment" class="cb" type="checkbox" onchange="cbChange(this)" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="boisson"> Boissons</label>&nbsp;&nbsp;
                                             <input type="checkbox" class="cb" id="boisson" onchange="cbChange(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="couvert"> Couverts</label>&nbsp;&nbsp;
@@ -177,16 +177,72 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="js/charts-home.js"></script>
     <script src="js/front.js"></script>
+<script>
+    $(function() {
+        // Add Row
+        $("#aliment").click(function(){
+
+            if ((this).is(":checked")){
+                $("#alimenDiv").show();
+                $("#couvertDiv").hide();
+                $("#autreDivDiv").hide();
+                $("#boissonDivDiv").hide();
+                $("#lingerieDiv").hide();
+            }
+        });
+        $("#couvert").click(function(){
+
+            if ((this).is(":checked")){
+                $("#alimenDiv").hide();
+                $("#couvertDiv").show();
+                $("#autreDivDiv").hide();
+                $("#boissonDivDiv").hide();
+                $("#lingerieDiv").hide();
+            }
+        });
+
+        $("#autre").click(function(){
+
+            if ((this).is(":checked")){
+                $("#alimenDiv").hide();
+                $("#couvertDiv").hide();
+                $("#autreDivDiv").show();
+                $("#boissonDivDiv").hide();
+                $("#lingerieDiv").hide();
+            }
+        });
+        $("#boisson").click(function(){
+
+            if ((this).is(":checked")){
+                $("#alimenDiv").hide();
+                $("#couvertDiv").hide();
+                $("#autreDivDiv").hide();
+                $("#boissonDivDiv").show();
+                $("#lingerieDiv").hide();
+            }
+        });
+
+        $("#lingerie").click(function(){
+
+            if ((this).is(":checked")){
+                $("#alimenDiv").hide();
+                $("#couvertDiv").hide();
+                $("#autreDivDiv").hide();
+                $("#boissonDivDiv").hide();
+                $("#lingerieDiv").show();
+            }
+        });
+    });
+</script>
 <script >
+
+
     function cbChange(obj) {
         var cbs = document.getElementsByClassName("cb");
         for (var i = 0; i < cbs.length; i++) {
             cbs[i].checked = false;
         }
         obj.checked = true;
-        var divs = document.getElementsByClassName("type");
-        for (var x = 0; x < divs.length; x++){
-        }
     }
 </script>
 </body>
