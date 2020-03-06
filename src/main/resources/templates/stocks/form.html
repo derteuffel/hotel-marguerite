@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Stock form</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -65,19 +65,19 @@
                                         <div class="col-md-9 row">
 
                                             <label for="aliment"> Aliments</label>&nbsp;&nbsp;
-                                            <input id="aliment" class="cb" type="checkbox" onchange="cbChange(this)" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input id="aliment" class="rd aliment" value="aliment"  type="radio"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="boisson"> Boissons</label>&nbsp;&nbsp;
-                                            <input type="checkbox" class="cb" id="boisson" onchange="cbChange(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" class="rd boisson" value="boisson" id="boisson" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="couvert"> Couverts</label>&nbsp;&nbsp;
-                                            <input type="checkbox" class="cb" id="couvert" onchange="cbChange(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" class="rd couvert" value="couvert" id="couvert" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="lingerie"> Lingeries</label>&nbsp;&nbsp;
-                                            <input type="checkbox" class="cb" id="lingerie" onchange="cbChange(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" class="rd lingerie" value="lingerie"  id="lingerie" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="autre"> Autres</label>&nbsp;&nbsp;
-                                            <input type="checkbox" class="cb" id="autre" onchange="cbChange(this)">
+                                            <input type="radio" class="rd autre" value="autre" id="autre" >
                                         </div>
                                     </div>
                                     <div class="line"></div>
-                                    <div class="form-group type row" id="alimenDiv" style="display: none" onchange="divChange(this)">
+                                    <div class="form-group box aliment row"  style="display: none" >
                                         <label class="col-md-3 form-control-label">Type</label>
                                         <div class="col-md-9">
                                             <select th:field="*{type}" class="form-control" >
@@ -86,7 +86,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group type row" id="boissonDiv" style="display: none" onchange="divChange(this)">
+                                    <div class="form-group box boisson row"  style="display: none">
                                         <label class="col-md-3 form-control-label">Type</label>
                                         <div class="col-md-9">
                                             <select th:field="*{type}" class="form-control" >
@@ -95,7 +95,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group type row" id="couvertDiv" style="display: none" onchange="divChange(this)">
+                                    <div class="form-group box couvert row"  style="display: none">
                                         <label class="col-md-3 form-control-label">Type</label>
                                         <div class="col-md-9">
                                             <select th:field="*{type}" class="form-control" >
@@ -104,7 +104,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group type row" id="lingerieDiv" style="display: none" onchange="divChange(this)">
+                                    <div class="form-group box lingerie row"  style="display: none">
                                         <label class="col-md-3 form-control-label">Type</label>
                                         <div class="col-md-9">
                                             <select th:field="*{type}" class="form-control" >
@@ -113,7 +113,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group type row" id="autreDiv" style="display: none" onchange="divChange(this)">
+                                    <div class="form-group box autre row"  style="display: none">
                                         <label class="col-md-3 form-control-label">Type</label>
                                         <div class="col-md-9">
                                             <select th:field="*{type}" class="form-control" >
@@ -138,20 +138,6 @@
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Comptes</label>
-                                        <div class="col-md-9 ml-auto select">
-                                            <select type="text" th:field="*{compte}" class="form-control">
-                                                <option value=""></option>
-                                                <option th:each=" compte : ${comptes}"
-                                                        th:value="${compte.id}"
-                                                        th:text="${compte.username}">
-
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
                                             <button type="button" class="btn btn-secondary">Cancel</button>
@@ -169,81 +155,68 @@
 </div>
 
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"> </script>
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-    <script src="js/charts-home.js"></script>
-    <script src="js/front.js"></script>
-<script>
-    $(function() {
-        // Add Row
-        $("#aliment").click(function(){
-
-            if ((this).is(":checked")){
-                $("#alimenDiv").show();
-                $("#couvertDiv").hide();
-                $("#autreDivDiv").hide();
-                $("#boissonDivDiv").hide();
-                $("#lingerieDiv").hide();
-            }
-        });
-        $("#couvert").click(function(){
-
-            if ((this).is(":checked")){
-                $("#alimenDiv").hide();
-                $("#couvertDiv").show();
-                $("#autreDivDiv").hide();
-                $("#boissonDivDiv").hide();
-                $("#lingerieDiv").hide();
-            }
-        });
-
-        $("#autre").click(function(){
-
-            if ((this).is(":checked")){
-                $("#alimenDiv").hide();
-                $("#couvertDiv").hide();
-                $("#autreDivDiv").show();
-                $("#boissonDivDiv").hide();
-                $("#lingerieDiv").hide();
-            }
-        });
-        $("#boisson").click(function(){
-
-            if ((this).is(":checked")){
-                $("#alimenDiv").hide();
-                $("#couvertDiv").hide();
-                $("#autreDivDiv").hide();
-                $("#boissonDivDiv").show();
-                $("#lingerieDiv").hide();
-            }
-        });
-
-        $("#lingerie").click(function(){
-
-            if ((this).is(":checked")){
-                $("#alimenDiv").hide();
-                $("#couvertDiv").hide();
-                $("#autreDivDiv").hide();
-                $("#boissonDivDiv").hide();
-                $("#lingerieDiv").show();
-            }
+    <script th:src="@{/js/charts-home.js}"></script>
+    <script th:src="@{/js/front.js}"></script>
+<script >
+    $(document).ready(function(){
+        $('input[type="radio"]').click(function(){
+            var inputValue = $(this).attr("value");
+            var targetBox = $("." + inputValue);
+            $(".box").not(targetBox).hide();
+            $(".rd").not(targetBox).prop('checked', false);
+            $(targetBox).show();
         });
     });
 </script>
-<script >
+<!--script>
+    $(document).ready(function () {
+        $('input[type="checkbox"]').click(function () {
+            $('.type').hide();
+            if ($('#aliment').is(':checked')){
+                $('#alimenDiv').show();
+                $('#couvertDiv').hide();
+                $('#lingerieDiv').hide();
+                $('#autreDiv').hide();
+                $('#boissonDiv').hide();
+            }
+            if ($('#couvert').is(':checked')){
+                $('#alimenDiv').hide();
+                $('#couvertDiv').show();
+                $('#lingerieDiv').hide();
+                $('#autreDiv').hide();
+                $('#boissonDiv').hide();
+            }
 
+            if ($('#lingerie').is(':checked')){
+                $('#alimenDiv').hide();
+                $('#couvertDiv').hide();
+                $('#lingerieDiv').show();
+                $('#autreDiv').hide();
+                $('#boissonDiv').hide();
+            }
+            if ($('#autre').is(':checked')){
+                $('#alimenDiv').hide();
+                $('#couvertDiv').hide();
+                $('#lingerieDiv').hide();
+                $('#autreDiv').show();
+                $('#boissonDiv').hide();
+            }
+            if ($('#boisson').is(':checked')){
+                $('#alimenDiv').hide();
+                $('#couvertDiv').hide();
+                $('#lingerieDiv').hide();
+                $('#autreDiv').hide();
+                $('#boissonDiv').show();
+            }
+        });
+    });
 
-    function cbChange(obj) {
-        var cbs = document.getElementsByClassName("cb");
-        for (var i = 0; i < cbs.length; i++) {
-            cbs[i].checked = false;
-        }
-        obj.checked = true;
-    }
-</script>
+</script-->
 </body>
 </html>

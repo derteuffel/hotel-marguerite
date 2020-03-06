@@ -1,8 +1,10 @@
 package com.derteuffel.marguerite.controller;
 
 
+import com.derteuffel.marguerite.domain.MJ;
 import com.derteuffel.marguerite.domain.Stock;
 import com.derteuffel.marguerite.enums.ECategory;
+import com.derteuffel.marguerite.repository.MJRepository;
 import com.derteuffel.marguerite.repository.StockRepository;
 import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +28,9 @@ public class StockController {
 
     @Autowired
     private StockRepository stockRepository;
+
+    @Autowired
+    private MJRepository mjRepository;
 
     @Autowired
     private CompteService compteService;
@@ -45,8 +55,13 @@ public class StockController {
     }
 
     @PostMapping("/save")
-    public String save(Stock stock){
+    public String save(Stock stock, RedirectAttributes redirectAttributes, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        stock.setCompte(compteService.findByUsername(principal.getName()));
+        stock.setType(stock.getType().toString());
+        stock.setCategorie(stock.getCategorie().toString());
       stockRepository.save(stock);
+      redirectAttributes.addFlashAttribute("success", "You've save your stock successfully");
       return "redirect:/hotel/stocks/all";
     }
 
@@ -61,25 +76,18 @@ public class StockController {
     public String updateForm(Model model, @PathVariable Long id) {
         Stock stock = stockRepository.findById(id).get();
         model.addAttribute("stock", stock);
-        model.addAttribute("comptes", compteService.findAllCompte());
         return "stocks/update";
     }
 
-    @PostMapping("/update/{id}")
-    public String update(Stock stock, @PathVariable Long id, RedirectAttributes redirectAttributes){
+    @PostMapping("/update")
+    public String update(Stock stock, RedirectAttributes redirectAttributes, HttpServletRequest request){
 
-        Optional<Stock> stockOptional = stockRepository.findById(id);
-        if (stockOptional.isPresent()){
-            Stock stock1 = stockOptional.get();
-            stock1.setNom(stock.getNom());
-            stock1.setCategorie(stock.getCategorie());
-            stock1.setDate(stock.getDate());
-            stock1.setQty(stock.getQty());
-            stock1.setType(stock.getType());
-            stockRepository.save(stock);
-        }else {
-            redirectAttributes.addFlashAttribute("error","There are not Stock with Id:"+id);
-        }
+        Principal principal = request.getUserPrincipal();
+        stock.setCompte(compteService.findByUsername(principal.getName()));
+        stock.setType(stock.getType());
+        stock.setCategorie(stock.getCategorie());
+        stockRepository.save(stock);
+        redirectAttributes.addFlashAttribute("success", "You've save your stock successfully");
 
         return "redirect:/hotel/stocks/all";
     }
@@ -104,6 +112,48 @@ public class StockController {
                  model.addAttribute("stocks",stocks);
                  return "stocks/all";
                 }
+
+    }
+
+    @GetMapping("/mjs/{id}")
+    public String mjs(@PathVariable Long id, Model model){
+       List<MJ> mjs = mjRepository.findAllByStock_Id(id);
+       model.addAttribute("add", new MJ());
+       model.addAttribute("update", new MJ());
+       model.addAttribute("stock", stockRepository.getOne(id));
+       model.addAttribute("lists",mjs);
+
+       return "stocks/mjs";
+    }
+
+    @PostMapping("/mjs/save/{id}")
+    public String saveMjs(@PathVariable Long id, MJ mj, RedirectAttributes redirectAttributes){
+        Stock stock = stockRepository.getOne(id);
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat();
+        mj.setDate(dateFormat.format(date));
+        mj.setNom(stock.getNom());
+        mj.setStock(stock);
+        stock.setQty(mj.getQty()+stock.getQty());
+        stockRepository.save(stock);
+        mjRepository.save(mj);
+        redirectAttributes.addFlashAttribute("success","you've data saved successfully");
+        return "redirect:/hotel/stocks/mjs/"+stock.getId();
+
+    }
+    @PostMapping("/mjs/update/{id}")
+    public String Mjs(@PathVariable Long id, MJ mj, RedirectAttributes redirectAttributes){
+        Stock stock = stockRepository.getOne(id);
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat();
+        mj.setDate(dateFormat.format(date));
+        mj.setNom(stock.getNom());
+        mj.setStock(stock);
+        stock.setQty(stock.getQty()+mj.getQty());
+        mjRepository.save(mj);
+        redirectAttributes.addFlashAttribute("success","you've data saved successfully");
+        return "redirect:/hotel/stocks/mjs/"+stock.getId();
 
     }
 }
