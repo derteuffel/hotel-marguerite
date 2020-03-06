@@ -70,10 +70,11 @@
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.dateFin}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.prixT}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.prixT}">$</p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${reservation?.status}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:if="${reservation?.status}">Payé</p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:unless="${reservation?.status}">Non Payé</p>
                                         </td>
                                         <td>
                                             <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${reservation.id}" ><i class="fa fa-eye"></i></a>
@@ -131,11 +132,12 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Prix total:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${reservation.prixT}"></strong>
+                                                            <strong th:text="${reservation.prixT}">$</strong>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Status</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${reservation.status}"></strong>
+                                                            <strong th:if="${reservation.status}==true">Payé</strong>
+                                                            <strong th:unless="${reservation.status}==true">Non Payé</strong>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
