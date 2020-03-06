@@ -25,7 +25,7 @@ public class Commande implements Serializable {
     private String numero;
     @NotNull
     private Float montantT;
-    private int numTable;
+    private String numTable;
     private  int nbreSurTable;
     private String heure;
     private String date;

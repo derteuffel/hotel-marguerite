@@ -21,7 +21,7 @@ public class Place implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private int numTable;
+    private String numTable;
     private String secteur;
     private int nbrePlace;
 

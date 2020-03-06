@@ -15,4 +15,5 @@ public interface ChambreRepository extends JpaRepository<Chambre,Long> {
     List<Chambre> findAllByNbrePiece(int nbre_piece);
     List<Chambre> findAllByNbrePlace(int nbre_place);
     List<Chambre> findAllByStatus(Boolean status);
+    Chambre findByNumero(String number);
 }

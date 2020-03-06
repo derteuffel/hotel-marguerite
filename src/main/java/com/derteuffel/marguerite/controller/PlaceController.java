@@ -46,7 +46,7 @@ public class PlaceController {
 
     @PostMapping("/update/{id}")
     public String save(@Valid Place place, @PathVariable("id") Long id,
-                       BindingResult result, Model model,  String secteur, int nbrePlace, int numTable ){
+                       BindingResult result, Model model,  String secteur, int nbrePlace, String numTable ){
         place.setSecteur(secteur);
         place.setNbrePlace(nbrePlace);
         place.setNumTable(numTable);
