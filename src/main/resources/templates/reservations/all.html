@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Orders lists</title>
+    <title>Reservation lists</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,37 +29,40 @@
 <!-- navbar-->
 <header th:replace="~{../templates/fragments/header :: header}">
 </header>
-    <div class="d-flex align-items-stretch">
-        <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
-        <div class="page-holder w-100 d-flex flex-wrap">
-            <div class="container-fluid px-xl-5">
-                <div class="py-5">
-                    <div class="button col-md-2">
-                        <a class="btn btn-outline-blue" th:href="@{/hotel/commandes/form}" >New Order</a>
-                    </div>
+<div class="d-flex align-items-stretch">
+    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
+    <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+            <div class="py-5">
+                <div class="button col-md-2">
+                    <a class="btn btn-outline-blue" th:href="@{/hotel/reservations/form}" >New Order</a>
                 </div>
-                <section class="py-5">
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0" th:each="commande: ${commandes}">
-                            <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
-                                <div class="flex-grow-1 d-flex align-items-center">
-                                    <div class="dot mr-3 bg-blue"></div>
-                                    <div class="text">
-                                        <h6 class="mb-0">Commande En Cours</h6><span class="text-gray" th:text="${commande.numTable}"></span>
-                                        <h6 class="mb-0"></h6><span class="text-gray" th:text="${commande.secteur}"></span>
-                                        <h6 class="mb-0"></h6><span class="text-gray" th:text="${commande.numero}"></span>
-                                        <h6 class="mb-0" th:text="${commande.date}"></h6><span class="text-gray" th:text="${commande.heure}"></span>
-                                    </div>
+            </div>
+            <section class="py-5">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0" th:each="reservation: ${reservations}">
+                        <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div class="flex-grow-1 d-flex align-items-center">
+                                <div class="dot mr-3 bg-blue"></div>
+                                <div class="text">
+                                    <h6 class="mb-0">Reservation En Cours</h6><span class="text-gray" th:text="${reservation.nbreNuits}"></span>
+                                    <h6 class="mb-0"></h6><span class="text-gray" th:text="${reservation.prixT}"></span>
+                                    <h6 class="mb-0"></h6><span class="text-gray" th:text="${reservation.chambre}"></span>
+                                    <h6 class="mb-0"></h6><span class="text-gray" th:text="${reservation.dateDebut}"></span>
+                                    <h6 class="mb-0" th:text="${reservation.dateFin}"></h6><span class="text-gray" th:text="${reservation.dateJour}"></span>
+                                    <h6 class="mb-0"></h6><span class="text-gray" th:if="${reservation.status}==true">Payé</span>
+                                    <h6 class="mb-0"></h6><span class="text-gray" th:unless="${reservation.status}==true">Non Payé</span>
                                 </div>
-                                <div class="icon text-white bg-warning"><i class="fa fa-dolly-flatbed"></i></div>
                             </div>
+                            <div class="icon text-white bg-violet"><i class="fas fa-clipboard-check"></i></div>
                         </div>
                     </div>
-                </section>
-            </div>
-            <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
+                </div>
+            </section>
         </div>
+        <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
     </div>
+</div>
 
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>

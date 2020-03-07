@@ -37,6 +37,12 @@ public class ReservationController {
         return "reservations/reservationsList";
     }
 
+    @GetMapping("/tous")
+    public String getAllByStatus(Model model) {
+        model.addAttribute("reservations", reservationRepository.findAll());
+        return "reservations/all";
+    }
+
     @GetMapping("/form")
     public String form(Model model, Long id){
         List<Chambre> chambres = chambreRepository.findAll();
