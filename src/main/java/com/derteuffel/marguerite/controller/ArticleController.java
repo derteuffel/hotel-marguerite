@@ -29,10 +29,10 @@ public class ArticleController {
         return "articles/articlesList";
     }
 
-    @GetMapping("/form")
-    public String form(Model model){
+    @GetMapping("/form/{id}")
+    public String form(Model model, @PathVariable Long id){
         model.addAttribute("article", new Article());
-        model.addAttribute("commandes", commandeRepository.findAll());
+        model.addAttribute("commande", commandeRepository.getOne(id));
         return "articles/formArticle";
     }
 
@@ -64,7 +64,6 @@ public class ArticleController {
         if (article1.isPresent()){
             Article article2 = article1.get();
             article2.setNom(article.getNom());
-            article2.setCategorie(article.getCategorie());
             article2.setPrixT(article.getPrixT());
             article2.setPrixU(article.getPrixU());
             article2.setQty(article.getQty());

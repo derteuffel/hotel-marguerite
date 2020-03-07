@@ -1,5 +1,6 @@
 package com.derteuffel.marguerite.controller;
 
+import com.derteuffel.marguerite.domain.Article;
 import com.derteuffel.marguerite.domain.Chambre;
 import com.derteuffel.marguerite.domain.Commande;
 import com.derteuffel.marguerite.domain.Place;
@@ -51,7 +52,8 @@ public class CommandeController {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat format1 = new SimpleDateFormat("hh:mm");
         if (commande.getNumTable().contains("C")){
-            Chambre chambre = chambreRepository.findByNumero(commande.getNumero());
+            System.out.println(commande.getNumTable());
+            Chambre chambre = chambreRepository.findByNumero("%"+commande.getNumero()+"%");
             if (chambre != null){
                 commande.setChambre(chambre);
             }else {
@@ -62,6 +64,7 @@ public class CommandeController {
             Place place = placeRepository.findByNumTable(commande.getNumTable());
             if (place != null){
                 commande.setPlace(place);
+                commande.setSecteur(place.getSecteur());
             }else {
                 model.addAttribute("error","There are no Table with the number"+commande.getNumTable());
                 return "commandes/form";
@@ -70,6 +73,7 @@ public class CommandeController {
         commande.setDate(format.format(date));
         commande.setHeure(format1.format(date));
         commande.setNumero("C"+commandeRepository.findAll().size()+commande.getNumTable());
+        commande.setStatus(false);
         commandeRepository.save(commande);
         return "redirect:/hotel/commandes/all";
     }
@@ -77,6 +81,7 @@ public class CommandeController {
     @GetMapping("/detail/{id}")
     public String findById(@PathVariable Long id, Model model){
         Commande commande = commandeRepository.getOne(id);
+        model.addAttribute("article", new Article());
         model.addAttribute("commande", commande);
         return "commandes/detail";
     }
@@ -87,7 +92,7 @@ public class CommandeController {
         model.addAttribute("commande", commande);
         model.addAttribute("places", placeRepository.findAll());
         model.addAttribute("chambres", chambreRepository.findAll());
-        return "commandes/editCommande";
+        return "commandes/update";
     }
 
     @PostMapping("/update/{id}")

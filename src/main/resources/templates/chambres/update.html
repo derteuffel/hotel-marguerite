@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Room Form</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -39,29 +39,34 @@
                     <div class="col-lg-12 mb-5">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="h6 text-uppercase mb-0">Fomulaire d'ajout d'un stock</h3>
+                                <h3 class="h6 text-uppercase mb-0">Fomulaire de mise a jours d'une chambre</h3>
                             </div>
                             <div class="card-body">
 
-                                <form action="#" class="form-horizontal" th:object="${chambre}" th:action="@{/hotel/chambres/update/{id}(id=${chambre.id})} " th:method="post">
+                                <form action="#" class="form-horizontal" th:object="${chambre}" th:action="@{/hotel/chambres/update}" th:method="post">
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Numéro de la chambre</label>
                                         <div class="col-md-9">
-                                            <input type="number" class="form-control" name="numero" id="numero" th:field="*{numero}"  th:value="${chambre.numero}" >
+                                            <select th:field="*{numero}" class="form-control" >
+                                                <option th:each="num : ${T(com.derteuffel.marguerite.enums.EChambre).values()}" th:value="${num}" th:text="${num}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Categorie</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="categorie" id="categorie" th:field="*{categorie}"  th:value="${chambre.categorie}" >
+                                            <select th:field="*{categorie}" class="form-control" >
+                                                <option th:each="category : ${T(com.derteuffel.marguerite.enums.ECategoryChambre).values()}" th:value="${category}" th:text="${category}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Prix </label>
                                         <div class="col-md-9">
-                                            <input type="numero" name="prix" id="prix" class="form-control" th:field="*{prix}"  th:value="${chambre.prix}" >
+                                            <input type="number"  id="prix" class="form-control" th:field="*{prix}">
+                                            <input type="hidden"   class="form-control" th:field="*{id}">
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -82,7 +87,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Nombre de Lits</label>
                                         <div class="col-md-9">
-                                            <input id="nbreLit" type="number" name="nbreLit" th:field="*{nbreLit}" th:value="${chambre.nbreLit}" class="form-control-range">
+                                            <input id="nbreLit" type="number" name="nbreLit" th:field="*{nbreLit}" th:value="${chambre.nbreLit}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -99,7 +104,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
-                                            <button type="submit" class="btn btn-secondary">Cancel</button>
+                                            <a th:href="@{/hotel/chambres/all}" class="btn btn-secondary">Cancel</a>
                                         </div>
                                     </div>
                                 </form>

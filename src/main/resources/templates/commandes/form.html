@@ -48,9 +48,7 @@
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Choisir un secteur</label>
-                                        <div class="col-md-9 row">
-                                            <label for="chambre"> Chambre</label>&nbsp;&nbsp;
-                                            <input id="chambre" class="rd chambre" value="chambre"  type="radio"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <div class="col-md-9 row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="lounge"> Lounge-Bar</label>&nbsp;&nbsp;
                                             <input type="radio" class="rd lounge" value="lounge" id="lounge" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label for="terrasse"> Terrasse</label>&nbsp;&nbsp;
@@ -64,6 +62,7 @@
                                         <label class="col-md-3 form-control-label">Table Num</label>
                                         <div class="col-md-9">
                                             <select th:field="*{numTable}" class="form-control">
+                                                <option value="">Choisir</option>
                                                 <option th:each="table : ${T(com.derteuffel.marguerite.enums.ETableTerrasse).values()}" th:value="${table}" th:text="${table}"></option>
                                             </select>
                                         </div>
@@ -72,6 +71,7 @@
                                         <label class="col-md-3 form-control-label">Table Num</label>
                                         <div class="col-md-9">
                                             <select th:field="*{numTable}" class="form-control">
+                                                <option value="">Choisir</option>
                                                 <option th:each="table : ${T(com.derteuffel.marguerite.enums.ETableRestaurant).values()}" th:value="${table}" th:text="${table}"></option>
                                             </select>
                                         </div>
@@ -80,15 +80,8 @@
                                         <label class="col-md-3 form-control-label">Table Num</label>
                                         <div class="col-md-9">
                                             <select th:field="*{numTable}" class="form-control">
+                                                <option value="">Choisir</option>
                                                 <option th:each="table : ${T(com.derteuffel.marguerite.enums.ETableLounge).values()}" th:value="${table}" th:text="${table}"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group box chambre row" style="display: none">
-                                        <label class="col-md-3 form-control-label">Table Num</label>
-                                        <div class="col-md-9">
-                                            <select th:field="*{numTable}" class="form-control">
-                                                <option th:each="table : ${T(com.derteuffel.marguerite.enums.EChambre).values()}" th:value="${table}" th:text="${table}"></option>
                                             </select>
                                         </div>
                                     </div>

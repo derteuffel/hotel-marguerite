@@ -20,7 +20,7 @@ public class Chambre implements Serializable {
     private Long id;
 
     @NotNull
-    private int numero;
+    private String numero;
     @NotNull
     private String categorie;
     @NotNull

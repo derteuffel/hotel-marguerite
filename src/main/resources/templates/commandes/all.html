@@ -55,11 +55,12 @@
                                     <thead>
                                     <tr>
                                         <th>numero</th>
-                                        <th>montant total</th>
-                                        <th>numero de table</th>
-                                        <th>nombre sur la table</th>
+                                        <th>Mtnt_Total</th>
+                                        <th>Num/Table</th>
+                                        <th>Nombre/Table</th>
                                         <th>Heure</th>
                                         <th>Date</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -83,8 +84,14 @@
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${commande?.date}"></p>
                                         </td>
+                                        <td class="bg-warning" th:if="${commande?.status}!=true">
+                                            <p >EN COURS</p>
+                                        </td>
+                                        <td class="bg-success" th:unless="${commande?.status}!=true">
+                                            <p >PAYE</p>
+                                        </td>
                                         <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${commande.id}" ><i class="fa fa-eye"></i></a>
+                                            <a class="btn text-success" th:href="@{/hotel/commandes/detail/}+${commande.id}" ><i class="fa fa-eye"></i></a>
                                             <a th:href="@{/hotel/commandes/edit/{id}(id=${commande.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
                                             <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${commande.id}"><i class="fa fa-trash"></i></a>
                                         </td>

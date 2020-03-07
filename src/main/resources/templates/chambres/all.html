@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bubbly - Boootstrap 4 Admin template by Bootstrapious.com</title>
+    <title>Room Lists</title>
     <meta charset="UTF-8">
     <title>Title</title>
     <meta name="description" content="">
@@ -40,7 +40,16 @@
                     <div class="col-lg-12 mb-5">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="h6 text-uppercase mb-0">Liste des Articles</h3>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="h6 text-uppercase mb-0">Room lists</h3>
+                                        <span class="text-danger" th:text="${error}"></span>
+                                        <p class="text-success" th:text="${success}"></p>
+                                    </div>
+                                    <div class="button col-md-2">
+                                        <a class="btn btn-outline-blue" th:href="@{/hotel/chambres/form}" >New Room</a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body table-responsive">
                                 <table id="stripped" class="table table-striped table-hover card-text">
@@ -49,10 +58,10 @@
                                         <th>Numero</th>
                                         <th>Categorie</th>
                                         <th>Prix</th>
-                                        <th>Nombre de place</th>
-                                        <th>Nombre de Lits</th>
-                                        <th>Nombre de pièces</th>
-                                        <th>Status de la chambre</th>
+                                        <th>Nbre_place</th>
+                                        <th>Nbre_Lits</th>
+                                        <th>Nbre_pièces</th>
+                                        <th>Status_chambre</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -76,9 +85,13 @@
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.nbrePiece}"></p>
                                         </td>
-                                        <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:if="${chambre.status}==true">Occupé</p>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:unless="${chambre.status}==true">Disponible</p>
+                                        <td class="bg-warning" th:if="${chambre.status}==true">
+                                            <span class="mb-0 mt-3 mt-lg-0" >Occupé
+                                            </span>
+                                        </td>
+                                        <td class="bg-success" th:unless="${chambre.status}==true">
+                                            <span class="mb-0 mt-3 mt-lg-0" >Disponible
+                                            </span>
                                         </td>
                                         <td>
                                             <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}" ><i class="fa fa-eye"></i></a>
@@ -144,8 +157,14 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Status</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:if="${chambre.status}==true">Occupé</strong>
-                                                            <strong th:unless="${chambre.status}==true">Disponible</strong>
+                                                            <strong th:if="${chambre.status}==true">Occupé </strong>
+                                                            <strong th:unless="${chambre.status}==true">Disponible </strong>
+                                                        </div>
+                                                        <div th:if="${chambre.status}==true">
+                                                            <div class="dot bg-warning"></div>
+                                                        </div>
+                                                        <div th:unless="${chambre.status}==true">
+                                                            <div class="dot bg-success"></div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
