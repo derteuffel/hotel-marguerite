@@ -1,11 +1,9 @@
 package com.derteuffel.marguerite.controller;
 
-import com.derteuffel.marguerite.domain.Article;
-import com.derteuffel.marguerite.domain.Chambre;
-import com.derteuffel.marguerite.domain.Commande;
-import com.derteuffel.marguerite.domain.Place;
+import com.derteuffel.marguerite.domain.*;
 import com.derteuffel.marguerite.repository.ChambreRepository;
 import com.derteuffel.marguerite.repository.CommandeRepository;
+import com.derteuffel.marguerite.repository.FactureRepository;
 import com.derteuffel.marguerite.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 
@@ -31,6 +31,9 @@ public class CommandeController {
     private ChambreRepository chambreRepository;
     @Autowired
     private PlaceRepository placeRepository;
+
+    @Autowired
+    private FactureRepository factureRepository;
 
 
     @GetMapping("/all")
@@ -101,8 +104,51 @@ public class CommandeController {
     public String rembourse(@PathVariable Long id, String verser){
         Commande commande = commandeRepository.getOne(id);
         commande.setRembourse(Double.parseDouble(verser) - commande.getMontantT());
+        commande.setMontantV(Double.parseDouble(verser));
         commandeRepository.save(commande);
         return "redirect:/hotel/commandes/detail/"+commande.getId();
+    }
+
+    @GetMapping("/bill/{id}")
+    public String getBill(@PathVariable Long id, Model model){
+        Commande commande = commandeRepository.getOne(id);
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        Facture facture = new Facture();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<Float> amounts = new ArrayList<>();
+        for (Article article : commande.getArticles()){
+            names.add(article.getNom());
+            amounts.add(article.getPrixT());
+        }
+        Facture existFacture = factureRepository.findByNumCmdAndCommande_Id(commande.getNumero(),id);
+        if (existFacture != null){
+            existFacture.setArticles(names);
+            existFacture.setPrices(amounts);
+            existFacture.setCommande(commande);
+            existFacture.setDate(dateFormat.format(date));
+            existFacture.setMontantT(commande.getMontantT());
+            existFacture.setMontantVerse(commande.getMontantV());
+            existFacture.setRemboursement(commande.getRembourse());
+            existFacture.setNumCmd(commande.getNumTable());
+            existFacture.setNumeroTable(commande.getNumTable());
+            factureRepository.save(existFacture);
+            model.addAttribute("facture", existFacture);
+        }else {
+            facture.setArticles(names);
+            facture.setPrices(amounts);
+            facture.setCommande(commande);
+            facture.setDate(dateFormat.format(date));
+            facture.setMontantT(commande.getMontantT());
+            facture.setMontantVerse(commande.getMontantV());
+            facture.setRemboursement(commande.getRembourse());
+            facture.setNumCmd(commande.getNumTable());
+            facture.setNumeroTable(commande.getNumTable());
+            factureRepository.save(facture);
+            model.addAttribute("facture", facture);
+        }
+        return "commandes/facture";
+
     }
 
     @PostMapping("/update/{id}")

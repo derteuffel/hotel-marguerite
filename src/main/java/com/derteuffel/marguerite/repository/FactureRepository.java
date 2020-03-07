@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface FactureRepository extends JpaRepository<Facture, Long> {
-    Facture findByCommande_Id(Long id);
+    Facture findByNumCmdAndCommande_Id(String num,Long id);
     List<Facture> findAllByDate(String date);
     List<Facture> findAllByNumeroTable(int number);
 

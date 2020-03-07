@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bill detail</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" th:href="@{/css/orionicons.css}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" th:href="@{/css/style.default.css}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" th:href="@{/img/favicon.png?3}">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+<body>
+<!-- navbar-->
+<header th:replace="~{../templates/fragments/header :: header}">
+</header>
+<div class="d-flex align-items-stretch">
+    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
+    <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+            <section class="py-3">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card mb-5 mb-lg-0">
+                            <div class="card-header">
+                                <h2 class="h6 mb-0 text-uppercase">Bill detail</h2>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-gray mb-5">There are listed your order items</p>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-table"></i></div>
+                                        <div class="text">
+                                            <h6 class="mb-0 d-flex align-items-center"> <span>Numero de table</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 ">
+                                        <h5 th:text="${facture.numeroTable}"></h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-first-order"></i></div>
+                                        <div class="text">
+                                            <h6 class="mb-0 d-flex align-items-center"> <span>Numero de Commande</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 ">
+                                        <h5 th:text="${facture.numCmd}"></h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="icon icon-lg shadow mr-3 text-gray"><i class="fas fa-times"></i></div>
+                                        <div class="text">
+                                            <h6 class="mb-0 d-flex align-items-center"> <span>Date</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0">
+                                        <h5 th:text="${facture.date}">-$20</h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-list"></i></div>
+                                        <div class="text" th:each="name : ${facture.articles}">
+                                            <h6 class="mb-0 d-flex align-items-center"> <span>Articles</span></h6><small class="text-gray" th:text="${name}"></small>
+                                        </div>
+                                    </div>
+                                    <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0" th:each="price : ${facture.prices}">
+                                        <h5 th:text="${price}">-$20</h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="icon icon-lg shadow mr-3 text-gray"><i class="fas fa-money-check"></i></div>
+                                        <div class="text">
+                                            <h6 class="mb-0 d-flex align-items-center"> <span>Montant total</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0">
+                                        <h5 th:text="${facture.montantT}">-$20</h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="icon icon-lg shadow mr-3 text-gray"><i class="fas fa-money-check"></i></div>
+                                        <div class="text">
+                                            <h6 class="mb-0 d-flex align-items-center"> <span>Montant verse</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0">
+                                        <h5 th:text="${facture.montantVerse}">-$20</h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="icon icon-lg shadow mr-3 text-gray"><i class="fas fa-money-check"></i></div>
+                                        <div class="text">
+                                            <h6 class="mb-0 d-flex align-items-center"> <span>Montant rembourser</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0">
+                                        <h5 th:text="${facture.remboursement}">-$20</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="button">
+                                    <button type="button" class="btn btn-outline-dark">Imprimer <i class="fa fa-print"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"> </script>
+<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script th:src="@{/js/charts-home.js}"></script>
+<script th:src="@{/js/front.js}"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
+<script >
+    $(document).ready(function() {
+        // Add Row
+        $('#stripped').DataTable({
+            "pageLength": 5,
+        });
+    });
+</script>
+</body>
+</html>

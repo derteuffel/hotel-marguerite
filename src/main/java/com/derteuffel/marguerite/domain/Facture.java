@@ -19,12 +19,12 @@ public class Facture implements Serializable {
     private Long id;
 
     private ArrayList<String> articles = new ArrayList<>();
-    private ArrayList<Integer> prices = new ArrayList<>();
-    private int numeroTable;
-    private int numCmd;
-    private Float montantT;
-    private Float montantVerse;
-    private Float remboursement;
+    private ArrayList<Float> prices = new ArrayList<>();
+    private String numeroTable;
+    private String numCmd;
+    private Double montantT;
+    private Double montantVerse;
+    private Double remboursement;
     private String date;
 
     @OneToOne

@@ -34,7 +34,40 @@
     <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
     <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
-            <section class="py-5">
+            <section class="py-3">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-6 mt-4 mt-lg-0">
+                        <div class="card p-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Montant total</label>
+                                        <p class="form-control"  th:text="${commande.montantT}"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <form th:action="@{/hotel/commandes/rembourse/}+${commande.id}" method="get">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Montant verser <span th:text="${commande.montantV}"></span></label>
+                                            <input class="form-control" name="verser" id="verse">
+                                        </div>
+                                        <div class="button">
+                                            <button type="submit" class="btn-outline-secondary">Valider</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Montant rembourser</label>
+                                        <p class="form-control" th:text="${commande.rembourse}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-3">
                 <div class="row">
                     <div class="col-lg-12 col-sm-6 mb-4 mb-lg-0">
                         <div class="card">
@@ -47,11 +80,14 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="button col-md-6">
+                                    <div class="button col-md-4">
                                         <a class="btn btn-outline-blue" data-toggle="modal" data-target="#addDrinkModal" th:attr="data-target='#addDrinkModal'" >New Drink Article <i class="fa fa-prescription-bottle"></i></a>
                                     </div>
-                                    <div class="button col-md-2">
+                                    <div class="button col-md-4">
                                         <a class="btn btn-outline-blue" data-toggle="modal" data-target="#addFoodModal" th:attr="data-target='#addFoodModal'" >New Food Article <i class="fa fa-birthday-cake"></i></a>
+                                    </div>
+                                    <div class="button col-md-4">
+                                        <a class="btn btn-outline-violet" th:href="@{/hotel/commandes/bill/}+${commande.id}" >Generate bill <i class="fa fa-print"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -117,38 +153,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 col-sm-6 mt-4 mt-lg-0">
-                        <div class="card">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label">Montant total</label>
-                                        <p class="form-control"  th:text="${commande.montantT}"></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <form th:action="@{/hotel/commandes/rembourse/}+${commande.id}" method="get">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Montant verser</label>
-                                            <input class="form-control" name="verser" id="verse">
-                                        </div>
-                                        <div class="button">
-                                            <button type="submit" class="btn-outline-secondary">Valider</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label">Montant rembourser</label>
-                                        <p class="form-control" th:text="${commande.rembourse}"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </section>
+
             <div class="modal card fade " th:id="addDrinkModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

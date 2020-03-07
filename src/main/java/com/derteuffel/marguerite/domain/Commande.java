@@ -25,6 +25,7 @@ public class Commande implements Serializable {
     private String numero;
     private Double montantT;
     private Double rembourse;
+    private Double montantV;
     private String numTable;
     private  int nbreSurTable;
     private String heure;
