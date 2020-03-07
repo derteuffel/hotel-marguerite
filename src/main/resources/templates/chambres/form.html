@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Room Form</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -47,14 +47,18 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Numéro de la chambre</label>
                                         <div class="col-md-9">
-                                            <input type="number" class="form-control" name="numero" id="numero" th:field="*{numero}"  th:value="${chambre.numero}" >
+                                            <select th:field="*{numero}" class="form-control" >
+                                                <option th:each="num : ${T(com.derteuffel.marguerite.enums.EChambre).values()}" th:value="${num}" th:text="${num}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Categorie</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="categorie" id="categorie" th:field="*{categorie}"  th:value="${chambre.categorie}" >
+                                            <select th:field="*{categorie}" class="form-control" >
+                                                <option th:each="category : ${T(com.derteuffel.marguerite.enums.ECategoryChambre).values()}" th:value="${category}" th:text="${category}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -99,7 +103,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
-                                            <button type="submit" class="btn btn-secondary">Cancel</button>
+                                            <a th:href="@{/hotel/chambres/all}" class="btn btn-secondary">Cancel</a>
                                         </div>
                                     </div>
                                 </form>

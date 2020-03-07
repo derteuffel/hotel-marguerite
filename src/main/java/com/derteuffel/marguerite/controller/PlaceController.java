@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -22,18 +23,27 @@ public class PlaceController {
     @GetMapping("/all")
     public String findAll(Model model){
         model.addAttribute("places", placeRepository.findAll());
-        return "places/placeList";
+        return "places/all";
     }
 
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("place", new Place());
-        return "places/new";
+        return "places/form";
     }
 
     @PostMapping("/save")
-    public String save(@Valid Place place){
+    public String save(@Valid Place place, RedirectAttributes redirectAttributes){
+
+        if (place.getNumTable().contains("T")){
+            place.setSecteur("TERRASSE");
+        }else if (place.getNumTable().contains("L")){
+            place.setSecteur("LOUNGE-BAR");
+        }else {
+            place.setSecteur("RESTAURANT");
+        }
         placeRepository.save(place);
+        redirectAttributes.addFlashAttribute("success", "You've been save your data successfully");
         return "redirect:/hotel/places/all";
     }
 

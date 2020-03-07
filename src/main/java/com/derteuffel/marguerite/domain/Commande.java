@@ -23,12 +23,13 @@ public class Commande implements Serializable {
 
     @NotNull
     private String numero;
-    @NotNull
     private Float montantT;
     private String numTable;
     private  int nbreSurTable;
     private String heure;
     private String date;
+    private Boolean status;
+    private String secteur;
 
     @ManyToOne
     private Chambre chambre;

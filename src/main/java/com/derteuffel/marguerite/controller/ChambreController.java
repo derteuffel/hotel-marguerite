@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -24,18 +25,20 @@ public class ChambreController {
     @GetMapping("/all")
     public String findAll(Model model){
         model.addAttribute("chambres", chambreRepository.findAll());
-        return "chambres/chambreList";
+        return "chambres/all";
     }
 
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("chambre", new Chambre());
-        return "chambres/formChambre";
+        return "chambres/form";
     }
 
     @PostMapping("/save")
-    public String save(Chambre chambre) {
+    public String save(Chambre chambre, RedirectAttributes redirectAttributes) {
+
         chambreRepository.save(chambre);
+        redirectAttributes.addFlashAttribute("suuccess","You've been save your data successfully");
         return "redirect:/hotel/chambres/all";
     }
 
@@ -51,35 +54,24 @@ public class ChambreController {
     public String updateForm(Model model, @PathVariable Long id) {
         Chambre chambre = chambreRepository.getOne(id);
         model.addAttribute("chambre", chambre);
-        return "chambres/editChambre";
+        return "chambres/update";
     }
 
-    @PostMapping("/update/{id}")
-    public String update(Chambre chambre, @PathVariable Long id){
-        Optional<Chambre> chambre1 = chambreRepository.findById(id);
+    @PostMapping("/update")
+    public String update(Chambre chambre, RedirectAttributes redirectAttributes){
 
-        if (chambre1.isPresent()){
-            Chambre chambre2 = chambre1.get();
-            chambre2.setNumero(chambre.getNumero());
-            chambre2.setNbreLit(chambre.getNbreLit());
-            chambre2.setNbrePiece(chambre.getNbrePiece());
-            chambre2.setNbrePlace(chambre.getNbrePlace());
-            chambre2.setStatus(chambre.getStatus());
-            chambre2.setPrix(chambre.getPrix());
-            chambreRepository.save(chambre2);
-            return "redirect:/hotel/chambres/all";
-        }else {
-            return "redirect:/hotel/chambres/form";
-        }
+        chambreRepository.save(chambre);
+        redirectAttributes.addFlashAttribute("suuccess","You've been save your data successfully");
+        return "redirect:/hotel/chambres/all";
 
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(Model model, @PathVariable Long id){
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
         Chambre chambre = chambreRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid chambre id:" +id));
         chambreRepository.deleteById(id);
-        model.addAttribute("chambres", chambreRepository.findAll());
+        redirectAttributes.addFlashAttribute("success","You've delete data successfully");
         return "redirect:/hotel/chambres/all";
     }
 }
