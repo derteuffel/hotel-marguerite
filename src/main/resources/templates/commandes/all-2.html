@@ -29,27 +29,54 @@
 <!-- navbar-->
 <header th:replace="~{../templates/fragments/header :: header}">
 </header>
-<div class="d-flex align-items-stretch">
-    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
-    <div class="page-holder w-100 d-flex flex-wrap">
-        <div class="container-fluid px-xl-5">
-            <section class="py-5">
-                <div class="row" th:each=" commande : ${commandes}">
-                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
-                            <div class="bg-success shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-stretch">
+        <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
+        <div class="page-holder w-100 d-flex flex-wrap">
+            <div class="container-fluid px-xl-5">
+                <section class="py-5">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0" th:each="commande: ${commandes}">
+                            <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
+                                    <div class="dot mr-3 bg-blue"></div>
                                     <div class="text">
-                                        Commande numero:  <h6 class="mb-0" th:text="${commande?.numero}"></h6><span class="text-gray"></span>
+                                        <h6 class="mb-0">Commande En Cours</h6><span class="text-gray" th:text="${commande.numTable}"></span>
+                                        <h6 class="mb-0"></h6><span class="text-gray" th:text="${commande.secteur}"></span>
+                                        <h6 class="mb-0"></h6><span class="text-gray" th:text="${commande.numero}"></span>
+                                        <h6 class="mb-0" th:text="${commande.date}"></h6><span class="text-gray" th:text="${commande.heure}"></span>
                                     </div>
                                 </div>
+                                <div class="icon text-white bg-blue"><i class="fa fa-dolly-flatbed"></i></div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
+        </div>
+    </div>
+    <!--<div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>-->
+    <!--<div class="page-holder w-100 d-flex flex-wrap col-md-12" >
+        <div class="container-fluid px-xl-5" >
+            <section class="py-5">
+                <div class="row text-dark" >
+                   <div class="col-lg-3 mb-4 mb-lg-0" th:each="commande: ${commandes}">
+                        <div class="card rounded credit-card bg-hover-gradient-violet">
+                            <div class="content d-flex flex-column justify-content-between p-">
+                                <h3 class="mb-5"><i class="fa fa-dolly-flatbed"></i></h3>
+                               <h6 th:text="${commande.secteur}"></h6>
+                               <h6 th:text="${commande.date}"></h6>
+                               <h6 th:text="${commande.heure}"></h6>
+                                <h6 th:text="${commande.numero}"></h6>
+                                <h6 th:text="${commande.numTable}"></h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
         </div>
         <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
-    </div>
-</div>
+    </div>-->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
