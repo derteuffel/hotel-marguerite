@@ -50,9 +50,11 @@
                                     <h6 class="mb-0"></h6><span class="text-gray" th:text="${reservation.chambre}"></span>
                                     <h6 class="mb-0"></h6><span class="text-gray" th:text="${reservation.dateDebut}"></span>
                                     <h6 class="mb-0" th:text="${reservation.dateFin}"></h6><span class="text-gray" th:text="${reservation.dateJour}"></span>
+                                    <h6 class="mb-0"></h6><span class="text-gray" th:if="${reservation.status}==true">Payé</span>
+                                    <h6 class="mb-0"></h6><span class="text-gray" th:unless="${reservation.status}==true">Non Payé</span>
                                 </div>
                             </div>
-                            <div class="icon text-white bg-warning"><i class="fa fa-dolly-flatbed"></i></div>
+                            <div class="icon text-white bg-violet"><i class="fas fa-clipboard-check"></i></div>
                         </div>
                     </div>
                 </div>

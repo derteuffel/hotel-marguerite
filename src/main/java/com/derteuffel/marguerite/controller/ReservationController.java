@@ -37,10 +37,9 @@ public class ReservationController {
         return "reservations/reservationsList";
     }
 
-    @GetMapping("/reserver")
+    @GetMapping("/tous")
     public String getAllByStatus(Model model) {
-        List<Reservation> reservations = reservationRepository.findAllByStatus(false);
-        model.addAttribute("reservations", reservations);
+        model.addAttribute("reservations", reservationRepository.findAll());
         return "reservations/all";
     }
 
