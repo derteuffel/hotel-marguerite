@@ -38,6 +38,7 @@ public class CommandeController {
         return "commandes/all";
     }
 
+
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("commande", new Commande());
