@@ -7,6 +7,7 @@ import com.derteuffel.marguerite.repository.ChambreRepository;
 import com.derteuffel.marguerite.repository.CompteRepository;
 import com.derteuffel.marguerite.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,9 +38,10 @@ public class ReservationController {
         return "reservations/reservationsList";
     }
 
-    @GetMapping("/tous")
+    @GetMapping("/reservation")
     public String getAllByStatus(Model model) {
-        model.addAttribute("reservations", reservationRepository.findAll());
+        List<Reservation>reservations = reservationRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        model.addAttribute("reservations", reservations);
         return "reservations/all";
     }
 
