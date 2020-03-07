@@ -73,6 +73,8 @@ public class CommandeController {
         commande.setHeure(format1.format(date));
         commande.setNumero("C"+commandeRepository.findAll().size()+commande.getNumTable());
         commande.setStatus(false);
+        commande.setMontantT(0.0);
+        commande.setRembourse(0.0);
         commandeRepository.save(commande);
         return "redirect:/hotel/commandes/all";
     }
@@ -92,6 +94,14 @@ public class CommandeController {
         model.addAttribute("places", placeRepository.findAll());
         model.addAttribute("chambres", chambreRepository.findAll());
         return "commandes/update";
+    }
+
+    @GetMapping("/rembourse/{id}")
+    public String rembourse(@PathVariable Long id, String verser){
+        Commande commande = commandeRepository.getOne(id);
+        commande.setRembourse(Double.parseDouble(verser) - commande.getMontantT());
+        commandeRepository.save(commande);
+        return "redirect:/hotel/commandes/detail/"+commande.getId();
     }
 
     @PostMapping("/update/{id}")

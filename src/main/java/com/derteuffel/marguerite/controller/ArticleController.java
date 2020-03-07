@@ -1,6 +1,7 @@
 package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.Article;
+import com.derteuffel.marguerite.domain.Commande;
 import com.derteuffel.marguerite.repository.ArticleRepository;
 import com.derteuffel.marguerite.repository.CommandeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -36,17 +38,30 @@ public class ArticleController {
         return "articles/formArticle";
     }
 
-    @PostMapping("/save")
-    public String save(Article article) {
+    @PostMapping("/save/{id}")
+    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes) {
+        Commande commande = commandeRepository.getOne(id);
+        article.setPrixT(article.getPrixU() * article.getQty());
+        System.out.println(commande.getMontantT());
+        commande.setMontantT(commande.getMontantT() + article.getPrixT());
+        article.setCommande(commande);
         articleRepository.save(article);
-        return "redirect:/hotel/articles/all";
+        commandeRepository.save(commande);
+        redirectAttributes.addFlashAttribute("success","You've added successfully your article");
+        return "redirect:/hotel/commandes/detail/"+commande.getId();
     }
 
-    @GetMapping("/detail/{id}")
-    public String findById(@PathVariable Long id, Model model){
+    @GetMapping("/add/{id}")
+    public String findById(@PathVariable Long id, RedirectAttributes redirectAttributes){
         Article article = articleRepository.getOne(id);
-        model.addAttribute("article", article);
-        return "articles/detail";
+        article.setQty(article.getQty() + 1);
+        article.setPrixT(article.getQty() * article.getPrixU());
+        Commande commande = commandeRepository.getOne(article.getCommande().getId());
+        commande.setMontantT(commande.getMontantT() + article.getPrixU());
+        commandeRepository.save(commande);
+        articleRepository.save(article);
+
+        return "redirect:/hotel/commandes/detail/"+commande.getId();
     }
 
     @GetMapping("/edit/{id}")
