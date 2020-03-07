@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,7 +40,12 @@ public class CommandeController {
         return "commandes/all";
     }
 
-
+    @GetMapping("/orders")
+    public String findAllByStatus(Model model){
+        List<Commande> commandes = commandeRepository.findAllByStatus(false);
+        model.addAttribute("commandes", commandes);
+        return "commandes/all-2";
+    }
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("commande", new Commande());
