@@ -21,17 +21,17 @@ public class Reservation implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date dateDebut;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.TIMESTAMP)
+    private String nomClient;
+    private String telephone;
+    private String email;
     private Date timer;
     private int nbreNuits;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date dateFin;
     private Boolean status;
-    private Float prixT;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
+    private Double prixU;
+    private Double prixT;
     private Date dateJour = new Date();
 
     @ManyToOne

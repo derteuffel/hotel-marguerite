@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Reservation form</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -27,7 +27,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
-<body>
+<body th:each="role : ${session.compte.roles}">
 <header th:replace="~{../templates/fragments/header :: header}">
 </header>
 <div class="d-flex align-items-stretch">
@@ -43,84 +43,68 @@
                             </div>
                             <div class="card-body">
 
-                                <form action="#" class="form-horizontal" th:object="${reservation}" th:action="@{/hotel/reservations/update/{id}(id = reservation.id)}" th:method="post">
+                                <form  class="form-horizontal" th:object="${reservation}" th:action="@{/hotel/reservations/update}" th:method="post">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Nom du client</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control"  id="nomClient" th:field="*{nomClient}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Telephone</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control"  id="telephone" th:field="*{telephone}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">E-mail</label>
+                                        <div class="col-md-9">
+                                            <input type="email" class="form-control"  id="email" th:field="*{email}">
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Nombre de nuits</label>
                                         <div class="col-md-9">
-                                            <input type="number" class="form-control" name="nbreNuits" id="nbreNuits" th:field="*{nbreNuits}">
+                                            <input type="number" class="form-control"  id="nbreNuits" th:field="*{nbreNuits}">
+                                            <input type="hidden" class="form-control"   th:field="*{id}">
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Date du jour</label>
+                                        <label class="col-md-3 form-control-label">Date du debut</label>
                                         <div class="col-md-9">
-                                            <input id="dateJour" type="date" name="dateJour" th:field="*{dateJour}" class="form-control-range">
+                                            <input id="dateDebut" type="date"  th:field="*{dateDebut}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Date de Fin</label>
                                         <div class="col-md-9">
-                                            <input id="dateFin" type="date" name="dateFin" th:field="*{dateFin}" class="form-control-range">
+                                            <input id="dateFin" type="date"  th:field="*{dateFin}" class="form-control">
                                         </div>
                                     </div>
+
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Timer</label>
+                                        <label class="col-md-3 form-control-label">Prix de la nuite</label>
                                         <div class="col-md-9">
-                                            <input id="timer" type="date" name="timer" th:field="*{timer}" class="form-control-range">
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Prix</label>
-                                        <div class="col-md-9">
-                                            <input id="prixT" type="number" name="prixT" th:field="*{prixT}" class="form-control-range">
+                                            <input id="prixU" type="number"  th:field="*{prixU}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Chambres</label>
                                         <div class="col-md-9 ml-auto select">
-                                            <select type="text" th:field="*{chambre}" class="form-control">
-                                                <option value=""></option>
-                                                <option th:each=" chambre : ${chambres}"
-                                                        th:value="${chambre.id}"
-                                                        th:text="${chambre.numero}">
-
-                                                </option>
+                                            <select type="text" name="num" class="form-control">
+                                                <option th:each="num : ${T(com.derteuffel.marguerite.enums.EChambre).values()}" th:value="${num}" th:text="${num}"></option>
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Comptes</label>
-                                        <div class="col-md-9 ml-auto select">
-                                            <select type="text" th:field="*{compte}" class="form-control">
-                                                <option value=""></option>
-                                                <option th:each=" compte : ${comptes}"
-                                                        th:value="${compte.id}"
-                                                        th:text="${compte.username}">
-
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Status</label>
-                                        <div class="col-md-9">
-                                            <div class="custom-control custom-radio custom-control-inline">
-                                                <input id="status" type="radio" name="status" class="custom-control-input">
-                                                <label for="status" class="custom-control-label">Disponible</label>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
-                                            <button type="button" class="btn btn-secondary">Cancel</button>
+                                            <a th:href="@{/hotel/reservations/all}"  class="btn btn-secondary">Cancel</a>
                                         </div>
                                     </div>
                                 </form>

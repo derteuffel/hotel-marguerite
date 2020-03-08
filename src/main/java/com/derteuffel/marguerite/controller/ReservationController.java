@@ -4,21 +4,24 @@ import com.derteuffel.marguerite.domain.Chambre;
 import com.derteuffel.marguerite.domain.Compte;
 import com.derteuffel.marguerite.domain.Reservation;
 import com.derteuffel.marguerite.repository.ChambreRepository;
-import com.derteuffel.marguerite.repository.CompteRepository;
 import com.derteuffel.marguerite.repository.ReservationRepository;
+import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Controller
 @RequestMapping("/hotel/reservations")
@@ -30,12 +33,12 @@ public class ReservationController {
     @Autowired
     private ChambreRepository chambreRepository;
     @Autowired
-    private CompteRepository compteRepository;
+    private CompteService compteService;
 
     @GetMapping("/all")
     public String findAll(Model model){
         model.addAttribute("reservations", reservationRepository.findAll());
-        return "reservations/reservationsList";
+        return "reservations/reservations";
     }
 
     @GetMapping("/reservation")
@@ -47,18 +50,44 @@ public class ReservationController {
 
     @GetMapping("/form")
     public String form(Model model, Long id){
-        List<Chambre> chambres = chambreRepository.findAll();
-        List<Compte> comptes = compteRepository.findAll();
         model.addAttribute("reservation", new Reservation());
-        model.addAttribute("chambres", chambres);
-        model.addAttribute("comptes", comptes);
-        return "reservations/new";
+        return "reservations/form";
     }
 
     @PostMapping("/save")
-    public String save(@Valid Reservation reservation){
-        reservationRepository.save(reservation);
-        return "redirect:/hotel/reservations/all"  ;
+    public String save(@Valid Reservation reservation, String num, HttpServletRequest request, Model model){
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
+        Chambre chambre = chambreRepository.findByNumero(num);
+        reservation.setPrixT(reservation.getPrixU() * reservation.getNbreNuits());
+        if (chambre != null){
+            reservation.setChambre(chambre);
+            TimerTask activate = new TimerTask() {
+                @Override
+                public void run() {
+                    chambre.setStatus(false);
+                    reservation.setStatus(true);
+                    System.out.println("action started");
+                }
+            };
+            TimerTask deactivate = new TimerTask() {
+                @Override
+                public void run() {
+                    chambre.setStatus(true);
+                    reservation.setStatus(false);
+                }
+            };
+            Timer timer = new Timer();
+            timer.schedule(activate,reservation.getDateDebut());
+            timer.schedule(deactivate,reservation.getDateFin());
+            reservation.setCompte(compte);
+            reservationRepository.save(reservation);
+            return "redirect:/hotel/reservations/all";
+        }else {
+            model.addAttribute("error", "There are no room with the provided number :"+num);
+            return "reservations/form";
+        }
+
     }
 
     @GetMapping("/edit/{id}")
@@ -68,20 +97,40 @@ public class ReservationController {
         return "reservations/edit";
     }
 
-    @PostMapping("/update/{id}")
-    public String save(@Valid Reservation reservation, @PathVariable("id") Long id,
-                       BindingResult result, Model model, HttpSession session,  Float prixT, String status, int nbreNuits ){
-        Chambre chambre = chambreRepository.getOne((Long)session.getAttribute("id"));
-        Compte compte = compteRepository.getOne((Long)session.getAttribute("id"));
-
-        reservation.setStatus(Boolean.parseBoolean(status));
-        reservation.setNbreNuits(nbreNuits);
-        reservation.setPrixT(prixT);
-        reservation.setCompte(compte);
-        reservation.setChambre(chambre);
-        reservationRepository.save(reservation);
-        model.addAttribute("reservations", reservationRepository.findAll());
-        return "redirect:/hotel/reservations/all";
+    @PostMapping("/update")
+    public String update(@Valid Reservation reservation, String num, HttpServletRequest request, Model model){
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
+        Chambre chambre = chambreRepository.findByNumero(num);
+        reservation.setPrixT(reservation.getPrixU() * reservation.getNbreNuits());
+        if (chambre != null){
+            reservation.setChambre(chambre);
+            TimerTask activate = new TimerTask() {
+                @Override
+                public void run() {
+                    chambre.setStatus(false);
+                    reservation.setStatus(true);
+                    System.out.println("action started");
+                }
+            };
+            TimerTask deactivate = new TimerTask() {
+                @Override
+                public void run() {
+                    chambre.setStatus(true);
+                    reservation.setStatus(false);
+                }
+            };
+            Timer timer = new Timer();
+            timer.schedule(activate,reservation.getDateDebut());
+            timer.schedule(deactivate,reservation.getDateFin());
+            reservation.setCompte(compte);
+            reservationRepository.save(reservation);
+            return "redirect:/hotel/reservations/all";
+        }else {
+            model.addAttribute("reservation",reservationRepository.getOne(reservation.getId()));
+            model.addAttribute("error", "There are no room with the provided number :"+num);
+            return "reservations/edit";
+        }
 
     }
 
@@ -91,7 +140,6 @@ public class ReservationController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid reservation id:" +id));
         System.out.println("reservation id: " + reservation.getId());
         reservationRepository.delete(reservation);
-        model.addAttribute("reservations", reservationRepository.findAll());
         return "redirect:/hotel/reservations/all" ;
     }
 
