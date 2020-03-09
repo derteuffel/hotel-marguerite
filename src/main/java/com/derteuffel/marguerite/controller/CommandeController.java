@@ -1,10 +1,8 @@
 package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.*;
-import com.derteuffel.marguerite.repository.ChambreRepository;
-import com.derteuffel.marguerite.repository.CommandeRepository;
-import com.derteuffel.marguerite.repository.FactureRepository;
-import com.derteuffel.marguerite.repository.PlaceRepository;
+import com.derteuffel.marguerite.repository.*;
+import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,15 +32,26 @@ public class CommandeController {
     private ChambreRepository chambreRepository;
     @Autowired
     private PlaceRepository placeRepository;
+    @Autowired
+    private CompteService compteService;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private FactureRepository factureRepository;
 
 
     @GetMapping("/all")
-    public String findAll(Model model){
+    public String findAll(Model model, HttpServletRequest request){
+
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
         model.addAttribute("commandes", commandeRepository.findAll(Sort.by(Sort.Direction.DESC,"id")));
-        return "commandes/all";
+        if (compte.getRoles().size() <= 1 && compte.getRoles().contains(roleRepository.findByName("ROLE_SELLER"))){
+            return "redirect:/hotel/commandes/orders";
+        }else {
+            return "commandes/all";
+        }
     }
 
     @GetMapping("/orders")
@@ -56,7 +67,9 @@ public class CommandeController {
     }
 
     @PostMapping("/save")
-    public String save(Commande commande, Model model) {
+    public String save(Commande commande, Model model, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
         Date date = new Date();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat format1 = new SimpleDateFormat("hh:mm");
@@ -86,7 +99,11 @@ public class CommandeController {
         commande.setMontantT(0.0);
         commande.setRembourse(0.0);
         commandeRepository.save(commande);
-        return "redirect:/hotel/commandes/all";
+        if (compte.getRoles().size() <= 1 && compte.getRoles().contains(roleRepository.findByName("ROLE_SELLER"))){
+            return "redirect:/hotel/commandes/orders";
+        }else {
+            return "redirect:/hotel/commandes/all";
+        }
     }
 
     @GetMapping("/detail/{id}")
@@ -153,27 +170,9 @@ public class CommandeController {
             factureRepository.save(facture);
             model.addAttribute("facture", facture);
         }
+        commande.setStatus(true);
+        commandeRepository.save(commande);
         return "commandes/facture";
-
-    }
-
-    @PostMapping("/update/{id}")
-    public String update(Commande commande, @PathVariable Long id){
-        Optional<Commande> commande1 = commandeRepository.findById(id);
-
-        if (commande1.isPresent()){
-            Commande commande2 = commande1.get();
-            commande2.setNumero(commande.getNumero());
-            commande2.setMontantT(commande.getMontantT());
-            commande2.setDate(commande.getDate());
-            commande2.setHeure(commande.getHeure());
-            commande2.setNumTable(commande.getNumTable());
-            commande2.setNbreSurTable(commande.getNbreSurTable());
-            commandeRepository.save(commande2);
-            return "redirect:/hotel/commandes/all";
-        }else {
-            return "redirect:/hotel/commandes/form";
-        }
 
     }
 
@@ -182,7 +181,7 @@ public class CommandeController {
         Commande commande = commandeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid commande id:" +id));
         commandeRepository.deleteById(id);
-        model.addAttribute("commandes", commandeRepository.findAll());
+
         return "redirect:/hotel/commandes/all";
     }
 }

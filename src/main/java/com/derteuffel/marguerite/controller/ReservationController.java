@@ -5,6 +5,7 @@ import com.derteuffel.marguerite.domain.Compte;
 import com.derteuffel.marguerite.domain.Reservation;
 import com.derteuffel.marguerite.repository.ChambreRepository;
 import com.derteuffel.marguerite.repository.ReservationRepository;
+import com.derteuffel.marguerite.repository.RoleRepository;
 import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -35,10 +36,19 @@ public class ReservationController {
     @Autowired
     private CompteService compteService;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @GetMapping("/all")
-    public String findAll(Model model){
+    public String findAll(Model model, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
         model.addAttribute("reservations", reservationRepository.findAll());
-        return "reservations/reservations";
+        if (compte.getRoles().size() <= 1 && compte.getRoles().contains(roleRepository.findByName("SELLER"))){
+            return "redirect:/hotel/reservations/reservation";
+        }else {
+            return "reservations/reservations";
+        }
     }
 
     @GetMapping("/reservation")
