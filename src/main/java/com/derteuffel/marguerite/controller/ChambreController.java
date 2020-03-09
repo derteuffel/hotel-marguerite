@@ -28,6 +28,12 @@ public class ChambreController {
         return "chambres/all";
     }
 
+    @GetMapping("/bedroom")
+    public String getAll(Model model){
+        model.addAttribute("chambres", chambreRepository.findAll());
+        return "chambres/all-2";
+    }
+
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("chambre", new Chambre());

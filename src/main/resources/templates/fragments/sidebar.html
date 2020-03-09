@@ -10,6 +10,7 @@
         <li class="sidebar-list-item"><a th:href="@{/hotel/distributions/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Distribution</span></a></li>
         <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/all}" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Reservations</span></a></li>
         <li th:if="${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/all}" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Tables</span></a></li>
+        <li class="sidebar-list-item"><a th:href="@{/hotel/chambres/bedroom}" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Bed Room</span></a></li>
         <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/chambres/all}" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Chambres</span></a></li>
 </ul>
 </div>
