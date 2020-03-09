@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -78,5 +75,12 @@ public class LoginController {
     @GetMapping("/login")
     public String login(Model model){
         return "login";
+    }
+
+    @GetMapping("/profile/{username}")
+    public String getCompte(@PathVariable String username, Model model){
+        Compte compte = compteService.findByUsername(username);
+        model.addAttribute("compte",compte);
+        return "compte/profile";
     }
 }
