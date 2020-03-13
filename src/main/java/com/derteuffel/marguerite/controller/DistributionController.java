@@ -36,11 +36,11 @@ public class DistributionController {
         return "distributions/all";
     }
 
-    @GetMapping("/form")
-    public String form(Model model){
-        List<Stock> stocks = stockRepository.findAll();
+    @GetMapping("/form/{id}")
+    public String form(Model model,@PathVariable Long id){
+        Stock stock = stockRepository.getOne(id);
         model.addAttribute("distribution", new Distribution());
-        model.addAttribute("stocks", stocks);
+        model.addAttribute("stock", stock);
         return "distributions/new";
     }
 
