@@ -38,6 +38,9 @@ public class Commande implements Serializable {
     @ManyToOne
     private Place place;
 
+    @ManyToOne
+    private Compte compte;
+
     @OneToMany(mappedBy = "commande")
     private Collection<Article> articles;
 }
