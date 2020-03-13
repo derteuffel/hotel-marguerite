@@ -33,16 +33,14 @@ public class DistributionController {
     @GetMapping("/all")
     public String findAll(Model model){
         model.addAttribute("distributions", distributionRepository.findAll());
-        return "distributions/distList";
+        return "distributions/all";
     }
 
     @GetMapping("/form")
-    public String form(Model model, Long id){
+    public String form(Model model){
         List<Stock> stocks = stockRepository.findAll();
-        List<Compte> comptes = compteRepository.findAll();
         model.addAttribute("distribution", new Distribution());
         model.addAttribute("stocks", stocks);
-        model.addAttribute("comptes", comptes);
         return "distributions/new";
     }
 

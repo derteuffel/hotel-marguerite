@@ -14,5 +14,6 @@ public interface StockRepository extends JpaRepository<Stock,Long> {
     List<Stock> findAllByDate(Date date);
     List<Stock> findAllByNom(String nom);
     List<Stock> findAllByCategorie(String categorie);
+    Stock findByNom(String nom);
     List<Stock> findAllByType(String type);
 }

@@ -47,20 +47,27 @@ public class StockController {
         return "stocks/all";
     }
 
-    @GetMapping("/form")
-    public String form(Model model){
+    @GetMapping("/form/{category}")
+    public String form(Model model, @PathVariable String category){
         model.addAttribute("stock", new Stock());
-        model.addAttribute("comptes", compteService.findAllCompte());
+        model.addAttribute("category",category);
         return "stocks/form";
     }
 
-    @PostMapping("/save")
-    public String save(Stock stock, RedirectAttributes redirectAttributes, HttpServletRequest request){
+    @PostMapping("/save/{category}")
+    public String save(Stock stock, RedirectAttributes redirectAttributes, HttpServletRequest request, @PathVariable String category){
         Principal principal = request.getUserPrincipal();
-        stock.setCompte(compteService.findByUsername(principal.getName()));
-        stock.setType(stock.getType().toString());
-        stock.setCategorie(stock.getCategorie().toString());
-      stockRepository.save(stock);
+        Stock stock1 = stockRepository.findByNom(stock.getNom().toUpperCase());
+        if (stock1 != null){
+            stock1.setQty(stock1.getQty()+stock.getQty());
+            stockRepository.save(stock1);
+        }else {
+            stock.setCompte(compteService.findByUsername(principal.getName()));
+            stock.setType(stock.getType().toString());
+            stock.setCategorie(category);
+            stock.setNom(stock.getNom().toUpperCase());
+            stockRepository.save(stock);
+        }
       redirectAttributes.addFlashAttribute("success", "You've save your stock successfully");
       return "redirect:/hotel/stocks/all";
     }

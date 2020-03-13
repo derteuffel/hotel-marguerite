@@ -81,6 +81,7 @@ public class CommandeController {
         placeRepository.save(place);
         commande.setMontantT(0.0);
         commande.setRembourse(0.0);
+        commande.setCompte(compte);
         commandeRepository.save(commande);
 
             return "redirect:/hotel/commandes/detail/"+commande.getId();
