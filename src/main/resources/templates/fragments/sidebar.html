@@ -1,17 +1,58 @@
 <div id="sidebar" th:fragment="sidebar" xmlns:th="http://www.w3.org/1999/xhtml" class="sidebar py-3">
     <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">MAIN</div>
     <ul class="sidebar-menu list-unstyled">
-        <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}" class="sidebar-link text-muted active"><i class="o-home-1 mr-3 text-gray"></i><span>Commandes</span></a></li>
-        <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted "><i class="o-home-1 mr-3 text-gray"></i><span>Tables</span></a></li>
-        <li th:if="${role.name}=='ROLE_RECEIPT' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/reservation}" class="sidebar-link text-muted"><i class="o-database-1 mr-3 text-gray"></i><span>Reservations 2</span></a></li>
-        <li th:if="${role.name}=='ROLE_ECONAMAT' or ${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/stocks/all}" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Stocks</span></a></li>
-        <li th:if="${role.name}=='ROLE_ECONAMAT' or ${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/articles/all}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>Articles</span></a></li>
-        <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted"><i class="o-database-1 mr-3 text-gray"></i><span>Commandes</span></a></li>
-        <li th:if="${role.name}=='ROLE_ECONAMAT' or ${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/distributions/all}" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Distributions</span></a></li>
-        <li class="sidebar-list-item"><a th:href="@{/hotel/distributions/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Distribution</span></a></li>
-        <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/all}" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Reservations</span></a></li>
-        <li th:if="${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/all}" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Tables</span></a></li>
-        <li class="sidebar-list-item"><a th:href="@{/hotel/chambres/bedroom}" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Bed Room</span></a></li>
-        <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/chambres/all}" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Chambres</span></a></li>
+        <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-wireframe-1 mr-3 text-gray"></i><span>Reception</span></a>
+            <div id="pages" class="collapse">
+                <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/all}" class="sidebar-link text-muted pl-lg-5">Réservations</a></li>
+                    <li th:if="${role.name}=='ROLE_RECEIPT' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/reservation}" class="sidebar-link text-muted pl-lg-5">Reservations 2</a></li>
+                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/chambres/all}" class="sidebar-link text-muted pl-lg-5">Chambres</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-2" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span>Restaurant</span></a>
+            <div id="pages-2" class="collapse">
+                <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
+                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
+
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-3" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Lounge Bar</span></a>
+            <div id="pages-3" class="collapse">
+                <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
+                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-4" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Terrasse</span></a>
+            <div id="pages-4" class="collapse">
+                <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
+                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5 ">Tables</a></li>
+                </ul>
+            </div>
+        </li>
+
+
+        <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-5" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 mr-3 text-gray"></i><span>Economat</span></a>
+            <div id="pages-5" class="collapse">
+                <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+                    <li th:if="${role.name}=='ROLE_ECONAMAT' or ${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/stocks/all}" class="sidebar-link text-muted pl-lg-5">Stocks</a></li>
+                    <li th:if="${role.name}=='ROLE_ECONAMAT' or ${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/articles/all}" class="sidebar-link text-muted pl-lg-5">Articles</a></li>
+                    <li th:if="${role.name}=='ROLE_ECONAMAT' or ${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/distributions/all}" class="sidebar-link text-muted pl-lg-5">Distributions</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/hotel/distributions/form}" class="sidebar-link text-muted pl-lg-5">Add Distribution</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="sidebar-list-item"><a href="#" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Piscine</span></a></li>
 </ul>
 </div>
