@@ -42,7 +42,7 @@ public class ChambreController {
 
     @PostMapping("/save")
     public String save(Chambre chambre, RedirectAttributes redirectAttributes) {
-
+        chambre.setStatus(true);
         chambreRepository.save(chambre);
         redirectAttributes.addFlashAttribute("suuccess","You've been save your data successfully");
         return "redirect:/hotel/chambres/all";
