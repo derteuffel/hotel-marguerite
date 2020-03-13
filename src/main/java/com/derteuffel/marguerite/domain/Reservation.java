@@ -24,7 +24,6 @@ public class Reservation implements Serializable {
     private String nomClient;
     private String telephone;
     private String email;
-    private Date timer;
     private int nbreNuits;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)

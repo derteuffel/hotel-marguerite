@@ -58,8 +58,10 @@ public class ReservationController {
         return "reservations/all";
     }
 
-    @GetMapping("/form")
-    public String form(Model model, Long id){
+    @GetMapping("/form/{id}")
+    public String form(Model model, @PathVariable Long id){
+        Chambre chambre = chambreRepository.getOne(id);
+        model.addAttribute("chambre",chambre);
         model.addAttribute("reservation", new Reservation());
         return "reservations/form";
     }
@@ -68,6 +70,7 @@ public class ReservationController {
     public String save(@Valid Reservation reservation, String num, HttpServletRequest request, Model model){
         Principal principal = request.getUserPrincipal();
         Compte compte = compteService.findByUsername(principal.getName());
+        System.out.println(num);
         Chambre chambre = chambreRepository.findByNumero(num);
         reservation.setPrixT(reservation.getPrixU() * reservation.getNbreNuits());
         if (chambre != null){
@@ -92,7 +95,7 @@ public class ReservationController {
             timer.schedule(deactivate,reservation.getDateFin());
             reservation.setCompte(compte);
             reservationRepository.save(reservation);
-            return "redirect:/hotel/reservations/all";
+            return "redirect:/hotel/reservations/detail/"+reservation.getId();
         }else {
             model.addAttribute("error", "There are no room with the provided number :"+num);
             return "reservations/form";

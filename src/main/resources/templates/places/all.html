@@ -41,12 +41,12 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <h3 class="h6 text-uppercase mb-0">Table lists</h3>
+                                        <h3 class="h6 text-uppercase mb-0">Liste des tables</h3>
                                         <span class="text-danger" th:text="${error}"></span>
                                         <p class="text-success" th:text="${success}"></p>
                                     </div>
                                     <div class="button col-md-2">
-                                        <a class="btn btn-outline-blue" th:href="@{/hotel/places/form}" >New plcace</a>
+                                        <a class="btn btn-outline-blue" th:href="@{/hotel/places/form}" >Nouvelle table</a>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                                     <tr>
                                         <th>Num_table</th>
                                         <th>Secteur</th>
-                                        <th>Nbre_place</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -68,8 +68,9 @@
                                         <td >
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${place?.secteur}"></p>
                                         </td>
-                                        <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${place?.nbrePlace}"></p>
+                                        <td >
+                                            <p class="mb-0 mt-3 mt-lg-0 text-success" th:if="${place?.status}==false">LIBRE</p>
+                                            <p class="mb-0 mt-3 mt-lg-0 text-warning" th:unless="${place?.status}==false">OCCUPE</p>
                                         </td>
 
                                         <td>
@@ -106,7 +107,7 @@
                                             <div role="document" class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un Article</h4>
+                                                        <h4 id="detailModalLabel" class="modal-title">Detail Table</h4>
                                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                     </div>
                                                     <div class="modal-body">
@@ -118,17 +119,12 @@
                                                             <label>Secteur:</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             <strong th:text="${place.secteur}"></strong>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label>Nombre de place:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${place.nbrePlace}"></strong>
-                                                        </div>
 
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
                                                         <a th:href="@{/hotel/places/edit/{id}(id=${place.id})}"  class="btn btn-primary">Update</a>
                                                     </div>
-                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

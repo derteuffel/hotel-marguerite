@@ -1,7 +1,10 @@
 package com.derteuffel.marguerite.controller;
 
+import com.derteuffel.marguerite.domain.Compte;
 import com.derteuffel.marguerite.domain.Place;
+import com.derteuffel.marguerite.enums.ERole;
 import com.derteuffel.marguerite.repository.PlaceRepository;
+import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/hotel/places")
@@ -20,10 +25,28 @@ public class PlaceController {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @Autowired
+    private CompteService compteService;
+
     @GetMapping("/all")
     public String findAll(Model model){
         model.addAttribute("places", placeRepository.findAll());
         return "places/all";
+    }
+    @GetMapping("/orders")
+    public String findAllPlace(Model model, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
+        if (compte.getRoles().size()==1 && compte.getRoles().contains(ERole.ROLE_LOUNGE_BAR.toString())){
+            model.addAttribute("lists",placeRepository.findAllBySecteur("LOUNGE_BAR"));
+        }else if (compte.getRoles().size()==1 && compte.getRoles().contains(ERole.ROLE_RESTAURANT.toString())){
+            model.addAttribute("lists",placeRepository.findAllBySecteur("RESTAURANT"));
+        }else if (compte.getRoles().size()==1 && compte.getRoles().contains(ERole.ROLE_TERASSE.toString())){
+            model.addAttribute("lists",placeRepository.findAllBySecteur("TERASSE"));
+        }else {
+            model.addAttribute("lists", placeRepository.findAll());
+        }
+        return "places/all-2";
     }
 
     @GetMapping("/form")
@@ -35,13 +58,14 @@ public class PlaceController {
     @PostMapping("/save")
     public String save(@Valid Place place, RedirectAttributes redirectAttributes){
 
-        if (place.getNumTable().contains("T")){
-            place.setSecteur("TERRASSE");
-        }else if (place.getNumTable().contains("L")){
-            place.setSecteur("LOUNGE-BAR");
+        if (place.getSecteur().contains("TERASSE")){
+            place.setNumTable(("TR"+(placeRepository.findAllBySecteur("TERASSE").size()+1)).toUpperCase());
+        }else if (place.getSecteur().contains("LOUNGE_BAR")){
+            place.setNumTable(("LB"+(placeRepository.findAllBySecteur("LOUNGE_BAR").size()+1)).toUpperCase());
         }else {
-            place.setSecteur("RESTAURANT");
+            place.setNumTable(("RS"+(placeRepository.findAllBySecteur("RESTAURANT").size()+1)).toUpperCase());
         }
+        place.setStatus(false);
         placeRepository.save(place);
         redirectAttributes.addFlashAttribute("success", "You've been save your data successfully");
         return "redirect:/hotel/places/all";
@@ -54,14 +78,17 @@ public class PlaceController {
         return "places/edit";
     }
 
-    @PostMapping("/update/{id}")
-    public String save(@Valid Place place, @PathVariable("id") Long id,
-                       BindingResult result, Model model,  String secteur, int nbrePlace, String numTable ){
-        place.setSecteur(secteur);
-        place.setNbrePlace(nbrePlace);
-        place.setNumTable(numTable);
+    @PostMapping("/update")
+    public String save(@Valid Place place){
+        if (place.getSecteur().contains("TERRASSE")){
+            place.setNumTable(("TR"+placeRepository.findAllBySecteur("TERRASSE").size()).toUpperCase());
+        }else if (place.getSecteur().contains("LOUNGE_BAR")){
+            place.setNumTable(("LB"+placeRepository.findAllBySecteur("LOUNGE_BAR").size()).toUpperCase());
+        }else {
+            place.setNumTable(("RS"+placeRepository.findAllBySecteur("RESTAURANT").size()).toUpperCase());
+        }
+        place.setStatus(false);
         placeRepository.save(place);
-        model.addAttribute("places", placeRepository.findAll());
         return "redirect:/hotel/places/all";
 
     }

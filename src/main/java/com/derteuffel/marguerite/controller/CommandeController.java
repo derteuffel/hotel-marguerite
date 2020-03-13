@@ -60,50 +60,30 @@ public class CommandeController {
         model.addAttribute("commandes", commandes);
         return "commandes/all-2";
     }
-    @GetMapping("/form")
-    public String form(Model model){
-        model.addAttribute("commande", new Commande());
-        return "commandes/form";
-    }
 
-    @PostMapping("/save")
-    public String save(Commande commande, Model model, HttpServletRequest request) {
+    @GetMapping("/save/{id}")
+    public String save(Model model, HttpServletRequest request,@PathVariable Long id) {
         Principal principal = request.getUserPrincipal();
         Compte compte = compteService.findByUsername(principal.getName());
+        Commande commande = new Commande();
         Date date = new Date();
+        Place place = placeRepository.getOne(id);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat format1 = new SimpleDateFormat("hh:mm");
-        if (commande.getNumTable().contains("C")){
-            System.out.println(commande.getNumTable());
-            Chambre chambre = chambreRepository.findByNumero("%"+commande.getNumero()+"%");
-            if (chambre != null){
-                commande.setChambre(chambre);
-            }else {
-                model.addAttribute("error", "There are no room with the number"+commande.getNumTable());
-                return "commandes/form";
-            }
-        }else {
-            Place place = placeRepository.findByNumTable(commande.getNumTable());
-            if (place != null){
-                commande.setPlace(place);
-                commande.setSecteur(place.getSecteur());
-            }else {
-                model.addAttribute("error","There are no Table with the number"+commande.getNumTable());
-                return "commandes/form";
-            }
-        }
+        commande.setPlace(place);
+        commande.setSecteur(place.getSecteur());
+        commande.setNumTable(place.getNumTable());
         commande.setDate(format.format(date));
         commande.setHeure(format1.format(date));
         commande.setNumero("C"+commandeRepository.findAll().size()+commande.getNumTable());
         commande.setStatus(false);
+        placeRepository.getOne(id).setStatus(true);
+        placeRepository.save(place);
         commande.setMontantT(0.0);
         commande.setRembourse(0.0);
         commandeRepository.save(commande);
-        if (compte.getRoles().size() <= 1 && compte.getRoles().contains(roleRepository.findByName("ROLE_SELLER"))){
-            return "redirect:/hotel/commandes/orders";
-        }else {
-            return "redirect:/hotel/commandes/all";
-        }
+
+            return "redirect:/hotel/commandes/detail/"+commande.getId();
     }
 
     @GetMapping("/detail/{id}")
@@ -144,6 +124,7 @@ public class CommandeController {
             names.add(article.getNom());
             amounts.add(article.getPrixT());
         }
+        Place place = commande.getPlace();
         Facture existFacture = factureRepository.findByNumCmdAndCommande_Id(commande.getNumero(),id);
         if (existFacture != null){
             existFacture.setArticles(names);
@@ -170,7 +151,9 @@ public class CommandeController {
             factureRepository.save(facture);
             model.addAttribute("facture", facture);
         }
+        place.setStatus(false);
         commande.setStatus(true);
+        placeRepository.save(place);
         commandeRepository.save(commande);
         return "commandes/facture";
 
@@ -183,5 +166,13 @@ public class CommandeController {
         commandeRepository.deleteById(id);
 
         return "redirect:/hotel/commandes/all";
+    }
+
+    @GetMapping("/{numTable}/{status}")
+    public String findByStatusAnNumTable(@PathVariable String numTable, @PathVariable Boolean status, Model model){
+        Commande commande = commandeRepository.findByNumTableAndStatus(numTable,status);
+        model.addAttribute("article", new Article());
+        model.addAttribute("commande",commande);
+        return "commandes/detail";
     }
 }

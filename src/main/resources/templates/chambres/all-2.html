@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-xl-4 col-lg-6 mb-4 mb-xl-0" th:each="chambre: ${chambres}">
                         <a th:if="${chambre.status}==true" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}">
-                            <div  class="bg-warning shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div  class="badge-success shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
                                     <div class="text-left" >
                                         <h3 class="mb-0"><span  th:text="${chambre.numero}"></span></h3>
@@ -57,7 +57,7 @@
                             </div>
                         </a>
                         <a th:unless="${chambre.status}==true" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}">
-                            <div  class="bg-success shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div  class="badge-warning shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
                                     <div class="text-left" >
                                         <h3 class="mb-0"><span  th:text="${chambre.numero}"></span></h3>
@@ -109,9 +109,12 @@
                                             <strong th:unless="${chambre.status}==true">OCCUPE</strong>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                                        <a th:href="@{/hotel/chambres/edit/{id}(id=${chambre.id})}"  class="btn btn-primary">Update</a>
+                                    <div class="modal-footer" th:if="${chambre.status}==true">
+                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
+                                        <a th:href="@{/hotel/reservations/form/{id}(id=${chambre.id})}"  class="btn btn-primary">Reserver</a>
+                                    </div>
+                                    <div class="modal-footer" th:unless="${chambre.status}==true">
+                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
                                     </div>
                                 </div>
                             </div>

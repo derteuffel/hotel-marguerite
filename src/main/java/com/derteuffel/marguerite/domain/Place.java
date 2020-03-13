@@ -23,7 +23,7 @@ public class Place implements Serializable {
 
     private String numTable;
     private String secteur;
-    private int nbrePlace;
+    private Boolean status;
 
     @OneToMany(mappedBy = "place")
     private Collection<Commande> commandes;
