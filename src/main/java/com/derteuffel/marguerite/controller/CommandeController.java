@@ -57,6 +57,7 @@ public class CommandeController {
 
     @GetMapping("/restaurant/orders")
     public String restaurant(Model model){
+        model.addAttribute("secteur",ESecteur.RESTAURANT.toString());
         List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.RESTAURANT.toString(),false);
         model.addAttribute("commandes", commandes);
         return "commandes/all-2";
@@ -64,6 +65,7 @@ public class CommandeController {
 
     @GetMapping("/lounge_bar/orders")
     public String lounge_bar(Model model){
+        model.addAttribute("secteur",ESecteur.LOUNGE_BAR.toString());
         List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.LOUNGE_BAR.toString(),false);
         model.addAttribute("commandes", commandes);
         return "commandes/all-2";
@@ -71,6 +73,7 @@ public class CommandeController {
 
     @GetMapping("/terasse/orders")
     public String terasse(Model model){
+        model.addAttribute("secteur",ESecteur.TERASSE.toString());
         List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.TERASSE.toString(),false);
         model.addAttribute("commandes", commandes);
         return "commandes/all-2";

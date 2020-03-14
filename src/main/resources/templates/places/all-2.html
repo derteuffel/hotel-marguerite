@@ -33,6 +33,11 @@
     <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
     <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
+            <div class="py-5">
+                <div class="alert-info text-center">
+                    <h2 th:text="${secteur}"></h2>
+                </div>
+            </div>
             <section class="py-5">
                 <div class="row">
                     <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0" th:each="item: ${lists}">

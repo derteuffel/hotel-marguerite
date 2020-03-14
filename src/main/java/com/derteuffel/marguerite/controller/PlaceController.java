@@ -36,17 +36,20 @@ public class PlaceController {
     }
     @GetMapping("/restaurant/orders")
     public String restaurant(Model model){
+        model.addAttribute("secteur",ESecteur.RESTAURANT.toString());
         model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.RESTAURANT.toString()));
         return "places/all-2";
     }
 
     @GetMapping("/lounge_bar/orders")
     public String lounge_bar(Model model){
+        model.addAttribute("secteur",ESecteur.LOUNGE_BAR.toString());
         model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.LOUNGE_BAR.toString()));
         return "places/all-2";
     }
     @GetMapping("/terasse/orders")
     public String terasse(Model model){
+        model.addAttribute("secteur",ESecteur.TERASSE.toString());
         model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.TERASSE.toString()));
         return "places/all-2";
     }

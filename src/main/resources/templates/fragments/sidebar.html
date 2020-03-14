@@ -5,9 +5,8 @@
             <div id="pages" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
                     <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/all}" class="sidebar-link text-muted pl-lg-5">Réservations</a></li>
-                    <li th:if="${role.name}=='ROLE_RECEIPT' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/reservation}" class="sidebar-link text-muted pl-lg-5">Reservations 2</a></li>
+                    <li th:if="${role.name}=='ROLE_RECEIPT' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/reservation}" class="sidebar-link text-muted pl-lg-5">Reservations tableau</a></li>
                     <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/chambres/all}" class="sidebar-link text-muted pl-lg-5">Chambres</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/hotel/chambres/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Chambre</span></a></li>
                 </ul>
             </div>
         </li>
@@ -16,8 +15,6 @@
             <div id="pages-2" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/restaurant/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/hotel/places/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Place</span></a></li>
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/restaurant/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
                 </ul>
             </div>
@@ -27,8 +24,6 @@
             <div id="pages-3" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/lounge_bar/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/hotel/places/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Place</span></a></li>
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/lounge_bar/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
                 </ul>
             </div>
@@ -38,8 +33,6 @@
             <div id="pages-4" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/terasse/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/hotel/places/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Place</span></a></li>
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/terasse/orders}" class="sidebar-link text-muted pl-lg-5 ">Tables</a></li>
                 </ul>
             </div>
@@ -57,5 +50,6 @@
             </div>
         </li>
         <li class="sidebar-list-item"><a href="#" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Piscine</span></a></li>
+        <li class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Commandes Admin</span></a></li>
 </ul>
 </div>
