@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bubbly - Boootstrap 4 Admin template by Bootstrapious.com</title>
+    <title>Accueil</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -30,65 +30,7 @@
     <header th:replace="~{../templates/fragments/header :: header}">
     </header>
     <div class="d-flex align-items-stretch">
-      <div id="sidebar" class="sidebar py-3">
-        <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">MAIN</div>
-        <ul class="sidebar-menu list-unstyled">
-
-          <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-wireframe-1 mr-3 text-gray"></i><span>Reception</span></a>
-            <div id="pages" class="collapse">
-              <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                <li class="sidebar-list-item"><a th:href="@{/hotel/reservations/all}" class="sidebar-link text-muted pl-lg-5">Réservations</a></li>
-                <li class="sidebar-list-item"><a th:href="@{/hotel/chambres/all}" class="sidebar-link text-muted pl-lg-5">Chambres</a></li>
-                <li class="sidebar-list-item"><a th:href="@{/hotel/chambres/bedroom}" class="sidebar-link text-muted pl-lg-5">Bed Room</a></li>
-                <li class="sidebar-list-item"><a th:href="@{/hotel/reservations/reservation}" class="sidebar-link text-muted pl-lg-5">Reservations 2</a></li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-2" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span>Restaurant</span></a>
-            <div id="pages-2" class="collapse">
-              <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-3" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Lounge Bar</span></a>
-            <div id="pages-3" class="collapse">
-              <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-4" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Terrasse</span></a>
-            <div id="pages-4" class="collapse">
-              <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
-              </ul>
-            </div>
-          </li>
-
-
-          <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-5" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 mr-3 text-gray"></i><span>Economat</span></a>
-            <div id="pages-5" class="collapse">
-              <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/stocks/all}" class="sidebar-link text-muted pl-lg-5">Stocks</a></li>
-                <li class="sidebar-list-item"><a th:href="@{/hotel/articles/all}" class="sidebar-link text-muted pl-lg-5">Articles</a></li>
-                <li  class="sidebar-list-item"><a th:href="@{/hotel/distributions/all}" class="sidebar-link text-muted pl-lg-5">Distributions</a></li>
-                <li class="sidebar-list-item"><a th:href="@{/hotel/distributions/form}" class="sidebar-link text-muted pl-lg-5">Add Distribution</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="sidebar-list-item"><a href="#" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Piscine</span></a></li>
-
-        </ul>
+      <div th:replace="~{../templates/fragments/sidebar :: sidebar}">
       </div>
       <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">

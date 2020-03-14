@@ -2,8 +2,10 @@ package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.Article;
 import com.derteuffel.marguerite.domain.Commande;
+import com.derteuffel.marguerite.domain.Order;
 import com.derteuffel.marguerite.repository.ArticleRepository;
 import com.derteuffel.marguerite.repository.CommandeRepository;
+import com.derteuffel.marguerite.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,9 @@ public class ArticleController {
     @Autowired
     private CommandeRepository commandeRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @GetMapping("/all")
     public String findAll(Model model){
         model.addAttribute("articles", commandeRepository.findAll());
@@ -41,6 +46,7 @@ public class ArticleController {
     @PostMapping("/save/{id}")
     public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         Commande commande = commandeRepository.getOne(id);
+        //Optional<Order> optionalOrder = orderRepository.findBySecteurAndCommande_Id()
         article.setPrixT(article.getPrixU() * article.getQty());
         System.out.println(commande.getMontantT());
         commande.setMontantT(commande.getMontantT() + article.getPrixT());

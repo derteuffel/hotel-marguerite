@@ -14,5 +14,6 @@ public interface CommandeRepository extends JpaRepository<Commande,Long> {
     List<Commande> findAllByDate(String date);
     List<Commande> findAllByChambre_Id(Long id);
     List<Commande> findAllByStatus(Boolean status);
+    List<Commande> findAllBySecteurAndStatus(String secteur, Boolean status);
     Commande findByNumTableAndStatus(String numTable, Boolean status);
 }

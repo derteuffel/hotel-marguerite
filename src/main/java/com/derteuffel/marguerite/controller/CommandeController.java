@@ -1,6 +1,7 @@
 package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.*;
+import com.derteuffel.marguerite.enums.ESecteur;
 import com.derteuffel.marguerite.repository.*;
 import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,12 +55,28 @@ public class CommandeController {
         }
     }
 
-    @GetMapping("/orders")
-    public String findAllByStatus(Model model){
-        List<Commande> commandes = commandeRepository.findAllByStatus(false);
+    @GetMapping("/restaurant/orders")
+    public String restaurant(Model model){
+        List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.RESTAURANT.toString(),false);
         model.addAttribute("commandes", commandes);
         return "commandes/all-2";
     }
+
+    @GetMapping("/lounge_bar/orders")
+    public String lounge_bar(Model model){
+        List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.LOUNGE_BAR.toString(),false);
+        model.addAttribute("commandes", commandes);
+        return "commandes/all-2";
+    }
+
+    @GetMapping("/terasse/orders")
+    public String terasse(Model model){
+        List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.TERASSE.toString(),false);
+        model.addAttribute("commandes", commandes);
+        return "commandes/all-2";
+    }
+
+
 
     @GetMapping("/save/{id}")
     public String save(Model model, HttpServletRequest request,@PathVariable Long id) {
