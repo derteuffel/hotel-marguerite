@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Room Lists</title>
     <meta charset="UTF-8">
-    <title>Title</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -42,7 +41,7 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <h3 class="h6 text-uppercase mb-0">Room lists</h3>
+                                        <h3 class="h6 text-uppercase mb-0">Ensemble des chambres</h3>
                                         <span class="text-danger" th:text="${error}"></span>
                                         <p class="text-success" th:text="${success}"></p>
                                     </div>
@@ -85,11 +84,11 @@
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.nbrePiece}"></p>
                                         </td>
-                                        <td class="bg-warning" th:if="${chambre.status}==true">
+                                        <td class="badge-warning" th:if="${chambre.status}==true">
                                             <span class="mb-0 mt-3 mt-lg-0" >Occupé
                                             </span>
                                         </td>
-                                        <td class="bg-success" th:unless="${chambre.status}==true">
+                                        <td class="badge-success" th:unless="${chambre.status}==true">
                                             <span class="mb-0 mt-3 mt-lg-0" >Disponible
                                             </span>
                                         </td>
@@ -117,8 +116,8 @@
                                                         <p class="small">etes vous sure de vouloir supprimer cet element ?</p>
                                                     </div>
                                                     <div class="card-footer modal-footer no-bd">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                                        <a th:href="@{/hotel/chambres/delete/{id}(id=${chambre.id})}"  class="btn btn-success">Delete</a>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                                                        <a th:href="@{/hotel/chambres/delete/{id}(id=${chambre.id})}"  class="btn btn-success">Supprimer</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,7 +126,7 @@
                                             <div role="document" class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un Chambre</h4>
+                                                        <h4 id="detailModalLabel" class="modal-title">Detail Chambre</h4>
                                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                     </div>
                                                     <div class="modal-body">
@@ -157,19 +156,13 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Status</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:if="${chambre.status}==true">Occupé </strong>
-                                                            <strong th:unless="${chambre.status}==true">Disponible </strong>
-                                                        </div>
-                                                        <div th:if="${chambre.status}==true">
-                                                            <div class="dot bg-warning"></div>
-                                                        </div>
-                                                        <div th:unless="${chambre.status}==true">
-                                                            <div class="dot bg-success"></div>
+                                                            <strong th:if="${chambre.status}==true" class="badge-warning">Occupé </strong>
+                                                            <strong th:unless="${chambre.status}==true" class="badge-success">Disponible </strong>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                                                        <a th:href="@{/hotel/chambres/edit/{id}(id=${chambre.id})}"  class="btn btn-primary">Update</a>
+                                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
+                                                        <a th:href="@{/hotel/chambres/edit/{id}(id=${chambre.id})}"  class="btn btn-primary">Modifier</a>
                                                     </div>
                                                     </form>
                                                 </div>

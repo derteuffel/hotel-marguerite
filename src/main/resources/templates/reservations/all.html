@@ -34,8 +34,8 @@
     <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
             <div class="py-5">
-                <div class="button col-md-2">
-                    <a class="btn btn-outline-blue" th:href="@{/hotel/reservations/form}" >New Reservation</a>
+                <div class="alert-info text-center">
+                    <h2>Ensemble des Reservations</h2>
                 </div>
             </div>
             <section class="py-5">
@@ -73,7 +73,7 @@
                             <div role="document" class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'un commande</h4>
+                                        <h4 id="detailModalLabel" class="modal-title">Detail reservation</h4>
                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body">
@@ -116,8 +116,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                                        <a th:href="@{/hotel/reservations/edit/{id}(id=${reservation.id})}"  class="btn btn-primary">Update</a>
+                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
+                                        <a th:href="@{/hotel/reservations/edit/{id}(id=${reservation.id})}"  class="btn btn-primary">Modifier</a>
                                     </div>
                                 </div>
                             </div>

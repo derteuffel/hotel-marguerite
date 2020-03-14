@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-xl-4 col-lg-6 mb-4 mb-xl-0" th:each="chambre: ${chambres}">
                         <a th:if="${chambre.status}==true" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}">
-                            <div  class="badge-success shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div  class="badge-warning shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
                                     <div class="text-left" >
                                         <h3 class="mb-0"><span  th:text="${chambre.numero}"></span></h3>
@@ -51,13 +51,13 @@
                                         <h6 class="mb-0">Nombre de Place : <span  th:text="${chambre.nbrePlace}"></span></h6>
                                         <h6 class="mb-0" >Nombre de Pièce :<span  th:text="${chambre.nbrePiece}"></span></h6>
                                         <h6 class="mb-0" >Nombre de Lit :<span  th:text="${chambre.nbreLit}"></span></h6>
-                                        <h6 class="mb-0"></h6><span>DISPONIBLE</span>
+                                        <h6 class="mb-0"></h6><span>OCCUPE</span>
                                     </div>
                                 </div>
                             </div>
                         </a>
                         <a th:unless="${chambre.status}==true" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}">
-                            <div  class="badge-warning shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                            <div  class="badge-success shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
                                     <div class="text-left" >
                                         <h3 class="mb-0"><span  th:text="${chambre.numero}"></span></h3>
@@ -66,7 +66,7 @@
                                         <h6 class="mb-0">Nombre de place : <span  th:text="${chambre.nbrePlace}"></span></h6>
                                         <h6 class="mb-0" >Nombre de pièce :<span  th:text="${chambre.nbrePiece}"></span></h6>
                                         <h6 class="mb-0" >Nombre de lit :<span  th:text="${chambre.nbreLit}"></span></h6>
-                                        <h6 class="mb-0"></h6><span>OCCUPE</span>
+                                        <h6 class="mb-0"></h6><span>DISPONIBLE</span>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                             <div role="document" class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 id="detailModalLabel" class="modal-title">Contenu detailler d'une chambre</h4>
+                                        <h4 id="detailModalLabel" class="modal-title">Detail chambre</h4>
                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body">
@@ -105,15 +105,15 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Status</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <strong th:if="${chambre.status}==true">DISPONIBLE</strong>
-                                            <strong th:unless="${chambre.status}==true">OCCUPE</strong>
+                                            <strong th:if="${chambre.status}==true" class="badge-warning">OCCUPE</strong>
+                                            <strong th:unless="${chambre.status}==true" class="badge-success">DISPONIBLE</strong>
                                         </div>
                                     </div>
-                                    <div class="modal-footer" th:if="${chambre.status}==true">
+                                    <div class="modal-footer" th:if="${chambre.status}!=true">
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
                                         <a th:href="@{/hotel/reservations/form/{id}(id=${chambre.id})}"  class="btn btn-primary">Reserver</a>
                                     </div>
-                                    <div class="modal-footer" th:unless="${chambre.status}==true">
+                                    <div class="modal-footer" th:unless="${chambre.status}!=true">
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
                                     </div>
                                 </div>

@@ -78,7 +78,7 @@ public class ReservationController {
             TimerTask activate = new TimerTask() {
                 @Override
                 public void run() {
-                    chambre.setStatus(false);
+                    chambre.setStatus(true);
                     reservation.setStatus(true);
                     System.out.println("action started");
                 }
@@ -86,7 +86,7 @@ public class ReservationController {
             TimerTask deactivate = new TimerTask() {
                 @Override
                 public void run() {
-                    chambre.setStatus(true);
+                    chambre.setStatus(false);
                     reservation.setStatus(false);
                 }
             };
@@ -118,24 +118,6 @@ public class ReservationController {
         reservation.setPrixT(reservation.getPrixU() * reservation.getNbreNuits());
         if (chambre != null){
             reservation.setChambre(chambre);
-            TimerTask activate = new TimerTask() {
-                @Override
-                public void run() {
-                    chambre.setStatus(false);
-                    reservation.setStatus(true);
-                    System.out.println("action started");
-                }
-            };
-            TimerTask deactivate = new TimerTask() {
-                @Override
-                public void run() {
-                    chambre.setStatus(true);
-                    reservation.setStatus(false);
-                }
-            };
-            Timer timer = new Timer();
-            timer.schedule(activate,reservation.getDateDebut());
-            timer.schedule(deactivate,reservation.getDateFin());
             reservation.setCompte(compte);
             reservationRepository.save(reservation);
             return "redirect:/hotel/reservations/all";
