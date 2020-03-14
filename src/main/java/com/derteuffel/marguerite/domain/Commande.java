@@ -23,13 +23,13 @@ public class Commande implements Serializable {
 
     @NotNull
     private String numero;
-    private Double montantT;
-    private Double rembourse;
-    private Double montantV;
     private String numTable;
     private  int nbreSurTable;
     private String heure;
     private String date;
+    private Double montantV;
+    private Double rembourse;
+    private Double montantT;
     private Boolean status;
     private String secteur;
 
