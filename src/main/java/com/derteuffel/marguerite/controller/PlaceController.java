@@ -3,6 +3,7 @@ package com.derteuffel.marguerite.controller;
 import com.derteuffel.marguerite.domain.Compte;
 import com.derteuffel.marguerite.domain.Place;
 import com.derteuffel.marguerite.enums.ERole;
+import com.derteuffel.marguerite.enums.ESecteur;
 import com.derteuffel.marguerite.repository.PlaceRepository;
 import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +34,20 @@ public class PlaceController {
         model.addAttribute("places", placeRepository.findAll());
         return "places/all";
     }
-    @GetMapping("/orders")
-    public String findAllPlace(Model model, HttpServletRequest request){
-        Principal principal = request.getUserPrincipal();
-        Compte compte = compteService.findByUsername(principal.getName());
-        if (compte.getRoles().size()==1 && compte.getRoles().contains(ERole.ROLE_LOUNGE_BAR.toString())){
-            model.addAttribute("lists",placeRepository.findAllBySecteur("LOUNGE_BAR"));
-        }else if (compte.getRoles().size()==1 && compte.getRoles().contains(ERole.ROLE_RESTAURANT.toString())){
-            model.addAttribute("lists",placeRepository.findAllBySecteur("RESTAURANT"));
-        }else if (compte.getRoles().size()==1 && compte.getRoles().contains(ERole.ROLE_TERASSE.toString())){
-            model.addAttribute("lists",placeRepository.findAllBySecteur("TERASSE"));
-        }else {
-            model.addAttribute("lists", placeRepository.findAll());
-        }
+    @GetMapping("/restaurant/orders")
+    public String restaurant(Model model){
+       model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.RESTAURANT.toString()));
+        return "places/all-2";
+    }
+
+    @GetMapping("/lounge_bar/orders")
+    public String lounge_bar(Model model){
+        model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.LOUNGE_BAR.toString()));
+        return "places/all-2";
+    }
+    @GetMapping("/terasse/orders")
+    public String terasse(Model model){
+        model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.TERASSE.toString()));
         return "places/all-2";
     }
 

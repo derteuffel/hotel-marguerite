@@ -33,9 +33,14 @@
         <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
         <div class="page-holder w-100 d-flex flex-wrap">
             <div class="container-fluid px-xl-5">
-                <div class="py-5">
-                    <div class="button col-md-2">
-                        <a class="btn btn-outline-blue" th:href="@{/hotel/commandes/form}" >New Order</a>
+                <div class="py-5" th:if="${#lists.size(commandes)} == 0">
+                    <div class="alert-danger">
+                        <p  >Aucune commande en cours</p>
+                    </div>
+                </div>
+                <div class="py-5" th:unless="${#lists.size(commandes)} == 0">
+                    <div class="alert-info">
+                        <p  ><span th:text="${#lists.size(commandes)}"></span> commande(s) en cours</p>
                     </div>
                 </div>
                 <section class="py-5">

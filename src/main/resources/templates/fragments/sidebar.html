@@ -18,7 +18,7 @@
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
                     <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/hotel/places/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Place</span></a></li>
-                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/restaurant/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
                 </ul>
             </div>
         </li>
@@ -29,7 +29,7 @@
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
                     <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/hotel/places/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Place</span></a></li>
-                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/lounge_bar/orders}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
                 </ul>
             </div>
         </li>
@@ -40,7 +40,7 @@
                     <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/orders}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
                     <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/all}" class="sidebar-link text-muted pl-lg-5">Commandes</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/hotel/places/form}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Add Place</span></a></li>
-                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/orders}" class="sidebar-link text-muted pl-lg-5 ">Tables</a></li>
+                    <li th:if="${role.name}=='ROLE_SELLER' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/terasse/orders}" class="sidebar-link text-muted pl-lg-5 ">Tables</a></li>
                 </ul>
             </div>
         </li>
