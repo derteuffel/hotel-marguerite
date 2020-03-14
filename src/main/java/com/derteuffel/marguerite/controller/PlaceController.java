@@ -34,11 +34,6 @@ public class PlaceController {
         model.addAttribute("places", placeRepository.findAll());
         return "places/all";
     }
-    @GetMapping("/terasse/orders")
-    public String terasse(Model model){
-        model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.TERASSE.toString()));
-        return "places/all-2";
-    }
     @GetMapping("/restaurant/orders")
     public String restaurant(Model model){
         model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.RESTAURANT.toString()));
@@ -48,6 +43,11 @@ public class PlaceController {
     @GetMapping("/lounge_bar/orders")
     public String lounge_bar(Model model){
         model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.LOUNGE_BAR.toString()));
+        return "places/all-2";
+    }
+    @GetMapping("/terasse/orders")
+    public String terasse(Model model){
+        model.addAttribute("lists", placeRepository.findAllBySecteur(ESecteur.TERASSE.toString()));
         return "places/all-2";
     }
 
