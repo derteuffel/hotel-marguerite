@@ -81,14 +81,18 @@
                                         <table  class="table table-striped table-hover card-text">
                                             <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Amount</th>
+                                                <th>Denomination</th>
+                                                <th>Quantite</th>
+                                                <th>Montant</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr th:each="name,i : ${facture.articles}">
                                                 <td>
                                                     <p class="mb-0 mt-3 mt-lg-0" th:text="${name}"></p>
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0 mt-3 mt-lg-0" th:text="${facture.quantities[i.index]}"></p>
                                                 </td>
                                                 <td >
                                                     <p class="mb-0 mt-3 mt-lg-0" th:text="${facture.prices[i.index]}"></p>
@@ -134,7 +138,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="button">
-                                    <button type="button" class="btn btn-outline-dark">Imprimer <i class="fa fa-print"></i></button>
+                                    <a  th:href="@{/hotel/commandes/bills/}+${facture.id}" class="btn btn-outline-dark">Imprimer <i class="fa fa-print"></i></a>
                                 </div>
                             </div>
                         </div>

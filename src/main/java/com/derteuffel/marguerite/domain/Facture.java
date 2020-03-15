@@ -20,12 +20,14 @@ public class Facture implements Serializable {
 
     private ArrayList<String> articles = new ArrayList<>();
     private ArrayList<Float> prices = new ArrayList<>();
+    private ArrayList<Integer> quantities = new ArrayList<>();
     private String numeroTable;
     private String numCmd;
     private Double montantT;
     private Double montantVerse;
     private Double remboursement;
     private String date;
+    private String billTrace;
 
     @OneToOne
     private Commande commande;
