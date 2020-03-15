@@ -2,11 +2,16 @@ package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.Article;
 import com.derteuffel.marguerite.domain.Commande;
-import com.derteuffel.marguerite.domain.Order;
+import com.derteuffel.marguerite.domain.Bon;
 import com.derteuffel.marguerite.repository.ArticleRepository;
 import com.derteuffel.marguerite.repository.CommandeRepository;
 import com.derteuffel.marguerite.repository.OrderRepository;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/hotel/articles")
@@ -28,6 +37,9 @@ public class ArticleController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Value("${file.upload-dir}")
+    private String fileStorage;
 
     @GetMapping("/all")
     public String findAll(Model model){
@@ -43,14 +55,14 @@ public class ArticleController {
         return "articles/formArticle";
     }
 
-    @PostMapping("/save/{id}")
-    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @PostMapping("/save/{type}/{id}")
+    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable String type) {
         Commande commande = commandeRepository.getOne(id);
-        //Optional<Order> optionalOrder = orderRepository.findBySecteurAndCommande_Id()
         article.setPrixT(article.getPrixU() * article.getQty());
         System.out.println(commande.getMontantT());
         commande.setMontantT(commande.getMontantT() + article.getPrixT());
         article.setCommande(commande);
+        article.setType(type.toUpperCase());
         articleRepository.save(article);
         commandeRepository.save(commande);
         redirectAttributes.addFlashAttribute("success","You've added successfully your article");
@@ -68,6 +80,45 @@ public class ArticleController {
         articleRepository.save(article);
 
         return "redirect:/hotel/commandes/detail/"+commande.getId();
+    }
+
+    @GetMapping("/orders/{id}")
+    public String orders(@PathVariable Long id,Model model){
+        Commande commande = commandeRepository.getOne(id);
+        Optional<Bon> existDrinks = orderRepository.findBySecteurAndCommande_Id("DRINK",id);
+        Optional<Bon> existFoods = orderRepository.findBySecteurAndCommande_Id("FOOD",id);
+
+        if (existDrinks.isPresent() || existFoods.isPresent()){
+            model.addAttribute("commande",commande);
+            model.addAttribute("drinks",existDrinks.get());
+            model.addAttribute("foods",existFoods.get());
+        }else {
+            Bon drinks = new Bon();
+            Bon foods = new Bon();
+            for (Article item : commande.getArticles()) {
+                if (item.getType().equals("DRINK")) {
+                    drinks.setSecteur(item.getType());
+                    drinks.setCommande(commande);
+                    drinks.getItems().add(item.getNom());
+                    drinks.getQuantities().add(item.getQty());
+                    drinks.setNumTable(commande.getNumTable());
+                } else {
+                    foods.setSecteur(item.getType());
+                    foods.setCommande(commande);
+                    foods.getItems().add(item.getNom());
+                    foods.getQuantities().add(item.getQty());
+                    foods.setNumTable(commande.getNumTable());
+                }
+            }
+            orderRepository.save(drinks);
+            orderRepository.save(foods);
+            model.addAttribute("commande", commande);
+            model.addAttribute("drinks", drinks);
+            model.addAttribute("foods", foods);
+        }
+
+        return "commandes/orders";
+
     }
 
     @GetMapping("/edit/{id}")
@@ -104,5 +155,54 @@ public class ArticleController {
         articleRepository.deleteById(id);
         model.addAttribute("articles", articleRepository.findAll());
         return "redirect:/hotel/articles/all";
+    }
+
+    @GetMapping("/orders/pdf/{id}")
+    public String pdfGenerator(@PathVariable Long id){
+        Bon bon = orderRepository.getOne(id);
+        Document document = new Document();
+        try{
+            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur()+bon.getId()+".pdf").toString())));
+            document.open();
+            document.add(new Paragraph("Marguerite Hotel"));
+            document.add(new Paragraph("Secteur :   "+bon.getCommande().getSecteur()));
+            document.add(new Paragraph("Table Numero :  "+bon.getCommande().getNumTable()));
+            document.add(new Paragraph("Listes des articles et quantites "));
+
+            PdfPTable table = new PdfPTable(3);
+            addTableHeader(table);
+            for (int i = 0; i<bon.getItems().size();i++){
+                table.addCell(""+(i+1));
+                table.addCell(""+bon.getItems().get(i));
+                table.addCell(""+bon.getQuantities().get(i));
+                System.out.println("inside the table");
+            }
+
+            document.add(table);
+            document.add(new Paragraph("Bien vouloir livrer ces articles a la table citer en haut "));
+            document.close();
+            System.out.println("the job is done!!!");
+
+        } catch (FileNotFoundException | DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        bon.setPdfTrace("/downloadFile/"+bon.getSecteur()+bon.getId()+".pdf");
+        orderRepository.save(bon);
+
+        return "redirect:"+bon.getPdfTrace();
+    }
+
+    private void addTableHeader(PdfPTable table) {
+        Stream.of("Index", "Denomination", "Quantite")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(2);
+                    header.setPhrase(new Phrase(columnTitle));
+                    table.addCell(header);
+                });
     }
 }

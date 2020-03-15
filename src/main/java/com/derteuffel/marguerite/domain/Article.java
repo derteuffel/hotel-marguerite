@@ -19,6 +19,7 @@ public class Article implements Serializable {
     private Float prixU;
     private Float prixT;
     private  int qty;
+    private String type;
     @ManyToOne
     @JsonIgnoreProperties("articles")
     private Commande commande;

@@ -8,14 +8,16 @@ import java.util.ArrayList;
 
 @Data
 @Entity
-@Table(name = "order")
-public class Order implements Serializable {
+@Table(name = "bon")
+public class Bon implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
     private String secteur;
+    private String numTable;
+    private String pdfTrace;
     private ArrayList<String> items = new ArrayList<>();
     private ArrayList<Integer> quantities = new ArrayList<>();
 
