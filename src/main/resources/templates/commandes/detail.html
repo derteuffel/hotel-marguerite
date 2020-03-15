@@ -20,6 +20,7 @@
     <link rel="stylesheet" th:href="@{/css/style.default.css}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <!-- Favicon-->
     <link rel="shortcut icon" th:href="@{/img/favicon.png?3}">
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
@@ -174,13 +175,14 @@
                             </button>
                         </div>
                         <div class="card-body modal-body">
-                            <form  class="form-horizontal" th:object="${article}" th:action="@{/hotel/articles/save/drink/}+${commande.id}" th:method="post">
+                            <form  class="form-horizontal" autocomplete="off" th:object="${article}" th:action="@{/hotel/articles/save/drink/}+${commande.id}" th:method="post">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Nom</label>
-                                    <div class="col-md-9">
-                                        <select th:field="*{nom}" class="form-control">
+                                    <div class="col-md-9 autocomplete">
+                                        <!--select th:field="*{nom}" class="form-control">
                                             <option th:each=" name : ${T(com.derteuffel.marguerite.enums.EBoissonName).values()}" th:value="${name}" th:text="${name}"></option>
-                                        </select>
+                                        </select-->
+                                        <input type="text" th:field="*{nom}" class="form-control" id="boissonName">
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -226,13 +228,15 @@
                             </button>
                         </div>
                         <div class="card-body modal-body">
-                            <form  class="form-horizontal" th:object="${article}" th:action="@{/hotel/articles/save/food/}+${commande.id}" th:method="post">
-                                <div class="form-group row">
+                            <form  class="form-horizontal" autocomplete="off" th:object="${article}" th:action="@{/hotel/articles/save/food/}+${commande.id}" th:method="post">
+                                <div class="form-group  row">
                                     <label class="col-md-3 form-control-label">Nom</label>
-                                    <div class="col-md-9">
-                                        <select th:field="*{nom}" class="form-control">
+                                    <div class="col-md-9 autocomplete">
+                                        <!--select th:field="*{nom}" class="form-control">
                                             <option th:each=" name : ${T(com.derteuffel.marguerite.enums.EFoodName).values()}" th:value="${name}" th:text="${name}"></option>
-                                        </select>
+                                        </select-->
+
+                                        <input type="text" th:field="*{nom}" class="form-control" id="foodName">
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -274,6 +278,7 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script th:src="@{/js/charts-home.js}"></script>
 <script th:src="@{/js/front.js}"></script>
+<script th:src="@{/js/js.js}"></script>
 <script th:src="@{/js/datatables.min.js}"></script>
 <script >
     $(document).ready(function() {
