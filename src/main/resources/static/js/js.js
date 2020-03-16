@@ -26,7 +26,50 @@ var foodNames= [
     "CAPITAINE",
     "THOMPSON",
     "BARS",
-]
+];
+
+var alls = [
+    "MARMITE",
+    "ASSIETTE",
+    "PLAT",
+    "VERRE",
+    "CUILLERE",
+    "FOURCHETTE",
+    "LOUCHE",
+    "POELLE",
+    "SPATTU",
+    "DRAP",
+    "MATELA",
+    "SERVIETTES",
+    "BLOUSE",
+    "PIZZA",
+    "CHAWARMA",
+    "POULET",
+    "CAPITAINE",
+    "THOMPSON",
+    "BARS",
+    "TEMBO",
+    "CASTEL",
+    "33 EXPORT",
+    "NKOYI",
+    "PRIMUS",
+    "LEGENDE",
+    "DOPPEL",
+    "HEINEKEN",
+    "TURBO",
+    "SKOL",
+    "MUTZIG",
+    "BEAUFORT",
+    "MUTZIG KLASS",
+    "COCA COLA",
+    "GRENADINE",
+    "VITALO",
+    "FANTA",
+    "SPRITE",
+    "ORANGE",
+
+];
+
 
 function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
@@ -126,3 +169,4 @@ function autocomplete(inp, arr) {
 }
 autocomplete(document.getElementById("boissonName"), boissonNames);
 autocomplete(document.getElementById("foodName"), foodNames);
+autocomplete(document.getElementById("item"), alls);
