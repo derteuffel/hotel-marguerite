@@ -31,7 +31,7 @@
 </header>
 <div class="d-flex align-items-stretch">
     <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
-    <div class="page-holder w-100 d-flex flex-wrap" style="background-color: #0c525d;">
+    <div class="page-holder w-100 d-flex flex-wrap" style="background-color: #7ccecd;">
         <div class="container-fluid px-xl-5">
             <div class="py-5">
                 <div class="alert-info text-center">
@@ -44,7 +44,7 @@
                         <a th:if="${item.status}==false" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${item.id}">
                             <div  class=" shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
-                                    <div class="text-center" >
+                                    <div class="text-center">
                                         <h2 class="mb-0 badge-success"><span  th:text="${item.numTable}"></span></h2>
                                         <h6 class="mb-0"></h6><span>DISPONIBLE</span>
                                     </div>

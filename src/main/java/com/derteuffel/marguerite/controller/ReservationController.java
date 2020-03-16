@@ -2,12 +2,14 @@ package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.Chambre;
 import com.derteuffel.marguerite.domain.Compte;
+import com.derteuffel.marguerite.domain.Facture;
 import com.derteuffel.marguerite.domain.Reservation;
 import com.derteuffel.marguerite.repository.ChambreRepository;
 import com.derteuffel.marguerite.repository.ReservationRepository;
 import com.derteuffel.marguerite.repository.RoleRepository;
 import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,6 +43,8 @@ public class ReservationController {
 
     @Autowired
     private RoleRepository roleRepository;
+    @Value("${file.upload-dir}")
+    private String fileStorage;
 
     @GetMapping("/all")
     public String findAll(Model model, HttpServletRequest request){
@@ -145,4 +152,6 @@ public class ReservationController {
         return "reservations/detail";
 
     }
+
+
 }
