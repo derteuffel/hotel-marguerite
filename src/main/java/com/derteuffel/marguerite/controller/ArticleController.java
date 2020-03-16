@@ -3,9 +3,11 @@ package com.derteuffel.marguerite.controller;
 import com.derteuffel.marguerite.domain.Article;
 import com.derteuffel.marguerite.domain.Commande;
 import com.derteuffel.marguerite.domain.Bon;
+import com.derteuffel.marguerite.domain.Rapport;
 import com.derteuffel.marguerite.repository.ArticleRepository;
 import com.derteuffel.marguerite.repository.CommandeRepository;
 import com.derteuffel.marguerite.repository.OrderRepository;
+import com.derteuffel.marguerite.repository.RapportRepository;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -23,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -37,6 +41,9 @@ public class ArticleController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private RapportRepository rapportRepository;
 
     @Value("${file.upload-dir}")
     private String fileStorage;
@@ -80,6 +87,13 @@ public class ArticleController {
         articleRepository.save(article);
 
         return "redirect:/hotel/commandes/detail/"+commande.getId();
+    }
+
+    public String rapportPdfGenerator(@PathVariable Long id, Model model){
+        Rapport rapport = rapportRepository.getOne(id);
+
+
+        return "";
     }
 
     @GetMapping("/orders/{id}")
@@ -195,14 +209,8 @@ public class ArticleController {
         return "redirect:"+bon.getPdfTrace();
     }
 
+
     private void addTableHeader(PdfPTable table) {
-        Stream.of("Index", "Denomination", "Quantite")
-                .forEach(columnTitle -> {
-                    PdfPCell header = new PdfPCell();
-                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-                    header.setBorderWidth(2);
-                    header.setPhrase(new Phrase(columnTitle));
-                    table.addCell(header);
-                });
+        RapportController.addTableHeader(table);
     }
 }

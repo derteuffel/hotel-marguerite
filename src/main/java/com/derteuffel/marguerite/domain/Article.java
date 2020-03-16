@@ -16,6 +16,7 @@ public class Article implements Serializable {
     @GeneratedValue
     private Long id;
     private String nom;
+    private String date;
     private Float prixU;
     private Float prixT;
     private  int qty;
