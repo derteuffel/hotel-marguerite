@@ -40,7 +40,7 @@
             </div>
             <section class="py-5">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0" th:each="item: ${lists}">
+                    <div class="col-xl-2 col-lg-4 mb-4 mb-xl-0" th:each="item: ${lists}">
                         <a th:if="${item.status}==false" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${item.id}">
                             <div  class=" shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
