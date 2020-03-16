@@ -23,27 +23,24 @@ public class Rapport implements Serializable {
     private String recette;
     private String resume;
     private String pdfTrace;
-    private ArrayList<String> articles = new ArrayList<>();
-    private String secteur1, secteur2, secteur3;
+    private String secteur1, secteur2, secteur3,secteur4;
 
-    private ArrayList<String> nomLounge =new ArrayList<>();
-    private ArrayList<Float> montantLounge =new ArrayList<>();
-    private ArrayList<Integer> quantitiesLounge =new ArrayList<>();
+    private ArrayList<String> nomLounges =new ArrayList<>();
+    private ArrayList<Float> montantLounges =new ArrayList<>();
+    private ArrayList<Integer> quantitiesLounges =new ArrayList<>();
 
-    private ArrayList<String> nomRestaurant =new ArrayList<>();
-    private ArrayList<Float> montantRestaurant =new ArrayList<>();
-    private ArrayList<Integer> quantitiesRestaurant =new ArrayList<>();
+    private ArrayList<String> nomRestaurants =new ArrayList<>();
+    private ArrayList<Float> montantRestaurants =new ArrayList<>();
+    private ArrayList<Integer> quantitiesRestaurants =new ArrayList<>();
 
-    private ArrayList<String> nomTerrasse =new ArrayList<>();
-    private ArrayList<Float> montantTerrasse =new ArrayList<>();
-    private ArrayList<Integer> quantitiesTerrasse =new ArrayList<>();
+    private ArrayList<String> nomTerrasses =new ArrayList<>();
+    private ArrayList<Float> montantTerrasses =new ArrayList<>();
+    private ArrayList<Integer> quantitiesTerrasses =new ArrayList<>();
 
-    private ArrayList<String> nomAutre =new ArrayList<>();
-    private ArrayList<Float> montantAutre =new ArrayList<>();
-    private ArrayList<Integer> quantitiesAutre =new ArrayList<>();
-    private ArrayList<Float> amounts = new ArrayList<>();
+    private ArrayList<String> nomAutres =new ArrayList<>();
+    private ArrayList<Float> montantAutres =new ArrayList<>();
+    private ArrayList<Integer> quantitiesAutres =new ArrayList<>();
 
-    ArrayList<String> commandes = new ArrayList<>();
     @ManyToOne
     private Compte compte;
 

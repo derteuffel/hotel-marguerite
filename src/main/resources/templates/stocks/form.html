@@ -21,6 +21,7 @@
     <link rel="stylesheet" th:href="@{/css/style.default.css}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <!-- Favicon-->
     <link rel="shortcut icon" th:href="@{/img/favicon.png?3}">
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
@@ -43,11 +44,11 @@
                             </div>
                             <div class="card-body">
 
-                                <form action="#" class="form-horizontal" th:object="${stock}" th:action="@{/hotel/stocks/save/{category}(category=${category})}" th:method="post">
+                                <form  class="form-horizontal" autocomplete="off" th:object="${stock}" th:action="@{/hotel/stocks/save/{category}(category=${category})}" th:method="post">
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Nom</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" id="nom" th:field="*{nom}">
+                                        <div class="col-md-9 autocomplete">
+                                            <input type="text" class="form-control"  th:field="*{nom}" id="item">
                                         </div>
                                     </div>
 
@@ -138,16 +139,6 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script th:src="@{/js/charts-home.js}"></script>
     <script th:src="@{/js/front.js}"></script>
-<script >
-    $(document).ready(function(){
-        $('input[type="radio"]').click(function(){
-            var inputValue = $(this).attr("value");
-            var targetBox = $("." + inputValue);
-            $(".box").not(targetBox).hide();
-            $(".rd").not(targetBox).prop('checked', false);
-            $(targetBox).show();
-        });
-    });
-</script>
+    <script th:src="@{/js/js.js}"></script>
 </body>
 </html>
