@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,16 +42,22 @@ public class RapportController {
 
 
 
-    @GetMapping("/rapport/pdf")
-    public String rapport( String date, Model model){
+    @GetMapping("/rapport")
+    public String rapport( Model model){
         Rapport rapport = new Rapport();
         Date date1 = new Date();
-        List<Article> articles = articleRepository.findAllByDate(date);
-        rapport.setTitle("Rapport Journalier " +date1);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        List<Article> articles = articleRepository.findAllByDate(dateFormat.format(date1));
+        rapport.setTitle("Rapport Journalier ");
+        rapport.setDate(dateFormat.format(date1));
         List<Article> lounges = new ArrayList<>();
         List<Article> restaurants = new ArrayList<>();
         List<Article> terrases = new ArrayList<>();
         List<Article> autres = new ArrayList<>();
+        rapport.setSecteur1("LOUNGE_BAR");
+        rapport.setSecteur2("RESTAURANT");
+        rapport.setSecteur3("TERASSE");
+        rapport.setSecteur4("AUTRES");
 
 
         for (Article article : articles){
@@ -62,87 +70,46 @@ public class RapportController {
             } else {
                 autres.add(article);
             }
+            rapport.setRecette(rapport.getRecette()+article.getPrixT());
 
         }
 
         for(Article article : lounges){
-            rapport.getNomLounge().add(article.getNom());
-            rapport.getQuantitiesLounge().add(article.getQty());
-            rapport.getMontantLounge().add(article.getPrixT());
+            rapport.getNomLounges().add(article.getNom());
+            rapport.getQuantitiesLounges().add(article.getQty());
+            rapport.getMontantLounges().add(article.getPrixT());
 
         }
 
 
         for(Article article : restaurants){
-            rapport.getNomRestaurant().add(article.getNom());
-            rapport.getQuantitiesRestaurant().add(article.getQty());
-            rapport.getMontantRestaurant().add(article.getPrixT());
-
-
+            rapport.getNomRestaurants().add(article.getNom());
+            rapport.getQuantitiesRestaurants().add(article.getQty());
+            rapport.getMontantRestaurants().add(article.getPrixT());
         }
 
         for(Article article : terrases){
-            rapport.getNomTerrasse().add(article.getNom());
-            rapport.getQuantitiesTerrasse().add(article.getQty());
-            rapport.getMontantTerrasse().add(article.getPrixT());
+            rapport.getNomTerrasses().add(article.getNom());
+            rapport.getQuantitiesTerrasses().add(article.getQty());
+            rapport.getMontantTerrasses().add(article.getPrixT());
 
         }
 
         for(Article article : autres){
 
-            rapport.getNomAutre().add(article.getNom());
-            rapport.getQuantitiesAutre().add(article.getQty());
-            rapport.getMontantAutre().add(article.getPrixT());
+            rapport.getNomAutres().add(article.getNom());
+            rapport.getQuantitiesAutres().add(article.getQty());
+            rapport.getMontantAutres().add(article.getPrixT());
 
         }
+
+
          rapportRepository.save(rapport);
+        model.addAttribute("rapport",rapport);
 
-        return "rapports/rapport";
+        return "rapports/detail";
     }
 
-    @GetMapping("/rapport/pdf/{id}")
-    public String rapportPdfGenerator(@PathVariable Long id){
-        Rapport rapport = rapportRepository.getOne(id);
-        Document document = new Document();
-
-        try{
-            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+rapport.getId()+".pdf").toString())));
-            document.open();
-            document.add(new Paragraph("Marguerite Hotel"));
-            document.add(new Paragraph("Secteur :   "+rapport));
-            document.add(new Paragraph("Date du jour :  "+rapport.getDate()));
-            document.add(new Paragraph("Listes des articles et quantites "));
-
-            PdfPTable table = new PdfPTable(4);
-            table.setSpacingBefore(20f);
-            table.setSpacingAfter(20f);
-            addTableHeader(table);
-            int total=0;
-            for (int i = 0; i<rapport.getArticles().size();i++){
-                table.addCell(""+(i+1));
-                table.addCell(""+rapport.getArticles().get(i)+" CDF");
-                table.addCell(""+rapport+" CDF");
-                table.addCell(""+rapport+" CDF");
-                //total=+rapport.getQuantities().get(i);
-                System.out.println("inside the table");
-            }
-            table.addCell("Total");
-            table.addCell("");
-            table.addCell(""+total);
-            //table.addCell(""+rapport.getMontantT()+" CDF");
-
-            document.add(table);
-            document.close();
-            System.out.println("the job is done!!!");
-
-        } catch (FileNotFoundException | DocumentException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        rapportRepository.save(rapport);
-        return "";
-    }
 
 
 

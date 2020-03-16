@@ -69,6 +69,7 @@ public class ArticleController {
         System.out.println(commande.getMontantT());
         commande.setMontantT(commande.getMontantT() + article.getPrixT());
         article.setCommande(commande);
+        article.setDate(commande.getDate());
         article.setType(type.toUpperCase());
         articleRepository.save(article);
         commandeRepository.save(commande);
