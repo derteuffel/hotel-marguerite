@@ -2,6 +2,12 @@
 body {
     font: 16px Arial;
 }
+ body #accueil {
+
+
+ }
+
+
 .autocomplete {
     /*the container must be positioned relative:*/
     position: relative;
@@ -47,3 +53,105 @@ input[type=submit] {
     background-color: DodgerBlue !important;
     color: #ffffff;
 }
+
+
+.gallery-single{
+    margin: 30px 15px;;
+}
+
+.gallery-single {
+    position: relative;
+    overflow: hidden;
+    border-radius: 100px 100px 0px 100px;
+    -webkit-box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.gallery-list .img-overlay {
+    border-radius: 100px 100px 0px 100px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background: rgba(40, 169, 226, 0.80);
+    color: #35424C;
+    opacity: 0;
+    -webkit-transition: all .5s;
+    transition: all .5s;
+    z-index: 2;
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+}
+
+.gallery-list .gallery-single:hover .img-overlay {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.gallery-list .gallery-single:hover .img-overlay .hoverbutton{
+    opacity: 1;
+    top: 50%;
+}
+
+
+.main-banner{
+    height: 100%;
+    position: relative;
+}
+
+.main-banner{
+    display: table;
+    width: 100%;
+    text-align: center;
+}
+
+.heading{
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+}
+.heading h1{
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 62px;
+    text-transform: capitalize;
+}
+.heading p{
+    font-size: 18px;
+    padding: 20px 0px;
+}
+
+.heading h3{
+    color: #ffffff;
+}
+
+/* --------------------------------
+
+xclip
+
+-------------------------------- */
+.cd-headline.clip span {
+    display: inline-block;
+    padding: .2em 0;
+    color: #ffffff;
+    font-size: 30px;
+}
+.cd-headline.clip span b{
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.cd-headline.clip .cd-words-wrapper::after {
+    /* line */
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background-color: #aebcb9;
+}
+
