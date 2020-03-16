@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article,Long> {
     List<Article> findAllByCommande_Id(Long id);
+    List<Article> findAllByDate(String date);
 }
