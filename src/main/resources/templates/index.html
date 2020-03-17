@@ -48,7 +48,7 @@
             <div class="gallery-list row">
               <div class="col-md-4 col-sm-6 gallery-grid gal_a gal_b">
                 <div class="gallery-single fix">
-                  <img th:src="@{img/cuisine.jpeg}" class="img-fluid" alt="Image">
+                  <img th:src="@{img/cuisine.jpg}" class="img-fluid" alt="Image">
                   <div class="img-overlay">
                     <a href="#" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
                   </div>
@@ -57,9 +57,9 @@
 
               <div class="col-md-4 col-sm-6 gallery-grid gal_c gal_b">
                 <div class="gallery-single fix">
-                  <img th:src="@{img/bedroom.jpeg}"  class="img-fluid" alt="Image">
+                  <img th:src="@{img/bedroom.jpg}"  class="img-fluid" alt="Image">
                   <div class="img-overlay">
-                    <a href="#" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
+                    <a th:href="@{/hotel/chambres/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
                   </div>
                 </div>
               </div>
@@ -68,7 +68,7 @@
                 <div class="gallery-single fix">
                   <img  class="img-fluid" th:src="@{img/piscine.jpg}" alt="Image">
                   <div class="img-overlay">
-                    <a href="#" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
+                    <a th:href="@{/hotel/piscines/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
                   </div>
                 </div>
               </div>
@@ -77,7 +77,7 @@
                 <div class="gallery-single fix">
                   <img th:src="@{img/bar.jpeg}"  class="img-fluid" alt="Image">
                   <div class="img-overlay">
-                    <a href="#" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
+                    <a th:href="@{/hotel/commandes/lounge_bar/orders}"  data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
                   </div>
                 </div>
               </div>
@@ -86,16 +86,16 @@
                 <div class="gallery-single fix">
                   <img th:src="@{img/restaurant.jpg}"  class="img-fluid" alt="Image">
                   <div class="img-overlay">
-                    <a href="#" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
+                    <a  th:href="@{/hotel/commandes/restaurant/orders}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-4 col-sm-6 gallery-grid gal_c gal_a">
                 <div class="gallery-single fix">
-                  <img th:src="@{img/couverts.jpg}" class="img-fluid" alt="Image">
+                  <img th:src="@{img/economat.jpg}" class="img-fluid" alt="Image">
                   <div class="img-overlay">
-                    <a href="#" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
+                    <a  th:href="@{/hotel/stocks/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
                   </div>
                 </div>
               </div>
