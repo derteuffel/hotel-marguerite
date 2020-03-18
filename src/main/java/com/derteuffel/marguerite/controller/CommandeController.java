@@ -226,8 +226,8 @@ public class CommandeController {
             int total=0;
             for (int i = 0; i<facture.getArticles().size();i++){
                 table.addCell(""+(i+1));
-                table.addCell(""+facture.getArticles().get(i)+" CDF");
-                table.addCell(""+facture.getQuantities().get(i)+" CDF");
+                table.addCell(""+facture.getArticles().get(i));
+                table.addCell(""+facture.getQuantities().get(i));
                 table.addCell(""+facture.getPrices().get(i)+" CDF");
                 total=+facture.getQuantities().get(i);
                 System.out.println("inside the table");
@@ -243,13 +243,14 @@ public class CommandeController {
             document.add(new Paragraph("Bien vouloir livrer ces articles a la table cite en haut "));
             document.close();
             System.out.println("the job is done!!!");
-
+            facture.setBillTrace("/downloadFile/"+facture.getNumCmd()+facture.getId()+".pdf");
+            factureRepository.save(facture);
         } catch (FileNotFoundException | DocumentException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("je suis la ici");
+
         model.addAttribute("facture",facture);
         return "commandes/facture";
     }
