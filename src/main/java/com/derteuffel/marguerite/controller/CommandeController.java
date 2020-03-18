@@ -243,14 +243,13 @@ public class CommandeController {
             document.add(new Paragraph("Bien vouloir livrer ces articles a la table cite en haut "));
             document.close();
             System.out.println("the job is done!!!");
-            facture.setBillTrace("/downloadFile/"+facture.getNumCmd()+facture.getId()+".pdf");
-            factureRepository.save(facture);
+
         } catch (FileNotFoundException | DocumentException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        System.out.println("je suis la ici");
         model.addAttribute("facture",facture);
         return "commandes/facture";
     }

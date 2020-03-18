@@ -128,7 +128,7 @@ public class ChambreController {
     public String reservationPdf(@PathVariable Long id){
         Facture facture = factureRepository.getOne(id);
         Document document = new Document();
-        try{
+       /* try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getNumCmd()+facture.getId()+".pdf").toString())));
             document.open();
             document.add(new Paragraph("Marguerite Hotel"));
@@ -144,7 +144,7 @@ public class ChambreController {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         facture.setBillTrace("/downloadFile/"+facture.getNumCmd()+facture.getId()+".pdf");
         factureRepository.save(facture);
         return "redirect:"+facture.getBillTrace();
