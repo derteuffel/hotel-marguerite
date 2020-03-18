@@ -103,34 +103,51 @@ public class ArticleController {
         Optional<Bon> existDrinks = orderRepository.findBySecteurAndCommande_Id("DRINK",id);
         Optional<Bon> existFoods = orderRepository.findBySecteurAndCommande_Id("FOOD",id);
 
-        if (existDrinks.isPresent() || existFoods.isPresent()){
-            model.addAttribute("commande",commande);
+        model.addAttribute("commande",commande);
+        if (existDrinks.isPresent()){
             model.addAttribute("drinks",existDrinks.get());
-            model.addAttribute("foods",existFoods.get());
         }else {
+            List<Bon> nullDrinks = orderRepository.findAllBySecteur(null);
+            if (!(nullDrinks.isEmpty())) {
+                orderRepository.deleteAll(nullDrinks);
+            }
             Bon drinks = new Bon();
-            Bon foods = new Bon();
             for (Article item : commande.getArticles()) {
                 if (item.getType().equals("DRINK")) {
                     drinks.setSecteur(item.getType());
                     drinks.setCommande(commande);
+                    drinks.setNumBon("BD"+(orderRepository.findAllBySecteur("DRINK").size()+1));
                     drinks.getItems().add(item.getNom());
                     drinks.getQuantities().add(item.getQty());
                     drinks.setNumTable(commande.getNumTable());
-                } else {
+                }
+            }
+            orderRepository.save(drinks);
+            model.addAttribute("drinks", drinks);
+        }
+
+        if (existFoods.isPresent()){
+            model.addAttribute("foods",existFoods.get());
+        }else {
+            List<Bon> nullFoods = orderRepository.findAllBySecteur(null);
+            if (!(nullFoods.isEmpty())) {
+                orderRepository.deleteAll(nullFoods);
+            }
+            Bon foods = new Bon();
+            for (Article item : commande.getArticles()) {
+                if (item.getType().equals("FOOD")) {
                     foods.setSecteur(item.getType());
                     foods.setCommande(commande);
+                    foods.setNumBon("BF"+(orderRepository.findAllBySecteur("FOOD").size()+1));
                     foods.getItems().add(item.getNom());
                     foods.getQuantities().add(item.getQty());
                     foods.setNumTable(commande.getNumTable());
                 }
             }
-            orderRepository.save(drinks);
             orderRepository.save(foods);
-            model.addAttribute("commande", commande);
-            model.addAttribute("drinks", drinks);
             model.addAttribute("foods", foods);
         }
+
 
         return "commandes/orders";
 
@@ -181,10 +198,13 @@ public class ArticleController {
             document.open();
             document.add(new Paragraph("Marguerite Hotel"));
             document.add(new Paragraph("Secteur :   "+bon.getCommande().getSecteur()));
-            document.add(new Paragraph("Table Numero :  "+bon.getCommande().getNumTable()));
+            document.add(new Paragraph("Numero Table :  "+bon.getCommande().getNumTable()));
+            document.add(new Paragraph("Numero du bon :  "+bon.getNumBon()));
             document.add(new Paragraph("Listes des articles et quantites "));
 
             PdfPTable table = new PdfPTable(3);
+            table.setSpacingAfter(20f);
+            table.setSpacingBefore(20f);
             addTableHeader(table);
             for (int i = 0; i<bon.getItems().size();i++){
                 table.addCell(""+(i+1));
@@ -207,7 +227,12 @@ public class ArticleController {
         bon.setPdfTrace("/downloadFile/"+bon.getSecteur()+bon.getId()+".pdf");
         orderRepository.save(bon);
 
-        return "redirect:"+bon.getPdfTrace();
+        return "redirect:/hotel/articles/orders/"+bon.getCommande().getId();
+    }
+
+    @GetMapping("/orders/print/{id}")
+    public String buildPdf(@PathVariable Long id){
+        return "redirect:"+orderRepository.getOne(id).getPdfTrace();
     }
 
 

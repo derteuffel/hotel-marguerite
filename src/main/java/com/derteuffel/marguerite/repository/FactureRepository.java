@@ -11,5 +11,6 @@ public interface FactureRepository extends JpaRepository<Facture, Long> {
     Facture findByNumCmdAndCommande_Id(String num,Long id);
     List<Facture> findAllByDate(String date);
     List<Facture> findAllByNumeroTable(int number);
+    List<Facture> findAllByMontantTAndBillTraceAndCommande_Id(Double montant,String trace, Long id);
 
 }

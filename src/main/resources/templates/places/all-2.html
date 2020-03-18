@@ -68,7 +68,7 @@
                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body" th:each="commande :${item.commandes}" >
-                                        <div th:if="${commande.status}==false">
+                                        <div th:if="${commande.status}==true">
                                             <div class="form-group">
                                                 <label>Numéro:</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <strong th:text="${commande.numero}"></strong>
@@ -99,11 +99,12 @@
                                                 <strong th:text="${commande.montantT}"></strong>
                                             </div>
                                         </div>
+                                        <div th:unless="${commande.status}==true"></div>
                                     </div>
                                     <div class="modal-footer" >
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
                                         <a th:if="${item.status}!=true" th:href="@{/hotel/commandes/save/{id}(id=${item.id})}"  class="btn btn-primary">Nouvelle commande</a>
-                                        <a th:unless="${item.status}!=true" th:href="@{/hotel/commandes/{numTable}/{status}(numTable=${item.numTable},status=false)}"  class="btn btn-primary">Voir commande</a>
+                                        <a th:unless="${item.status}!=true" th:href="@{/hotel/commandes/{numTable}/{status}(numTable=${item.numTable},status=true)}"  class="btn btn-primary">Voir commande</a>
                                     </div>
                                 </div>
                             </div>

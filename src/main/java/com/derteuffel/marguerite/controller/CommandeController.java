@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -147,7 +148,7 @@ public class CommandeController {
     }
 
     @GetMapping("/bill/{id}")
-    public String getBill(@PathVariable Long id, Model model){
+    public String getBill(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
         Commande commande = commandeRepository.getOne(id);
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
@@ -163,6 +164,7 @@ public class CommandeController {
         Place place = commande.getPlace();
         Facture existFacture = factureRepository.findByNumCmdAndCommande_Id(commande.getNumero(),id);
         if (existFacture != null){
+            System.out.println("Je suis ici "+existFacture.getNumCmd());
             existFacture.setArticles(names);
             existFacture.setPrices(amounts);
             existFacture.setQuantities(quantities);
@@ -176,18 +178,24 @@ public class CommandeController {
             factureRepository.save(existFacture);
             model.addAttribute("facture", existFacture);
         }else {
-            facture.setArticles(names);
-            facture.setPrices(amounts);
-            facture.setQuantities(quantities);
-            facture.setCommande(commande);
-            facture.setDate(dateFormat.format(date));
-            facture.setMontantT(commande.getMontantT());
-            facture.setMontantVerse(commande.getMontantV());
-            facture.setRemboursement(commande.getRembourse());
-            facture.setNumCmd(commande.getNumTable());
-            facture.setNumeroTable(commande.getNumTable());
-            factureRepository.save(facture);
-            model.addAttribute("facture", facture);
+            System.out.println(commande.getMontantV());
+            if (commande.getMontantV() != null) {
+                facture.setArticles(names);
+                facture.setPrices(amounts);
+                facture.setQuantities(quantities);
+                facture.setCommande(commande);
+                facture.setDate(dateFormat.format(date));
+                facture.setMontantT(commande.getMontantT());
+                facture.setMontantVerse(commande.getMontantV());
+                facture.setRemboursement(commande.getRembourse());
+                facture.setNumCmd(commande.getNumTable());
+                facture.setNumeroTable(commande.getNumTable());
+                factureRepository.save(facture);
+                model.addAttribute("facture", facture);
+            }else {
+                redirectAttributes.addFlashAttribute("error","Vous ne pouvez pas produire de facture sans montant verse");
+                return "redirect:/hotel/commandes/detail/"+commande.getId();
+            }
         }
         place.setStatus(false);
         commande.setStatus(false);
@@ -198,7 +206,7 @@ public class CommandeController {
     }
 
     @GetMapping("/bills/{id}")
-    public String billPdfGenerator(@PathVariable Long id){
+    public String billPdfGenerator(@PathVariable Long id, Model model){
         Facture facture = factureRepository.getOne(id);
         Document document = new Document();
         try{
@@ -209,7 +217,7 @@ public class CommandeController {
             document.add(new Paragraph("Commande Numero :   "+facture.getNumCmd()));
             document.add(new Paragraph("Table Numero :  "+facture.getNumeroTable()));
             document.add(new Paragraph("Date du jour :  "+facture.getDate()));
-            document.add(new Paragraph("Listes des articles et quantites "));
+            document.add(new Paragraph("Liste des articles et quantites "));
 
             PdfPTable table = new PdfPTable(4);
             table.setSpacingBefore(20f);
@@ -232,18 +240,19 @@ public class CommandeController {
             document.add(table);
             document.add(new Paragraph("Montant verse : "+facture.getMontantVerse()));
             document.add(new Paragraph("Montant rembourse : "+facture.getRemboursement()));
-            document.add(new Paragraph("Bien vouloir livrer ces articles a la table citer en haut "));
+            document.add(new Paragraph("Bien vouloir livrer ces articles a la table cite en haut "));
             document.close();
             System.out.println("the job is done!!!");
-
+            facture.setBillTrace("/downloadFile/"+facture.getNumCmd()+facture.getId()+".pdf");
+            factureRepository.save(facture);
         } catch (FileNotFoundException | DocumentException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        facture.setBillTrace("/downloadFile/"+facture.getNumCmd()+facture.getId()+".pdf");
-        factureRepository.save(facture);
-        return "redirect:"+facture.getBillTrace();
+
+        model.addAttribute("facture",facture);
+        return "commandes/facture";
     }
 
     private void addTableHeader(PdfPTable table) {

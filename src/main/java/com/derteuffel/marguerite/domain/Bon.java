@@ -18,6 +18,7 @@ public class Bon implements Serializable {
     private String secteur;
     private String numTable;
     private String pdfTrace;
+    private String numBon;
     private ArrayList<String> items = new ArrayList<>();
     private ArrayList<Integer> quantities = new ArrayList<>();
 
