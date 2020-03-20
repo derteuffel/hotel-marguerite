@@ -41,6 +41,26 @@ public class PlaceController {
         return "places/all-2";
     }
 
+    @GetMapping("/restaurant/all")
+    public String restaurantAdmin(Model model){
+        model.addAttribute("secteur",ESecteur.RESTAURANT.toString());
+        model.addAttribute("places", placeRepository.findAllBySecteur(ESecteur.RESTAURANT.toString()));
+        return "places/all";
+    }
+
+    @GetMapping("/terasse/all")
+    public String terasseAdmin(Model model){
+        model.addAttribute("secteur",ESecteur.TERASSE.toString());
+        model.addAttribute("places", placeRepository.findAllBySecteur(ESecteur.TERASSE.toString()));
+        return "places/all";
+    }
+    @GetMapping("/lounge_bar/all")
+    public String lounge_barAdmin(Model model){
+        model.addAttribute("secteur",ESecteur.LOUNGE_BAR.toString());
+        model.addAttribute("places", placeRepository.findAllBySecteur(ESecteur.LOUNGE_BAR.toString()));
+        return "places/all";
+    }
+
     @GetMapping("/lounge_bar/orders")
     public String lounge_bar(Model model){
         model.addAttribute("secteur",ESecteur.LOUNGE_BAR.toString());
@@ -60,20 +80,22 @@ public class PlaceController {
         return "places/form";
     }
 
-    @PostMapping("/save")
-    public String save(@Valid Place place, RedirectAttributes redirectAttributes){
+    @GetMapping("/save/{secteur}")
+    public String save( @PathVariable String secteur, RedirectAttributes redirectAttributes){
 
-        if (place.getSecteur().contains("TERASSE")){
+        Place place = new Place();
+        if (secteur.contains("TERASSE")){
             place.setNumTable(("TR"+(placeRepository.findAllBySecteur("TERASSE").size()+1)).toUpperCase());
-        }else if (place.getSecteur().contains("LOUNGE_BAR")){
+        }else if (secteur.contains("LOUNGE_BAR")){
             place.setNumTable(("LB"+(placeRepository.findAllBySecteur("LOUNGE_BAR").size()+1)).toUpperCase());
         }else {
             place.setNumTable(("RS"+(placeRepository.findAllBySecteur("RESTAURANT").size()+1)).toUpperCase());
         }
         place.setStatus(false);
+        place.setSecteur(secteur);
         placeRepository.save(place);
         redirectAttributes.addFlashAttribute("success", "You've been save your data successfully");
-        return "redirect:/hotel/places/all";
+        return "redirect:/hotel/places/"+secteur.toLowerCase()+"/all";
     }
 
     @GetMapping("/edit/{id}")

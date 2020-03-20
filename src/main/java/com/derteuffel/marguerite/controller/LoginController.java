@@ -1,10 +1,14 @@
 package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.Compte;
+import com.derteuffel.marguerite.domain.Role;
 import com.derteuffel.marguerite.helpers.CompteRegistrationDto;
+import com.derteuffel.marguerite.repository.CompteRepository;
+import com.derteuffel.marguerite.repository.RoleRepository;
 import com.derteuffel.marguerite.services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +21,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class LoginController {
@@ -25,6 +32,12 @@ public class LoginController {
     private CompteService compteService;
     @Value("${file.upload-dir}")
     private  String fileStorage;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private CompteRepository compteRepository;
 
     @ModelAttribute("compte")
     public CompteRegistrationDto compteRegistrationDto(){
@@ -82,5 +95,31 @@ public class LoginController {
         Compte compte = compteService.findByUsername(username);
         model.addAttribute("compte",compte);
         return "compte/profile";
+    }
+
+
+    @GetMapping("/accounts")
+    public String all(Model model){
+        List<Compte> compteList = compteRepository.findAll(Sort.by(Sort.Direction.ASC,"username"));
+        model.addAttribute("lists",compteList);
+        return "user/accounts";
+    }
+
+    @GetMapping("/accounts/change/{id}")
+    public String changeRole(String role, @PathVariable Long id){
+        Compte compte = compteRepository.getOne(id);
+        compte.getRoles().clear();
+        Optional<Role> role1 = roleRepository.findByName(role);
+        if (role1.isPresent()){
+            compte.getRoles().add(role1.get());
+
+        }else {
+            Role role2 = new Role();
+            role2.setName(role);
+            roleRepository.save(role2);
+            compte.getRoles().add(role2);
+        }
+        compteRepository.save(compte);
+        return "redirect:/accounts";
     }
 }

@@ -44,35 +44,20 @@ public class DistributionController {
         return "distributions/new";
     }
 
-    @PostMapping("/save")
-    public String save(@Valid Distribution distribution){
+    @PostMapping("/save/{id}")
+    public String save(@Valid Distribution distribution, @PathVariable Long id){
+        Stock stock = stockRepository.getOne(id);
+        distribution.setStock(stock);
+        distribution.setNom(stock.getNom());
+        stock.setQty((stock.getQty() - distribution.getQty()));
         distributionRepository.save(distribution);
+        stockRepository.save(stock);
         return "redirect:/hotel/distributions/all"  ;
     }
 
-    @GetMapping("/edit/{id}")
-    public String updatedDistribution(Model model, @PathVariable Long id){
-        Distribution distribution =  distributionRepository.findById(id).get();
-        model.addAttribute("distribution", distribution);
-        return "distributions/edit";
-    }
 
-    @PostMapping("/update/{id}")
-    public String save(@Valid Distribution distribution, @PathVariable("id") Long id,
-                       BindingResult result, Model model, HttpSession session, String nom, String secteur, String date, int qty ){
-        Stock stock = stockRepository.getOne((Long)session.getAttribute("id"));
-        Compte compte = compteRepository.getOne((Long)session.getAttribute("id"));
-        distribution.setNom(nom);
-        distribution.setSecteur(secteur);
-        distribution.setDate(date);
-        distribution.setQty(qty);
-        distribution.setStock(stock);
-        distribution.setCompte(compte);
-       distributionRepository.save(distribution);
-        model.addAttribute("distributions", distributionRepository.findAll());
-        return "redirect:/hotel/distributions/all";
 
-    }
+
 
     @GetMapping("/delete/{id}")
     public String deleteById(@PathVariable Long id, Model model, HttpSession session) {

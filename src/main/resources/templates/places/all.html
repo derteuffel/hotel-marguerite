@@ -41,12 +41,12 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <h3 class="h6 text-uppercase mb-0">Liste des tables</h3>
+                                        <h3 class="h6 text-uppercase mb-0">Liste des tables  <span th:text="${secteur}"></span></h3>
                                         <span class="text-danger" th:text="${error}"></span>
                                         <p class="text-success" th:text="${success}"></p>
                                     </div>
                                     <div class="button col-md-2">
-                                        <a class="btn btn-outline-blue" th:href="@{/hotel/places/form}" >Nouvelle table</a>
+                                        <a class="btn btn-outline-blue" th:href="@{/hotel/places/save/}+${secteur}" >Nouvelle table</a>
                                     </div>
                                 </div>
                             </div>

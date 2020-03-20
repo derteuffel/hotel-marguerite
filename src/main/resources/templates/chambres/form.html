@@ -45,15 +45,6 @@
 
                                 <form action="#" class="form-horizontal" th:object="${chambre}" th:action="@{/hotel/chambres/save}" th:method="post">
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Numéro de la chambre</label>
-                                        <div class="col-md-9">
-                                            <select th:field="*{numero}" class="form-control" >
-                                                <option th:each="num : ${T(com.derteuffel.marguerite.enums.EChambre).values()}" th:value="${num}" th:text="${num}"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Categorie</label>
                                         <div class="col-md-9">
                                             <select th:field="*{categorie}" class="form-control" >

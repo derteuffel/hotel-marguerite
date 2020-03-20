@@ -9,7 +9,6 @@ import com.derteuffel.marguerite.repository.CommandeRepository;
 import com.derteuffel.marguerite.repository.OrderRepository;
 import com.derteuffel.marguerite.repository.RapportRepository;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/hotel/articles")
@@ -50,9 +47,9 @@ public class ArticleController {
 
     @GetMapping("/all")
     public String findAll(Model model){
-        model.addAttribute("articles", commandeRepository.findAll());
+        model.addAttribute("articles", articleRepository.findAll());
 
-        return "articles/articlesList";
+        return "articles/all";
     }
 
     @GetMapping("/form/{id}")

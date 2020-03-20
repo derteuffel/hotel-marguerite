@@ -93,6 +93,30 @@ public class CommandeController {
         return "commandes/all-2";
     }
 
+    @GetMapping("/restaurant/all")
+    public String restaurantAdmin(Model model){
+        model.addAttribute("secteur",ESecteur.RESTAURANT.toString());
+        List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.RESTAURANT.toString(),true);
+        model.addAttribute("commandes", commandes);
+        return "commandes/all";
+    }
+
+    @GetMapping("/lounge_bar/all")
+    public String lounge_barAdmin(Model model){
+        model.addAttribute("secteur",ESecteur.LOUNGE_BAR.toString());
+        List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.LOUNGE_BAR.toString(),true);
+        model.addAttribute("commandes", commandes);
+        return "commandes/all";
+    }
+
+    @GetMapping("/terasse/all")
+    public String terasseAdmin(Model model){
+        model.addAttribute("secteur",ESecteur.TERASSE.toString());
+        List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.TERASSE.toString(),true);
+        model.addAttribute("commandes", commandes);
+        return "commandes/all";
+    }
+
 
 
     @GetMapping("/save/{id}")

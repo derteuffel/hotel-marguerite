@@ -112,13 +112,18 @@ public class StockController {
     public String findAllByCategorie(@PathVariable String categorie, Model model, RedirectAttributes redirectAttributes) {
         List<Stock> stocks = new ArrayList<>();
                 stockRepository.findAllByCategorie(categorie).forEach(stocks :: add);
-                if ( stocks.isEmpty()) {
-                    redirectAttributes.addFlashAttribute("error","There are no elemennt in this category:"+categorie);
-                    return "redirect:/hotel/stocks/all";
-                }else {
-                 model.addAttribute("stocks",stocks);
-                 return "stocks/all";
-                }
+        model.addAttribute("aliments",stockRepository.findAllByCategorie("ALIMENTS"));
+        model.addAttribute("boissons",stockRepository.findAllByCategorie("BOISSONS"));
+        model.addAttribute("couverts",stockRepository.findAllByCategorie("COUVERTS"));
+        model.addAttribute("lingeries",stockRepository.findAllByCategorie("LINGERIES"));
+        model.addAttribute("autres",stockRepository.findAllByCategorie("AUTRES"));
+        if (stocks.isEmpty()){
+            model.addAttribute("error","Aucun element trouver dans la categorie :"+categorie);
+        }
+        model.addAttribute("category",categorie);
+        model.addAttribute("stocks",stocks);
+        return "stocks/all";
+
 
     }
 

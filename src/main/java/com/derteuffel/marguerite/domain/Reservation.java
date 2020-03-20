@@ -29,6 +29,8 @@ public class Reservation implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateFin;
     private Boolean status;
+    private String numReservation;
+    private String billTrace;
     private Double prixU;
     private Double prixT;
     private Date dateJour = new Date();

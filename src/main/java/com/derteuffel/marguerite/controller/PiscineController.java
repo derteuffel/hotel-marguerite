@@ -35,6 +35,7 @@ public class PiscineController {
     @PostMapping("/save")
     public String save(Piscine piscine, RedirectAttributes redirectAttributes) {
 
+        piscine.setPrixT(piscine.getPrixU() * piscine.getNbreHeure());
         piscineRepository.save(piscine);
         redirectAttributes.addFlashAttribute("success","You've been save your data successfully");
         return "redirect:/hotel/piscines/all";
@@ -50,6 +51,7 @@ public class PiscineController {
     @PostMapping("/update")
     public String update(Piscine piscine, RedirectAttributes redirectAttributes){
 
+        piscine.setPrixT(piscine.getPrixU() * piscine.getNbreHeure());
         piscineRepository.save(piscine);
         redirectAttributes.addFlashAttribute("suuccess","You've been save your data successfully");
         return "redirect:/hotel/piscines/all";

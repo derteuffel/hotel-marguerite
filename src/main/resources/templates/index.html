@@ -46,20 +46,20 @@
           </section>
           <section class="py-5">
             <div class="gallery-list row">
-              <div class="col-md-4 col-sm-6 gallery-grid gal_a gal_b text-center">
-                <a href="#" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+              <div th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="col-md-4 col-sm-6 gallery-grid gal_a gal_b text-center">
+                <a th:href="@{/hotel/chambres/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
                 <div class="gallery-single fix">
-                  <img th:src="@{img/cuisine.jpg}" class="img-fluid" alt="Image">
+                  <img th:src="@{img/illustration.svg}" class="img-fluid" alt="Image">
                   <div class="img-overlay text-center py-5">
-                    <h3>RESTAURANT</h3>
+                    <h3>ADMINISTRATION</h3>
                   </div>
                 </div>
                 </a>
-                <h3>RESTAURANT</h3>
+                <h3>ADMINISTRATION</h3>
               </div>
 
-              <div class="col-md-4 col-sm-6 gallery-grid gal_c gal_b text-center">
-                <a th:href="@{/hotel/chambres/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+              <div th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_RESERVATION'" class="col-md-4 col-sm-6 gallery-grid gal_c gal_b text-center">
+                <a  th:href="@{/hotel/chambres/bedroom}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
                   <div class="gallery-single fix">
                   <img th:src="@{img/bedroom.jpg}"  class="img-fluid" alt="Image">
                   <div class="img-overlay text-center py-5">
@@ -70,8 +70,8 @@
                 <h3>GESTION CHAMBRES</h3>
               </div>
 
-              <div class="col-md-4 col-sm-6 gallery-grid gal_a gal_c text-center">
-                <a th:href="@{/hotel/piscines/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+              <div th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_RESERVATION'" class="col-md-4 col-sm-6 gallery-grid gal_a gal_c text-center">
+                <a  th:href="@{/hotel/piscines/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
                   <div class="gallery-single fix">
                   <img  class="img-fluid" th:src="@{img/piscine.jpg}" alt="Image">
                   <div class="img-overlay text-center py-5">
@@ -83,7 +83,7 @@
               </div>
 
               <div class="col-md-4 col-sm-6 gallery-grid gal_b gal_a text-center">
-                <a th:href="@{/hotel/places/lounge_bar/orders}"  data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+                <a th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_LOUNGE_BAR'" th:href="@{/hotel/places/lounge_bar/orders}"  data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
                 <div class="gallery-single fix">
                   <img th:src="@{img/bar.jpeg}"  class="img-fluid" alt="Image">
                   <div class="img-overlay text-center py-5">
@@ -95,7 +95,7 @@
               </div>
 
               <div class="col-md-4 col-sm-6 gallery-grid gal_a gal_c text-center">
-                <a  th:href="@{/hotel/places/restaurant/orders}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+                <a th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_RESTAURANT'" th:href="@{/hotel/places/restaurant/orders}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
                 <div class="gallery-single fix">
                   <img th:src="@{img/restaurant.jpg}"  class="img-fluid" alt="Image">
                   <div class="img-overlay text-center py-5">
@@ -106,8 +106,20 @@
                 <h3>RESTAURANT</h3>
               </div>
 
+              <div class="col-md-4 col-sm-6 gallery-grid gal_a gal_c text-center">
+                <a th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_TERASSE'" th:href="@{/hotel/places/terasse/orders}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+                  <div class="gallery-single fix">
+                    <img th:src="@{img/restaurant.jpg}"  class="img-fluid" alt="Image">
+                    <div class="img-overlay text-center py-5">
+                      <h3>RESTAURANT</h3>
+                    </div>
+                  </div>
+                </a>
+                <h3>TERASSE</h3>
+              </div>
+
               <div class="col-md-4 col-sm-6 gallery-grid gal_c gal_a text-center">
-                <a  th:href="@{/hotel/stocks/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+                <a th:if="${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ECONOMAT'" th:href="@{/hotel/stocks/all}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
                 <div class="gallery-single fix">
                   <img th:src="@{img/economat.jpg}" class="img-fluid" alt="Image">
                   <div class="img-overlay text-center py-5">

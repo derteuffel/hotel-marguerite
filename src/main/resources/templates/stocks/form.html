@@ -45,24 +45,34 @@
                             <div class="card-body">
 
                                 <form  class="form-horizontal" autocomplete="off" th:object="${stock}" th:action="@{/hotel/stocks/save/{category}(category=${category})}" th:method="post">
-                                    <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Nom</label>
-                                        <div class="col-md-9 autocomplete">
-                                            <input type="text" class="form-control"  th:field="*{nom}" id="item">
+
+                                    <div class="line"></div>
+                                    <div th:if="${category}=='ALIMENTS'">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">Nom</label>
+                                            <div class="col-md-9 autocomplete">
+                                                <input type="text" class="form-control"  th:field="*{nom}" id="foodName">
+                                            </div>
+                                        </div>
+                                        <div  class="form-group  row">
+                                            <label class="col-md-3 form-control-label">Type</label>
+                                            <div class="col-md-9">
+                                                <select th:field="*{type}" class="form-control" >
+                                                    <option value="">Choisir</option>
+                                                    <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeAliment).values()}" th:text="${type}" th:value="${type}"></option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="line"></div>
-                                    <div th:if="${category}=='ALIMENTS'" class="form-group  row">
-                                        <label class="col-md-3 form-control-label">Type</label>
-                                        <div class="col-md-9">
-                                            <select th:field="*{type}" class="form-control" >
-                                                <option value="">Choisir</option>
-                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeAliment).values()}" th:text="${type}" th:value="${type}"></option>
-                                            </select>
+                                    <div th:if="${category}=='BOISSONS'">
+                                        <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Nom</label>
+                                        <div class="col-md-9 autocomplete">
+                                            <input type="text" class="form-control"  th:field="*{nom}" id="boissonName">
                                         </div>
                                     </div>
-                                    <div th:if="${category}=='BOISSONS'" class="form-group row" >
+                                        <div  class="form-group row" >
                                         <label class="col-md-3 form-control-label">Type</label>
                                         <div class="col-md-9">
                                             <select th:field="*{type}" class="form-control" >
@@ -71,33 +81,60 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div th:if="${category}=='COUVERTS'" class="form-group row"  >
-                                        <label class="col-md-3 form-control-label">Type</label>
-                                        <div class="col-md-9">
-                                            <select th:field="*{type}" class="form-control" >
-                                                <option value="">Choisir</option>
-                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeCouvert).values()}" th:text="${type}" th:value="${type}"></option>
-                                            </select>
+                                    </div>
+                                    <div th:if="${category}=='COUVERTS'">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">Nom</label>
+                                            <div class="col-md-9 autocomplete">
+                                                <input type="text" class="form-control"  th:field="*{nom}" id="couvertName">
+                                            </div>
+                                        </div>
+                                        <div  class="form-group row"  >
+                                            <label class="col-md-3 form-control-label">Type</label>
+                                            <div class="col-md-9">
+                                                <select th:field="*{type}" class="form-control" >
+                                                    <option value="">Choisir</option>
+                                                    <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeCouvert).values()}" th:text="${type}" th:value="${type}"></option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div th:if="${category}=='LINGERIES'" class="form-group  row"  >
-                                        <label class="col-md-3 form-control-label">Type</label>
-                                        <div class="col-md-9">
-                                            <select th:field="*{type}" class="form-control" >
-                                                <option value="">Choisir</option>
-                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeLingerie).values()}" th:text="${type}" th:value="${type}"></option>
-                                            </select>
+                                    <div th:if="${category}=='LINGERIES'">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">Nom</label>
+                                            <div class="col-md-9 autocomplete">
+                                                <input type="text" class="form-control"  th:field="*{nom}" id="lingerieName">
+                                            </div>
+                                        </div>
+                                        <div  class="form-group  row"  >
+                                            <label class="col-md-3 form-control-label">Type</label>
+                                            <div class="col-md-9">
+                                                <select th:field="*{type}" class="form-control" >
+                                                    <option value="">Choisir</option>
+                                                    <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeLingerie).values()}" th:text="${type}" th:value="${type}"></option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div th:if="${category}=='AUTRES'" class="form-group   row"  >
-                                        <label class="col-md-3 form-control-label">Type</label>
-                                        <div class="col-md-9">
-                                            <select th:field="*{type}" class="form-control" >
-                                                <option value="">Choisir</option>
-                                                <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeAutre).values()}" th:text="${type}" th:value="${type}"></option>
-                                            </select>
+
+                                    <div th:if="${category}=='AUTRES'">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">Nom</label>
+                                            <div class="col-md-9 autocomplete">
+                                                <input type="text" class="form-control"  th:field="*{nom}" id="otherName">
+                                            </div>
+                                        </div>
+                                        <div  class="form-group   row"  >
+                                            <label class="col-md-3 form-control-label">Type</label>
+                                            <div class="col-md-9">
+                                                <select th:field="*{type}" class="form-control" >
+                                                    <option value="">Choisir</option>
+                                                    <option th:each="type : ${T(com.derteuffel.marguerite.enums.ETypeAutre).values()}" th:text="${type}" th:value="${type}"></option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Quantité</label>

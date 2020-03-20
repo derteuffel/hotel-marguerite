@@ -30,17 +30,16 @@
 <header th:replace="~{../templates/fragments/header :: header}">
 </header>
 <div class="d-flex align-items-stretch">
-    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
     <div class="page-holder w-100 d-flex flex-wrap" style="background-color: #7ccecd;">
         <div class="container-fluid px-xl-5">
             <div class="py-5">
-                <div class="alert-info">
+                <div class="alert-info text-center">
                     <h2>Ensemble des chambres</h2>
                 </div>
             </div>
             <section class="py-5">
                 <div class="row">
-                    <div class="col-xl-4 col-lg-6 mb-4 mb-xl-0" th:each="chambre: ${chambres}">
+                    <div class="col-xl-3 col-lg-4 mb-4 mb-xl-0" th:each="chambre: ${chambres}">
                         <a th:if="${chambre.status}==true" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}">
                             <div  class="badge-warning shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">

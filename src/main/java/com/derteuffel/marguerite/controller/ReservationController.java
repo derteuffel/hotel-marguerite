@@ -8,6 +8,11 @@ import com.derteuffel.marguerite.repository.ChambreRepository;
 import com.derteuffel.marguerite.repository.ReservationRepository;
 import com.derteuffel.marguerite.repository.RoleRepository;
 import com.derteuffel.marguerite.services.CompteService;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
@@ -21,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -101,6 +109,7 @@ public class ReservationController {
             timer.schedule(activate,reservation.getDateDebut());
             timer.schedule(deactivate,reservation.getDateFin());
             reservation.setCompte(compte);
+            reservation.setNumReservation((reservation.getChambre().getNumero()+(reservationRepository.findAll().size()+1)).toUpperCase());
             reservationRepository.save(reservation);
             return "redirect:/hotel/reservations/detail/"+reservation.getId();
         }else {
@@ -154,4 +163,35 @@ public class ReservationController {
     }
 
 
+    @GetMapping("/pdf/generate/{id}")
+    public String reservationBill(@PathVariable Long id, Model model){
+        Reservation reservation = reservationRepository.getOne(id);
+        Document document = new Document();
+        try{
+            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+"CH"+reservation.getId()+".pdf").toString())));
+            document.open();
+            document.add(new Paragraph("Marguerite Hotel"));
+            document.add(new Paragraph("Secteur :   "+"Resrvation chambre"));
+            document.add(new Paragraph("Reservation Numero :   "+reservation.getNumReservation()));
+            document.add(new Paragraph("Chambre Numero :  "+reservation.getChambre().getNumero()));
+            document.add(new Paragraph("Date du jour :  "+reservation.getDateJour()));
+            document.add(new Paragraph("Nom client :  "+reservation.getNomClient()));
+            document.add(new Paragraph("Telephone client :  "+reservation.getTelephone()));
+            document.add(new Paragraph("Email client :  "+reservation.getEmail()));
+            document.add(new Paragraph("Nombre de nuite :  "+reservation.getNbreNuits()));
+            document.add(new Paragraph("Debut du sejour :  "+reservation.getDateDebut()));
+            document.add(new Paragraph("Fin du sejour :  "+reservation.getDateFin()));
+            document.add(new Paragraph("Cout du sejour :  "+reservation.getPrixT()));
+            document.add(new Paragraph("Liste des articles et quantites "));
+            document.close();
+            System.out.println("the job is done!!!");
+            reservation.setBillTrace("/downloadFile/"+"CH"+reservation.getId()+".pdf");
+            reservationRepository.save(reservation);
+        } catch (FileNotFoundException | DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/hotel/reservations/detail/"+reservation.getId();
+    }
 }
