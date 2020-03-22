@@ -25,7 +25,7 @@
   <script th:src="@{/https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js}"></script>
   <script th:src="@{/https://oss.maxcdn.com/respond/1.4.2/respond.min.js}"></script><![endif]-->
 </head>
-<body>
+<body th:style="'background-image:url('+@{/img/hotel-1.jpg}+');'">
 <div class="page-holder d-flex align-items-center">
   <div class="container">
     <div class="row align-items-center py-5">
@@ -34,7 +34,7 @@
       </div>
       <div class="col-lg-5 px-lg-4">
         <h1 class="text-base text-primary text-uppercase mb-4">Marguerite Hotel</h1>
-        <h2 class="mb-4">Bienvenue!</h2>
+        <h2 class="mb-4 text-light">Bienvenue!</h2>
         <p th:text="${error}" class="text-danger"></p>
         <p class="text-muted">Connectez vous a votre compte et gerez vos activites</p>
         <div th:if="${success}" class="alert alert-success">
@@ -62,7 +62,7 @@
         </form>
       </div>
     </div>
-    <p class="mt-5 mb-0 text-gray-400 text-center">Design by <a href="https://bootstrapious.com/admin-templates" class="external text-gray-400">ZIG'S Enterprises</a> & Marguerite Hotel</p>
+    <p class="mt-5 mb-0 text-primary-400 text-center">Design by <a href="https://bootstrapious.com/admin-templates" class="external text-primary-400">ZIG'S Enterprises</a> & Marguerite Hotel</p>
     <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)                 -->
   </div>
 </div>
