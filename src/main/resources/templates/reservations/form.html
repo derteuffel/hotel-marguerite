@@ -27,12 +27,12 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
-<body th:each="role : ${session.compte.roles}">
+<body th:each="role : ${session.compte.roles}" th:style="'background-image:url('+@{/img/chambre-1.jpg}+');'">
 <header th:replace="~{../templates/fragments/header :: header}">
 </header>
 <div class="d-flex align-items-stretch">
-    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
-    <div class="page-holder w-100 d-flex flex-wrap" style="background-color: #7ccecd;">
+    <div th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
+    <div class="page-holder w-100 d-flex flex-wrap" >
         <div class="container-fluid px-xl-5">
             <section class="py-5">
                 <div class="row">
