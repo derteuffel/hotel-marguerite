@@ -41,7 +41,7 @@
             <div id="pages-5" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
                     <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/stocks/all}" class="sidebar-link text-muted pl-lg-5">Stocks</a></li>
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/articles/all}" class="sidebar-link text-muted pl-lg-5">Articles</a></li>
+                    <!--<li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/articles/all}" class="sidebar-link text-muted pl-lg-5">Articles</a></li>-->
                     <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/distributions/all}" class="sidebar-link text-muted pl-lg-5">Distributions</a></li>
                 </ul>
             </div>
