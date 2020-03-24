@@ -8,9 +8,7 @@ import com.derteuffel.marguerite.repository.ChambreRepository;
 import com.derteuffel.marguerite.repository.ReservationRepository;
 import com.derteuffel.marguerite.repository.RoleRepository;
 import com.derteuffel.marguerite.services.CompteService;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,23 +164,76 @@ public class ReservationController {
     @GetMapping("/pdf/generate/{id}")
     public String reservationBill(@PathVariable Long id, Model model){
         Reservation reservation = reservationRepository.getOne(id);
-        Document document = new Document();
+        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+"CH"+reservation.getId()+".pdf").toString())));
             document.open();
-            document.add(new Paragraph("Marguerite Hotel"));
-            document.add(new Paragraph("Secteur :   "+"Resrvation chambre"));
-            document.add(new Paragraph("Reservation Numero :   "+reservation.getNumReservation()));
-            document.add(new Paragraph("Chambre Numero :  "+reservation.getChambre().getNumero()));
-            document.add(new Paragraph("Date du jour :  "+reservation.getDateJour()));
-            document.add(new Paragraph("Nom client :  "+reservation.getNomClient()));
-            document.add(new Paragraph("Telephone client :  "+reservation.getTelephone()));
-            document.add(new Paragraph("Email client :  "+reservation.getEmail()));
-            document.add(new Paragraph("Nombre de nuite :  "+reservation.getNbreNuits()));
-            document.add(new Paragraph("Debut du sejour :  "+reservation.getDateDebut()));
-            document.add(new Paragraph("Fin du sejour :  "+reservation.getDateFin()));
-            document.add(new Paragraph("Cout du sejour :  "+reservation.getPrixT()));
-            document.add(new Paragraph("Liste des articles et quantites "));
+            Paragraph para1 = new Paragraph("MARGUERITE HÔTEL");
+            para1.setAlignment(Paragraph.ALIGN_CENTER);
+            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD,
+                    BaseColor.GREEN));
+            para1.setSpacingAfter(50);
+            document.add(para1);
+
+            Paragraph para5 = new Paragraph("Date du jour :  "+reservation.getDateJour());
+            para5.setAlignment(Paragraph.ALIGN_CENTER);
+            para5.setSpacingAfter(10);
+            document.add(para5);
+
+            Paragraph para2 = new Paragraph("Secteur :   "+"Resrvation chambre");
+            para2.setAlignment(Paragraph.ALIGN_LEFT);
+            para2.setSpacingAfter(3);
+            document.add(para2);
+
+            Paragraph para3 = new Paragraph("Reservation Numero :   "+reservation.getNumReservation());
+            para3.setAlignment(Paragraph.ALIGN_LEFT);
+            para3.setSpacingAfter(3);
+            document.add(para3);
+
+            Paragraph para4 = new Paragraph("Chambre Numero :  "+reservation.getChambre().getNumero());
+            para4.setAlignment(Paragraph.ALIGN_LEFT);
+            para4.setSpacingAfter(3);
+            document.add(para4);
+
+            Paragraph para6 = new Paragraph("Nom client :  "+reservation.getNomClient());
+            para6.setAlignment(Paragraph.ALIGN_LEFT);
+            para6.setSpacingAfter(3);
+            document.add(para6);
+
+            Paragraph para7 = new Paragraph("Telephone client :  "+reservation.getTelephone());
+            para7.setAlignment(Paragraph.ALIGN_LEFT);
+            para7.setSpacingAfter(3);
+            document.add(para7);
+
+            Paragraph para8 = new Paragraph("Email client :  "+reservation.getEmail());
+            para8.setAlignment(Paragraph.ALIGN_LEFT);
+            para8.setSpacingAfter(3);
+            document.add(para8);
+
+            Paragraph para9 = new Paragraph("Nombre de nuite :  "+reservation.getNbreNuits());
+            para9.setAlignment(Paragraph.ALIGN_LEFT);
+            para9.setSpacingAfter(3);
+            document.add(para9);
+
+            Paragraph para10 = new Paragraph("Debut du sejour :  "+reservation.getDateDebut());
+            para10.setAlignment(Paragraph.ALIGN_LEFT);
+            para10.setSpacingAfter(3);
+            document.add(para10);
+
+            Paragraph para11 = new Paragraph("Fin du sejour :  "+reservation.getDateFin());
+            para11.setAlignment(Paragraph.ALIGN_LEFT);
+            para11.setSpacingAfter(3);
+            document.add(para11);
+
+            Paragraph para12 = new Paragraph("Cout du sejour :  "+reservation.getPrixT());
+            para12.setAlignment(Paragraph.ALIGN_LEFT);
+            para12.setSpacingAfter(3);
+            document.add(para12);
+
+            Paragraph para13 = new Paragraph("Chambre Numero :  "+reservation.getChambre().getNumero());
+            para13.setAlignment(Paragraph.ALIGN_LEFT);
+            para13.setSpacingAfter(3);
+            document.add(para13);
             document.close();
             System.out.println("the job is done!!!");
             reservation.setBillTrace("/downloadFile/"+"CH"+reservation.getId()+".pdf");

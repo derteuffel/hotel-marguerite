@@ -8,6 +8,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.scene.text.TextAlignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
@@ -232,16 +233,34 @@ public class CommandeController {
     @GetMapping("/bills/{id}")
     public String billPdfGenerator(@PathVariable Long id, Model model){
         Facture facture = factureRepository.getOne(id);
-        Document document = new Document();
+        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getNumCmd()+facture.getId()+".pdf").toString())));
             document.open();
-            document.add(new Paragraph("Marguerite Hotel"));
-            document.add(new Paragraph("Secteur :   "+facture.getCommande().getSecteur()));
-            document.add(new Paragraph("Commande Numero :   "+facture.getNumCmd()));
-            document.add(new Paragraph("Table Numero :  "+facture.getNumeroTable()));
-            document.add(new Paragraph("Date du jour :  "+facture.getDate()));
-            document.add(new Paragraph("Liste des articles et quantites "));
+            Paragraph para1 = new Paragraph("Marguerite Hotel");
+            para1.setAlignment(Paragraph.ALIGN_CENTER);
+            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD,
+                    BaseColor.GREEN));
+            para1.setSpacingAfter(50);
+            document.add(para1);
+
+
+            Paragraph para2 = new Paragraph("Secteur :   "+facture.getCommande().getSecteur());
+            para2.setAlignment(Paragraph.ALIGN_LEFT);
+            para2.setSpacingAfter(3);
+            document.add(para2);
+            Paragraph para3 = new Paragraph("Commande Numero :   "+facture.getNumCmd());
+            para3.setAlignment(Paragraph.ALIGN_LEFT);
+            para3.setSpacingAfter(3);
+            document.add(para3);
+            Paragraph para4 = new Paragraph("Table Numero :  "+facture.getNumeroTable());
+            para4.setAlignment(Paragraph.ALIGN_LEFT);
+            para4.setSpacingAfter(3);
+            document.add(para4);
+            Paragraph para5 = new Paragraph("Date du jour :  "+facture.getDate());
+            para5.setAlignment(Paragraph.ALIGN_LEFT);
+            para5.setSpacingAfter(3);
+            document.add(para5);
 
             PdfPTable table = new PdfPTable(4);
             table.setSpacingBefore(20f);
@@ -262,8 +281,21 @@ public class CommandeController {
             table.addCell(""+facture.getMontantT()+" CDF");
 
             document.add(table);
-            document.add(new Paragraph("Montant verse : "+facture.getMontantVerse()));
-            document.add(new Paragraph("Montant rembourse : "+facture.getRemboursement()));
+            Paragraph para6 = new Paragraph("Montant verse : "+facture.getMontantVerse());
+            para6.setAlignment(Paragraph.ALIGN_RIGHT);
+            para6.setSpacingAfter(3);
+            document.add(para6);
+
+            Paragraph para7 = new Paragraph("Montant rembourssé : "+facture.getRemboursement());
+            para7.setAlignment(Paragraph.ALIGN_RIGHT);
+            para7.setSpacingAfter(3);
+            document.add(para7);
+
+            Paragraph para8 = new Paragraph("Montant à payer : "+facture.getMontantT());
+            para8.setAlignment(Paragraph.ALIGN_RIGHT);
+            para8.setSpacingAfter(6);
+            document.add(para8);
+
             document.add(new Paragraph("Bien vouloir livrer ces articles a la table cite en haut "));
             document.close();
             System.out.println("the job is done!!!");
