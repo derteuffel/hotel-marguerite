@@ -168,6 +168,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="card-footer">
+                                <div class="button">
+                                    <a  th:href="@{/hotel/reservations/pdf/generate/}+${reservation.id}" class="btn btn-outline-dark">Produire facture reservation pdf <i class="fa fa-long-arrow-alt-right"></i></a>
+                                    <a  th:href="${reservation.billTrace}" class="btn btn-outline-dark">Visualiser pdf <span th:text="${reservation.billTrace}"></span> <i class="fa fa-file-pdf"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

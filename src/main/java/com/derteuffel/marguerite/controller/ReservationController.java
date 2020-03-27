@@ -243,6 +243,7 @@ public class ReservationController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/hotel/reservations/detail/"+reservation.getId();
+        model.addAttribute("reservation", reservation);
+        return "reservations/facture";
     }
 }
