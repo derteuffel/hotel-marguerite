@@ -1,12 +1,8 @@
 package com.derteuffel.marguerite.controller;
 
-import com.derteuffel.marguerite.domain.Chambre;
-import com.derteuffel.marguerite.domain.Compte;
-import com.derteuffel.marguerite.domain.Facture;
-import com.derteuffel.marguerite.domain.Reservation;
-import com.derteuffel.marguerite.repository.ChambreRepository;
-import com.derteuffel.marguerite.repository.ReservationRepository;
-import com.derteuffel.marguerite.repository.RoleRepository;
+import com.derteuffel.marguerite.domain.*;
+import com.derteuffel.marguerite.helpers.CompteRegistrationDto;
+import com.derteuffel.marguerite.repository.*;
 import com.derteuffel.marguerite.services.CompteService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -16,10 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,6 +23,10 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,7 +36,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @Controller
-@RequestMapping("/hotel/reservations")
+@RequestMapping("/reservations")
 public class ReservationController {
 
     @Autowired
@@ -48,20 +48,79 @@ public class ReservationController {
     private CompteService compteService;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private PiscineRepository piscineRepository;
+
     @Value("${file.upload-dir}")
     private String fileStorage;
 
-    @GetMapping("/all")
-    public String findAll(Model model, HttpServletRequest request){
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private CompteRepository compteRepository;
+
+    @ModelAttribute("compte")
+    public CompteRegistrationDto compteRegistrationDto(){
+        return new CompteRegistrationDto();
+    }
+
+    @GetMapping("/registration")
+    public String registrationForm(Model model){
+        return "reservations/registration";
+    }
+    @GetMapping("/access-denied")
+    public String access_denied(){
+        return "reservations/access-denied";
+    }
+
+    @PostMapping("/registration")
+    public String registerUserAccount(@ModelAttribute("compte") @Valid CompteRegistrationDto compteDto,
+                                      BindingResult result, RedirectAttributes redirectAttributes, Model model, @RequestParam("file") MultipartFile file) {
+
+        System.out.println(compteDto.getUsername());
+        Compte existing = compteService.findByUsername(compteDto.getUsername());
+        if (existing != null) {
+            System.out.println("i'm there");
+            result.rejectValue("username", null, "There is already an account registered with that login");
+            model.addAttribute("error","There is already an account registered with that login");
+        }
+
+        if (result.hasErrors()) {
+            System.out.println(result.toString());
+            System.out.println("i'm inside");
+            return "reservations/registration";
+        }
+
+        if (!(file.isEmpty())){
+            try{
+                // Get the file and save it somewhere
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(fileStorage + file.getOriginalFilename());
+                Files.write(path, bytes);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            compteService.save(compteDto, "/downloadFile/"+file.getOriginalFilename());
+        }else {
+            compteService.save(compteDto,"/img/default.jpeg");
+        }
+
+        redirectAttributes.addFlashAttribute("success","You've been registered successfully, try to login to your account");
+        return "redirect:/reservations/login";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model){
+        return "reservations/login";
+    }
+
+    @GetMapping("/chambres/orders")
+    public String findAllchambre(Model model,HttpServletRequest request){
         Principal principal = request.getUserPrincipal();
         Compte compte = compteService.findByUsername(principal.getName());
-        model.addAttribute("reservations", reservationRepository.findAll());
-        if (compte.getRoles().size() <= 1 && compte.getRoles().contains(roleRepository.findByName("SELLER"))){
-            return "redirect:/hotel/reservations/reservation";
-        }else {
-            return "reservations/reservations";
-        }
+        request.getSession().setAttribute("compte",compte);
+        model.addAttribute("chambres", chambreRepository.findAll());
+        return "reservations/chambres/all-2";
     }
 
     @GetMapping("/reservation")
@@ -149,7 +208,7 @@ public class ReservationController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid reservation id:" +id));
         System.out.println("reservation id: " + reservation.getId());
         reservationRepository.delete(reservation);
-        return "redirect:/hotel/reservations/all" ;
+        return "redirect:/reservations/all" ;
     }
 
     @GetMapping("/detail/{id}")
@@ -245,5 +304,29 @@ public class ReservationController {
         }
         model.addAttribute("reservation", reservation);
         return "reservations/facture";
+    }
+
+
+    //----- piscine methods -----//
+
+    @GetMapping("/piscines/all")
+    public String all(Model model){
+        model.addAttribute("lists",piscineRepository.findAll(Sort.by(Sort.Direction.DESC,"id")));
+        return "reservations/piscines/all";
+    }
+
+    @GetMapping("/piscines/form")
+    public String form(Model model){
+        model.addAttribute("piscine", new Piscine());
+        return "reservations/piscines/form";
+    }
+
+    @PostMapping("/piscines/save")
+    public String save(Piscine piscine, RedirectAttributes redirectAttributes) {
+
+        piscine.setPrixT(piscine.getPrixU() * piscine.getNbreHeure());
+        piscineRepository.save(piscine);
+        redirectAttributes.addFlashAttribute("success","You've been save your data successfully");
+        return "redirect:/reservations/piscines/all";
     }
 }

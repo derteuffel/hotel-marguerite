@@ -27,11 +27,10 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
-<body th:each="role : ${session.compte.roles}" th:style="'background-image:url('+@{/img/chambre-1.jpg}+');'">
-<header th:replace="~{../templates/fragments/header :: header}">
+<body  th:style="'background-image:url('+@{/img/chambre-1.jpg}+');'">
+<header th:replace="~{../templates/fragments/header-reservation :: header-reservation}">
 </header>
 <div class="d-flex align-items-stretch">
-    <div th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
     <div class="page-holder w-100 d-flex flex-wrap" >
         <div class="container-fluid px-xl-5">
             <section class="py-5">
@@ -43,7 +42,7 @@
                             </div>
                             <div class="card-body">
 
-                                <form  class="form-horizontal" th:object="${reservation}" th:action="@{/hotel/reservations/save}" th:method="post">
+                                <form  class="form-horizontal" th:object="${reservation}" th:action="@{/reservations/save}" th:method="post">
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Nom du client</label>
                                         <div class="col-md-9">
@@ -102,7 +101,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
                                             <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                            <a th:href="@{/hotel/reservations/all}"  class="btn btn-secondary">Retour</a>
+                                            <a th:href="@{/reservations/all}"  class="btn btn-secondary">Retour</a>
                                         </div>
                                     </div>
                                 </form>

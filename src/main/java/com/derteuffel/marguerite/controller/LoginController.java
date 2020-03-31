@@ -122,4 +122,9 @@ public class LoginController {
         compteRepository.save(compte);
         return "redirect:/accounts";
     }
+
+    @GetMapping("/access-denied")
+    public String access_denied(){
+        return "access-denied";
+    }
 }

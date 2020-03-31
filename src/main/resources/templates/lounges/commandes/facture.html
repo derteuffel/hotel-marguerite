@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bill detail</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" th:href="@{/css/orionicons.css}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" th:href="@{/css/style.default.css}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" th:href="@{/img/favicon.png?3}">
+    <style>
+        /*! Invoice Templates @author: Invoicebus @email: info@invoicebus.com @web: https://invoicebus.com @version: 1.0.0 @updated: 2015-03-09 09:03:07 @license: Invoicebus */
+        /* Reset styles */
+        @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,700&subset=cyrillic,cyrillic-ext,latin,greek-ext,greek,latin-ext,vietnamese");
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font: inherit;
+            font-size: 100%;
+            vertical-align: baseline;
+        }
+
+        html {
+            line-height: 1;
+        }
+
+        ol, ul {
+            list-style: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        caption, th, td {
+            text-align: left;
+            font-weight: normal;
+            vertical-align: middle;
+        }
+
+        q, blockquote {
+            quotes: none;
+        }
+
+        q:before, q:after, blockquote:before, blockquote:after {
+            content: "";
+            content: none;
+        }
+
+        a img {
+            border: none;
+        }
+
+        article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+            display: block;
+        }
+
+        .clearfix {
+            display: block;
+            clear: both;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        b, strong, .bold {
+            font-weight: bold;
+        }
+
+        #container {
+            font: normal 13px/1.4em 'Open Sans', Sans-serif;
+            margin: 0 auto;
+            padding: 50px 40px;
+            min-height: 1058px;
+        }
+
+        #memo .company-name {
+            background: #487774 560px center no-repeat;
+            background-size: 100px auto;
+            padding: 10px 20px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        #memo .company-name span {
+            color: white;
+            display: inline-block;
+            min-width: 20px;
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 1em;
+        }
+
+        #memo .company-name .right-arrow {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100px;
+            background: right center no-repeat;
+            background-size: auto 60px;
+        }
+
+        #memo .logo {
+            float: left;
+            clear: left;
+            margin-left: 20px;
+        }
+
+        #memo .logo img {
+            width: 150px;
+            height: 100px;
+        }
+
+        #memo .company-info {
+            margin-left: 20px;
+            float: left;
+            font-size: 12px;
+            color: #8b8b8b;
+        }
+
+        #memo .company-info div {
+            margin-bottom: 3px;
+            min-width: 20px;
+        }
+
+        #memo .company-info span {
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        #memo:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        #invoice-info {
+            float: left;
+            margin: 25px 0 0 20px;
+        }
+
+        #invoice-info > div {
+            float: left;
+        }
+
+        #invoice-info > div > span {
+            display: block;
+            min-width: 20px;
+            min-height: 18px;
+            margin-bottom: 3px;
+        }
+
+        #invoice-info > div:last-child {
+            margin-left: 20px;
+        }
+
+        #invoice-info:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        #client-info {
+            float: right;
+            margin: 5px 20px 0 0;
+            min-width: 220px;
+            text-align: right;
+        }
+
+        #client-info > div {
+            margin-bottom: 3px;
+            min-width: 20px;
+        }
+
+        #client-info span {
+            display: block;
+            min-width: 20px;
+        }
+
+        #invoice-title-number {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #invoice-title-number span {
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        #invoice-title-number #title {
+            margin-right: 15px;
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #invoice-title-number #number {
+            font-size: 15px;
+            text-align: left;
+        }
+
+        table {
+            table-layout: fixed;
+        }
+
+        table th, table td {
+            vertical-align: top;
+            word-break: keep-all;
+            word-wrap: break-word;
+        }
+
+        #items {
+            margin: 20px 0 35px 0;
+        }
+
+        #items .first-cell, #items table th:first-child, #items table td:first-child {
+            width: 18px;
+            text-align: right;
+        }
+
+        #items table {
+            border-collapse: separate;
+            width: 100%;
+        }
+
+        #items table th {
+            padding: 12px 10px;
+            text-align: right;
+            background: #E6E7E7;
+            border-bottom: 4px solid #487774;
+        }
+
+        #items table th:nth-child(2) {
+            width: 30%;
+            text-align: left;
+        }
+
+        #items table th:last-child {
+            text-align: right;
+            padding-right: 20px !important;
+        }
+
+        #items table td {
+            padding: 15px 10px;
+            text-align: right;
+            border-right: 1px solid #CCCCCF;
+        }
+
+        #items table td:first-child {
+            text-align: left;
+            border-right: 0 !important;
+        }
+
+        #items table td:nth-child(2) {
+            text-align: left;
+        }
+
+        #items table td:last-child {
+            border-right: 0 !important;
+            padding-right: 20px !important;
+        }
+
+        .currency {
+            border-bottom: 4px solid #487774;
+            padding: 0 20px;
+        }
+
+        .currency span {
+            font-size: 11px;
+            font-style: italic;
+            color: #8b8b8b;
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        #sums {
+            float: right;
+            background: #487774 -17px bottom no-repeat;
+            background-size: auto 100px;
+            color: white;
+        }
+
+        #sums table tr th, #sums table tr td {
+            min-width: 50px;
+            padding: 8px 20px 8px 35px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        #sums table tr th {
+            text-align: left;
+            padding-right: 25px;
+        }
+
+        #sums table tr.amount-total th {
+            text-transform: uppercase;
+        }
+
+        #sums table tr.amount-total th, #sums table tr.amount-total td {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #sums table tr:last-child th {
+            text-transform: uppercase;
+        }
+
+        #sums table tr:last-child th, #sums table tr:last-child td {
+            font-size: 16px;
+            font-weight: bold;
+            padding-top: 20px !important;
+            padding-bottom: 40px !important;
+        }
+
+        #terms {
+            margin: 50px 20px 10px 20px;
+        }
+
+        #terms > span {
+            display: inline-block;
+            min-width: 20px;
+            font-weight: bold;
+        }
+
+        #terms > div {
+            margin-top: 10px;
+            min-height: 50px;
+            min-width: 50px;
+        }
+
+        .payment-info {
+            margin: 0 20px;
+        }
+
+        .payment-info div {
+            font-size: 12px;
+            color: #8b8b8b;
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        .ib_bottom_row_commands {
+            margin: 10px 0 0 20px !important;
+        }
+
+        .ibcl_tax_value:before {
+            color: white !important;
+        }
+
+        /**
+         * If the printed invoice is not looking as expected you may tune up
+         * the print styles (you can use !important to override styles)
+         */
+        @media print {
+            /* Here goes your print styles */
+        }
+
+    </style>
+</head>
+<body  th:style="'background-image:url('+@{/img/bar.jpeg}+');'">
+<!-- navbar-->
+<header th:replace="~{../templates/fragments/header-lounge :: header-lounge}">
+</header>
+<div class="d-flex align-items-stretch">
+    <div class="page-holder w-100 d-flex flex-wrap" >
+        <div class="container-fluid px-xl-5">
+            <section class="py-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mb-5 mb-lg-0">
+                            <div class="card-header">
+                                <h2 class="h6 mb-0 text-uppercase">Facture detail</h2>
+                            </div>
+                          <div class="card-body">
+                              <section id="memo">
+                                  <div class="company-name">
+                                      <span> MARGUERITE HÔTEL</span>
+                                      <div class="right-arrow"></div>
+                                  </div>
+                              </section>
+                               <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="text">
+                                            <small class="mb-0 d-flex align-items-center"> <span>Numero de table</span></small>
+                                        </div>
+                                    </div>
+                                    <div class=" ml-5 ml-sm-0 pl-3 pl-sm-0 ">
+                                        <small th:text="${facture.numeroTable}" id="numeroTable"></small>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="text">
+                                            <small class="mb-0 d-flex align-items-center"> <span>Numero de Commande</span></small>
+
+                                        </div>
+                                    </div>
+                                    <div class=" ml-5 ml-sm-0 pl-3 pl-sm-0 ">
+                                        <small th:text="${facture.numCmd}" id="numCmd"></small>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="left d-flex align-items-center">
+                                        <div class="text">
+                                            <small class="mb-0 d-flex align-items-center"> <span>Date</span></small>
+
+                                        </div>
+                                    </div>
+                                    <div class=" left ml-5 ml-sm-0 pl-3 pl-sm-0">
+                                        <small th:text="${facture.date}" id="date">-$20</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                                    <div class="clearfix"></div>
+
+                                   <section >
+                                       <table  class="table table-striped table-hover card-text">
+                                           <thead>
+                                           <tr>
+                                               <th>Denomination</th>
+                                               <th>Quantite</th>
+                                               <th>Montant</th>
+                                           </tr>
+                                           </thead>
+                                           <tbody>
+                                           <tr th:each="name,i : ${facture.articles}">
+                                               <td>
+                                                   <p class="mb-0 mt-3 mt-lg-0" th:text="${name}"></p>
+                                               </td>
+                                               <td>
+                                                   <p class="mb-0 mt-3 mt-lg-0" th:text="${facture.quantities[i.index]}"></p>
+                                               </td>
+                                               <td >
+                                                   <p class="mb-0 mt-3 mt-lg-0" th:text="${facture.prices[i.index]}"></p>
+                                               </td>
+                                           </tr>
+                                           </tbody>
+                                       </table>
+                                   </section>
+
+                                </div>
+                              <div class="currency">
+
+                              </div>
+                              <section id="sums">
+                                  <table cellpadding="0" cellspacing="0">
+                                      <tr>
+                                          <th>Montant verse</th>
+                                          <td th:text="${facture.montantVerse}">$</td>
+                                      </tr>
+                                      <tr data-iterate="tax">
+                                          <th>Montant remboursé</th>
+                                          <td th:text="${facture.remboursement}">-$20</td>
+                                      </tr>
+                                      <tr class="amount-total">
+                                          <th>Total</th>
+                                          <td th:text="${facture.montantT}">$</td>
+                                      </tr>
+                                  </table>
+                              </section>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="button">
+                                    <a  th:href="@{/lounges/commandes/bills/}+${facture.id}" class="btn btn-outline-dark">Produire facture pdf <i class="fa fa-long-arrow-alt-right"></i></a>
+                                    <a  th:href="${facture.billTrace}" class="btn btn-outline-dark">Visualiser pdf <span th:text="${facture.billTrace}"></span> <i class="fa fa-file-pdf"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"> </script>
+<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script th:src="@{/js/charts-home.js}"></script>
+<script th:src="@{/js/front.js}"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
+<script >
+    $(document).ready(function() {
+        // Add Row
+        $('#stripped').DataTable({
+            "pageLength": 5,
+        });
+    });
+</script>
+</body>
+</html>

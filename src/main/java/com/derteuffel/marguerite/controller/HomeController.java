@@ -20,16 +20,8 @@ public class HomeController {
     private RoleRepository roleRepository;
 
     @GetMapping("/")
-    public String home(HttpServletRequest request){
-        Principal principal = request.getUserPrincipal();
-        Compte compte = compteService.findByUsername(principal.getName());
-        request.getSession().setAttribute("compte",compte);
-        if (compte.getRoles().size() <= 1 && compte.getRoles().contains(roleRepository.findByName("ROLE_RECEIP"))){
-            return "redirect:/hotel/reservations/reservation";
-        }else if (compte.getRoles().size() <= 1 && compte.getRoles().contains(roleRepository.findByName("SELLER"))){
-            return "redirect:/hotel/commandes/orders";
-        }else {
+    public String home(){
+
             return "index";
-        }
     }
 }

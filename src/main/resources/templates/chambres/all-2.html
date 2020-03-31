@@ -110,7 +110,7 @@
                                     </div>
                                     <div class="modal-footer" th:if="${chambre.status}!=true">
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
-                                        <a th:href="@{/hotel/reservations/form/{id}(id=${chambre.id})}"  class="btn btn-primary">Reserver</a>
+                                        <a th:href="@{/reservations/form/{id}(id=${chambre.id})}"  class="btn btn-primary">Reserver</a>
                                     </div>
                                     <div class="modal-footer" th:unless="${chambre.status}!=true">
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
