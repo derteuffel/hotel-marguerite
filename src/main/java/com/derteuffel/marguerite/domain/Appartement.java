@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-public class gitAppartement implements Serializable {
+public class Appartement implements Serializable {
 
     @Id
     @GeneratedValue
