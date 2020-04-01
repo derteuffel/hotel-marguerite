@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <title>Appartement Form</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" th:href="@{/css/orionicons.css}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" th:href="@{/css/style.default.css}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" th:href="@{/img/favicon.png?3}">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+<body>
+<header th:replace="~{../templates/fragments/header :: header}">
+</header>
+<div class="d-flex align-items-stretch">
+    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
+    <div class="page-holder w-100 d-flex flex-wrap" >
+        <div class="container-fluid px-xl-5">
+            <section class="py-5">
+                <div class="row">
+                    <div class="col-lg-12 mb-5">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="h6 text-uppercase mb-0">Nouvel Appartement</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <form action="#" class="form-horizontal" th:object="${appartement}" th:action="@{/appartements/save}" th:method="post">
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Prix </label>
+                                        <div class="col-md-9">
+                                            <input type="number" name="prix" id="prix" class="form-control" th:field="*{prix}"  th:value="${appartement.prix}" >
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Nombre de pièces </label>
+                                        <div class="col-md-9">
+                                            <input type="number" name="nombreDePiece" id="nombreDePiece" class="form-control" th:field="*{nombreDePiece}"  th:value="${appartement.nombreDePiece}" >
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Adresse</label>
+                                        <div class="col-md-9">
+                                            <input type="text" name="adresse" id="adresse" th:field="*{adresse}"  th:value="${appartement.adresse}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Ville</label>
+                                        <div class="col-md-9">
+                                            <input id="ville" type="text" name="ville" th:field="*{ville}" th:value="${appartement.ville}" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Description</label>
+                                        <div class="col-md-9">
+                                            <input id="description" type="text" name="description" th:field="*{description}" th:value="${appartement.description}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Image</label>
+                                        <div class="col-md-9">
+                                            <input type="file"  name="file"  class="form-control-file border-0 shadow form-control-lg text-violet">
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <div class="col-md-9 ml-auto">
+                                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                            <a th:href="@{/appartements/all}" class="btn btn-secondary">Retour</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+
+
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"> </script>
+<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script th:src="@{/js/charts-home.js}"></script>
+<script th:src="@{/js/front.js}"></script>
+</body>
+</html>
