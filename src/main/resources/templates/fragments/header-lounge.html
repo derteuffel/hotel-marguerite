@@ -3,16 +3,16 @@
     <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow"><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a th:href="@{/}" class="navbar-brand font-weight-bold text-uppercase text-base">Marguerite Hotel</a>
         <ul class="ml-auto d-flex align-items-center list-unstyled mb-0">
             <li th:if="${role.name}=='ROLE_RESERVATION'" class="nav-item mr-3 "><a  href=""  class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"></a>
-                <a th:href="@{/hotel/reservations/reservation}">RESERVATION CHAMBRE</a>
+                <a th:href="@{/reservations/reservation}">RESERVATION CHAMBRE</a>
             </li>
             <li th:if="${role.name}=='ROLE_RESTAURANT'" class="nav-item mr-3 "><a  href=""  class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"></a>
-               <a th:href="@{/hotel/commandes/restaurant/orders}">RESTAURANT</a>
+               <a th:href="@{/restaurants/commandes/orders}">RESTAURANT</a>
             </li>
             <li th:if="${role.name}=='ROLE_TERASSE'" class="nav-item mr-3"><a  href=""  class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"></a>
-                <a th:href="@{/hotel/commandes/terasse/orders}">TERASSE</a>
+                <a th:href="@{/terasses/commandes/orders}">TERASSE</a>
             </li>
             <li th:if="${role.name}=='ROLE_LOUNGE_BAR'" class="nav-item mr-3"><a  href=""  class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"></a>
-                <a th:href="@{/hotel/commandes/lounge_bar/orders}">LOUNGE BAR</a>
+                <a th:href="@{/lounges/commandes/orders}">LOUNGE BAR</a>
             </li>
             <li class="nav-item dropdown ml-auto"><a id="userInfo" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
                 <img th:if="${session.compte.avatar}" th:src="${session.compte.avatar}" alt="Jason Doe" style="max-width: 2.5rem;" class="img-fluid rounded-circle shadow">

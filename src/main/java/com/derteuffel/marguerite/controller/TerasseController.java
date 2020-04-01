@@ -331,6 +331,7 @@ public class TerasseController {
         return "redirect:/terasses/commandes/detail/"+commande.getId();
     }
 
+
     @GetMapping("/places/orders")
     public String place(Model model, HttpServletRequest request){
         Principal principal = request.getUserPrincipal();

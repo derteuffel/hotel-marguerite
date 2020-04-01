@@ -511,4 +511,12 @@ public class LoungeController {
         return "lounges/commandes/detail";
     }
 
+    @GetMapping("/commandes/orders")
+    public String lounge_barAdmin(Model model){
+        model.addAttribute("secteur",ESecteur.LOUNGE_BAR.toString());
+        List<Commande> commandes = commandeRepository.findAllBySecteurAndStatus(ESecteur.LOUNGE_BAR.toString(),true);
+        model.addAttribute("commandes", commandes);
+        return "lounges/commandes/all-2";
+    }
+
 }

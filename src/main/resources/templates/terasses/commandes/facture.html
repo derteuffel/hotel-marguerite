@@ -388,7 +388,7 @@
 
     </style>
 </head>
-<body  th:style="'background-image:url('+@{/img/bar.jpeg}+');'">
+<body th:each="role :${session.compte.roles}" th:style="'background-image:url('+@{/img/bar.jpeg}+');'">
 <!-- navbar-->
 <header th:replace="~{../templates/fragments/header-terasse :: header-terasse}">
 </header>

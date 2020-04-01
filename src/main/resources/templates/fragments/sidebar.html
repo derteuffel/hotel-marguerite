@@ -4,8 +4,8 @@
         <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="fas fa-concierge-bell mr-3 text-gray"></i><span>Reception</span></a>
             <div id="pages" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/reservations/all}" class="sidebar-link text-muted pl-lg-5">Réservations</a></li>
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/chambres/all}" class="sidebar-link text-muted pl-lg-5">Chambres</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/reservations/all}" class="sidebar-link text-muted pl-lg-5">Réservations</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/chambres/all}" class="sidebar-link text-muted pl-lg-5">Chambres</a></li>
                 </ul>
             </div>
         </li>
@@ -13,16 +13,16 @@
         <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-2" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="far fa-window-restore mr-3 text-gray"></i><span>Restaurant</span></a>
             <div id="pages-2" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                    <li th:if="${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/restaurant/all}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                    <li th:if="${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/restaurant/all}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/commandes/restaurant/all}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/places/restaurant/all}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
                 </ul>
             </div>
         </li>
         <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-3" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="fas fa-cocktail mr-3 text-gray"></i><span>Lounge Bar</span></a>
             <div id="pages-3" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                    <li th:if="${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/lounge_bar/all}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                    <li th:if="${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/lounge_bar/all}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/commandes/lounge_bar/all}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/places/lounge_bar/all}" class="sidebar-link text-muted pl-lg-5">Tables</a></li>
                 </ul>
             </div>
         </li>
@@ -30,8 +30,8 @@
         <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-4" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-imac-screen-1 mr-3 text-gray"></i><span>Terrasse</span></a>
             <div id="pages-4" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                    <li th:if="${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/commandes/terasse/all}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
-                    <li th:if="${role.name}=='ROLE_ADMIN' or ${role.name}=='ROLE_ROOT'" class="sidebar-list-item"><a th:href="@{/hotel/places/terasse/all}" class="sidebar-link text-muted pl-lg-5 ">Tables</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/commandes/terasse/all}"  class="sidebar-link text-muted pl-lg-5">Orders</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/places/terasse/all}" class="sidebar-link text-muted pl-lg-5 ">Tables</a></li>
                 </ul>
             </div>
         </li>
@@ -40,15 +40,15 @@
         <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages-5" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="fas fa-warehouse mr-3 text-gray"></i><span>Economat</span></a>
             <div id="pages-5" class="collapse">
                 <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/stocks/all}" class="sidebar-link text-muted pl-lg-5">Stocks</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/stocks/all}" class="sidebar-link text-muted pl-lg-5">Stocks</a></li>
                     <!--<li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/articles/all}" class="sidebar-link text-muted pl-lg-5">Articles</a></li>-->
-                    <li th:if="${role.name}=='ROLE_ROOT' or ${role.name}=='ROLE_ADMIN'" class="sidebar-list-item"><a th:href="@{/hotel/distributions/all}" class="sidebar-link text-muted pl-lg-5">Distributions</a></li>
+                    <li  class="sidebar-list-item"><a th:href="@{/admin/distributions/all}" class="sidebar-link text-muted pl-lg-5">Distributions</a></li>
                 </ul>
             </div>
         </li>
-        <li class="sidebar-list-item"><a th:href="@{/hotel/piscines/all}" class="sidebar-link text-muted"><i class="fas fa-swimming-pool mr-3 text-gray"></i><span>Piscine</span></a></li>
-        <li class="sidebar-list-item"><a th:href="@{/hotel/rapports/rapport}" class="sidebar-link text-muted"><i class="far fa-file mr-3 text-gray"></i><span>Generer rapport journalier</span></a></li>
+        <li class="sidebar-list-item"><a th:href="@{/admin/piscines/all}" class="sidebar-link text-muted"><i class="fas fa-swimming-pool mr-3 text-gray"></i><span>Piscine</span></a></li>
+        <li class="sidebar-list-item"><a th:href="@{/admin/rapports/rapport}" class="sidebar-link text-muted"><i class="far fa-file mr-3 text-gray"></i><span>Generer rapport journalier</span></a></li>
         <li class="sidebar-list-item"><a th:href="@{/accounts}" class="sidebar-link text-muted"><i class="far fa-user mr-3 text-gray"></i><span>Gestion des comptes</span></a></li>
-        <li class="sidebar-list-item"><a th:href="@{/hotel/users/lists}" class="sidebar-link text-muted"><i class="far fa-users mr-3 text-gray"></i><span>Gestion du personnel</span></a></li>
+        <!--li class="sidebar-list-item"><a th:href="@{/admin/users/lists}" class="sidebar-link text-muted"><i class="far fa-users mr-3 text-gray"></i><span>Gestion du personnel</span></a></li-->
 </ul>
 </div>

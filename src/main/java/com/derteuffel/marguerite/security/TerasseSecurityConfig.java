@@ -32,10 +32,10 @@ public class TerasseSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/terasses/logout"))
+                .logoutSuccessUrl("/?logout")
                 .and()
-                .exceptionHandling().accessDeniedPage("/access-denied");
+                .exceptionHandling().accessDeniedPage("/terasses/access-denied");
     }
 
     @Autowired
