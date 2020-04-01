@@ -39,5 +39,7 @@ public class Reservation implements Serializable {
     private Chambre chambre;
     @ManyToOne
     private Compte compte;
+    @ManyToOne
+    private Appartement Appartement;
 
 }
