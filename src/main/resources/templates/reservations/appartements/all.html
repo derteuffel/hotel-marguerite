@@ -31,7 +31,7 @@
 <header th:replace="~{../templates/fragments/header :: header}">
 </header>
 <div class="d-flex align-items-stretch">
-    <div th:replace="~{../templates/fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{../templates/fragments/sidebar-reservation :: sidebar-reservation}"></div>
     <div class="page-holder w-100 d-flex flex-wrap" >
         <div class="container-fluid px-xl-5">
             <section class="py-5">
@@ -46,7 +46,7 @@
                                         <p class="text-success" th:text="${success}"></p>
                                     </div>
                                     <div class="button col-md-2">
-                                        <a class="btn btn-outline-blue" th:href="@{/admin/appartements/form}" >New Appart</a>
+                                        <a class="btn btn-outline-blue" th:href="@{/reservations/appartements/form}" >New Appart</a>
                                     </div>
                                 </div>
                             </div>

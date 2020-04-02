@@ -1,6 +1,8 @@
 package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.*;
+import com.derteuffel.marguerite.enums.ECategory;
+import com.derteuffel.marguerite.enums.ECategoryChambre;
 import com.derteuffel.marguerite.helpers.CompteRegistrationDto;
 import com.derteuffel.marguerite.repository.*;
 import com.derteuffel.marguerite.services.CompteService;
@@ -30,10 +32,8 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Controller
 @RequestMapping("/reservations")
@@ -55,6 +55,7 @@ public class ReservationController {
 
     @Autowired
     private RoleRepository roleRepository;
+   
 
     @Autowired
     private CompteRepository compteRepository;
@@ -119,7 +120,27 @@ public class ReservationController {
         Principal principal = request.getUserPrincipal();
         Compte compte = compteService.findByUsername(principal.getName());
         request.getSession().setAttribute("compte",compte);
-        model.addAttribute("chambres", chambreRepository.findAll());
+        Collection<Chambre> chambres = new ArrayList<>();
+        for (Chambre chambre : chambreRepository.findAll()){
+            if (!(chambre.getCategorie().equals(ECategoryChambre.APPART.toString()))){
+                chambres.add(chambre);
+            }
+        }
+        model.addAttribute("chambres", chambres);
+        return "reservations/chambres/all-2";
+    }
+    @GetMapping("/appartements/orders")
+    public String findAllAppart(Model model,HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
+        request.getSession().setAttribute("compte",compte);
+        Collection<Chambre> appartements = new ArrayList<>();
+        for (Chambre chambre : chambreRepository.findAll()){
+            if (chambre.getCategorie().equals(ECategoryChambre.APPART.toString())){
+                appartements.add(chambre);
+            }
+        }
+        model.addAttribute("chambres", appartements);
         return "reservations/chambres/all-2";
     }
 
@@ -168,7 +189,7 @@ public class ReservationController {
             reservation.setCompte(compte);
             reservation.setNumReservation((reservation.getChambre().getNumero()+(reservationRepository.findAll().size()+1)).toUpperCase());
             reservationRepository.save(reservation);
-            return "redirect:/hotel/reservations/detail/"+reservation.getId();
+            return "redirect:/reservations/detail/"+reservation.getId();
         }else {
             model.addAttribute("error", "There are no room with the provided number :"+num);
             return "reservations/form";
@@ -193,7 +214,7 @@ public class ReservationController {
             reservation.setChambre(chambre);
             reservation.setCompte(compte);
             reservationRepository.save(reservation);
-            return "redirect:/hotel/reservations/all";
+            return "redirect:/reservations/all";
         }else {
             model.addAttribute("reservation",reservationRepository.getOne(reservation.getId()));
             model.addAttribute("error", "There are no room with the provided number :"+num);
@@ -329,4 +350,8 @@ public class ReservationController {
         redirectAttributes.addFlashAttribute("success","You've been save your data successfully");
         return "redirect:/reservations/piscines/all";
     }
+
+
+
+
 }

@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-xl-4 col-lg-6 mb-4 mb-xl-0" th:each="reservation: ${reservations}">
                         <a th:if="${reservation.status}==true" class="btn" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${reservation.id}">
-                        <div   class="bg-warning shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                        <div  class="bg-warning shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                                 <div class="flex-grow-1 d-flex align-items-center">
                                 <div class="text-left" >
                                     <h3 class="mb-0"><span  th:text="${reservation.chambre.numero}"></span></h3>

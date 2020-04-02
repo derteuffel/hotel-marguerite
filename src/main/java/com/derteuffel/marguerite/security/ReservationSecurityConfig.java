@@ -27,7 +27,7 @@ public class ReservationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/reservations/login")
                 .loginProcessingUrl("/reservations/login")
-                .defaultSuccessUrl("/reservations/chambre/orders")
+                .defaultSuccessUrl("/reservations/chambres/orders")
                 .permitAll()
                 .and()
                 .logout()

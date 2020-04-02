@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>Appartement Form</title>
+    <title>Reservation form</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -27,7 +27,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
-<body>
+<body th:each="role :${session.compte.roles}" th:style="'background-image:url('+@{/img/chambre-1.jpg}+');'">
 <header th:replace="~{../templates/fragments/header-reservation :: header-reservation}">
 </header>
 <div class="d-flex align-items-stretch">
@@ -38,59 +38,63 @@
                     <div class="col-lg-12 mb-5">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="h6 text-uppercase mb-0">Nouvel Appartement</h3>
+                                <h3 class="h6 text-uppercase mb-0">Nouvelle reservation</h3>
                             </div>
                             <div class="card-body">
 
-                                <form action="#" class="form-horizontal" th:object="${appartement}" th:action="@{/reservations/appartements/save}" th:method="post">
-                                    <div class="line"></div>
+                                <form  class="form-horizontal" th:object="${reservation}" th:action="@{/reservations/appartements/reserve/save/}+${appartement.id}" th:method="post">
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Prix </label>
+                                        <label class="col-md-3 form-control-label">Nom du client</label>
                                         <div class="col-md-9">
-                                            <input type="number"  id="prix" class="form-control" th:field="*{prix}"   >
+                                            <input type="text" class="form-control"  id="nomClient" th:field="*{nomClient}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Telephone</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control"  id="telephone" th:field="*{telephone}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">E-mail</label>
+                                        <div class="col-md-9">
+                                            <input type="email" class="form-control"  id="email" th:field="*{email}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Nombre de nuits</label>
+                                        <div class="col-md-9">
+                                            <input type="number" class="form-control"  id="nbreNuits" th:field="*{nbreNuits}">
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Nombre de pièces </label>
+                                        <label class="col-md-3 form-control-label">Date du debut</label>
                                         <div class="col-md-9">
-                                            <input type="number"  id="nombreDePiece" class="form-control" th:field="*{nombreDePiece}"   >
+                                            <input id="dateDebut" type="date"  th:field="*{dateDebut}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Adresse</label>
+                                        <label class="col-md-3 form-control-label">Date de Fin</label>
                                         <div class="col-md-9">
-                                            <input type="text"  id="adresse" th:field="*{adresse}"   class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Ville</label>
-                                        <div class="col-md-9">
-                                            <input id="ville" type="text"  th:field="*{ville}"  class="form-control">
+                                            <input id="dateFin" type="date"  th:field="*{dateFin}" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Description</label>
+                                        <label class="col-md-3 form-control-label">Prix de la nuite</label>
                                         <div class="col-md-9">
-                                            <input id="description" type="text"  th:field="*{description}"  class="form-control">
+                                            <input id="prixU" type="number"  th:field="*{prixU}" th:value="${appartement.prix}" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Image</label>
-                                        <div class="col-md-9">
-                                            <input type="file"  name="file"  class="form-control-file border-0 shadow form-control-lg text-violet">
-                                        </div>
-                                    </div>
+
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
                                             <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                            <a th:href="@{/reservations/appartements/all}" class="btn btn-secondary">Retour</a>
+                                            <a th:href="@{/reservations/all}"  class="btn btn-secondary">Retour</a>
                                         </div>
                                     </div>
                                 </form>

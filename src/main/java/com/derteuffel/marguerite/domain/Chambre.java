@@ -31,6 +31,7 @@ public class Chambre implements Serializable {
     private int nbreLit;
     private int nbrePiece;
     private Boolean status;
+    private String localisation;
     @OneToMany(mappedBy = "chambre")
     private Collection<Reservation>reservations;
     @OneToMany(mappedBy = "chambre")
