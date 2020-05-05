@@ -53,7 +53,7 @@ public class TerasseSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/registration**",
+                .antMatchers("/terasses/registration**",
                         "/js/**",
                         "/css/**",
                         "/img/**",

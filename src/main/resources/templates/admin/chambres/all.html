@@ -46,7 +46,7 @@
                                         <p class="text-success" th:text="${success}"></p>
                                     </div>
                                     <div class="button col-md-2">
-                                        <a class="btn btn-outline-blue" th:href="@{/hotel/chambres/form}" >New Room</a>
+                                        <a class="btn btn-outline-blue" type="button" data-toggle="modal" data-target="#addModal" href="#" ><i class="fa fa-plus"></i>&nbsp;Chambre</a>
                                     </div>
                                 </div>
                             </div>
@@ -59,8 +59,7 @@
                                         <th>Prix</th>
                                         <th>Nbre_place</th>
                                         <th>Nbre_Lits</th>
-                                        <th>Nbre_pièces</th>
-                                        <th>Status_chambre</th>
+                                        <th>Etat_chambre</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -81,9 +80,7 @@
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.nbreLit}"></p>
                                         </td>
-                                        <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.nbrePiece}"></p>
-                                        </td>
+
                                         <td class="badge-warning" th:if="${chambre.status}==true">
                                             <span class="mb-0 mt-3 mt-lg-0" >Occupé
                                             </span>
@@ -178,6 +175,65 @@
         </div>
         <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
     </div>
+    <div id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="addModalLabel" class="modal-title">Formulaire d'une Chambre</h4>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="form-horizontal" autocomplete="off" th:object="${chambre}" th:action="@{/admin/chambres/save}" th:method="post">
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Categorie</label>
+                            <div class="col-md-9">
+                                <select th:field="*{categorie}" class="form-control" >
+                                    <option th:each="category : ${T(com.derteuffel.marguerite.enums.ECategoryChambre).values()}" th:value="${category}" th:text="${category}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Numero de la chambre </label>
+                            <div class="col-md-9 autocomplete">
+                                <input type="text"   class="form-control" th:field="*{numero}"  placeholder="Numero de la chambre" >
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Prix </label>
+                            <div class="col-md-9">
+                                <input type="number" name="prix" id="prix" class="form-control" th:field="*{prix}"  th:value="${chambre.prix}" >
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Nombre de place</label>
+                            <div class="col-md-9">
+                                <input type="number" name="nbrePlace" id="nbrePlace" th:field="*{nbrePlace}"  th:value="${chambre.nbrePlace}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Nombre de Lits</label>
+                            <div class="col-md-9">
+                                <input id="nbreLit" type="number" name="nbreLit" th:field="*{nbreLit}" th:value="${chambre.nbreLit}" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="line"></div>
+                        <div class="form-group row">
+                            <div class="col-md-9 ml-auto">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                <a th:href="@{/admin/chambres/all}" class="btn btn-secondary">Retour</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>
@@ -187,6 +243,7 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script th:src="@{/js/charts-home.js}"></script>
 <script th:src="@{/js/front.js}"></script>
+<script th:src="@{/js/chambres.js}"></script>
 <script th:src="@{/js/datatables.min.js}"></script>
 <script >
     $(document).ready(function() {

@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <form th:action="@{/hotel/commandes/rembourse/}+${commande.id}" method="get">
+                                    <form th:action="@{/admin/commandes/rembourse/}+${commande.id}" method="get">
                                         <div class="form-group">
                                             <label class="form-control-label">Montant verser <span th:text="${commande.montantV}"></span></label>
                                             <input class="form-control" name="verser" id="verse">

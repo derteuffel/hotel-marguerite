@@ -53,7 +53,7 @@ public class LoungeSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/registration**",
+                .antMatchers("/lounges/registration**",
                         "/js/**",
                         "/css/**",
                         "/img/**",

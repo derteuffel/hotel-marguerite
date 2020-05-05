@@ -54,7 +54,7 @@ public class RootSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/registration**",
+                .antMatchers("/admin/registration**",
                         "/js/**",
                         "/css/**",
                         "/img/**",

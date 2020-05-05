@@ -43,13 +43,11 @@
                             </div>
                             <div class="card-body">
 
-                                <form action="#" class="form-horizontal" th:object="${chambre}" th:action="@{/admin/chambres/update}" th:method="post">
+                                <form action="#" class="form-horizontal" autocomplete="off" th:object="${chambre}" th:action="@{/admin/chambres/update}" th:method="post">
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Numéro de la chambre</label>
-                                        <div class="col-md-9">
-                                            <select th:field="*{numero}" class="form-control" >
-                                                <option th:each="num : ${T(com.derteuffel.marguerite.enums.EChambre).values()}" th:value="${num}" th:text="${num}"></option>
-                                            </select>
+                                        <div class="col-md-9 autocomplete">
+                                            <input id="numero" type="text"  th:field="*{numero}"  class="form-control">
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -71,23 +69,16 @@
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Nombre de pièces </label>
-                                        <div class="col-md-9">
-                                            <input type="number" name="nbrePiece" id="nbrePiece" class="form-control" th:field="*{nbrePiece}"  th:value="${chambre.nbrePiece}" >
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Nombre de place</label>
                                         <div class="col-md-9">
-                                            <input type="number" name="nbrePlace" id="nbrePlace" th:field="*{nbrePlace}"  th:value="${chambre.nbrePlace}" class="form-control">
+                                            <input type="number"  id="nbrePlace" th:field="*{nbrePlace}"   class="form-control">
                                         </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Nombre de Lits</label>
                                         <div class="col-md-9">
-                                            <input id="nbreLit" type="number" name="nbreLit" th:field="*{nbreLit}" th:value="${chambre.nbreLit}" class="form-control">
+                                            <input id="nbreLit" type="number"  th:field="*{nbreLit}"  class="form-control">
                                         </div>
                                     </div>
 

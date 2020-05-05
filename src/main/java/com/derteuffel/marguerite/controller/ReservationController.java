@@ -127,6 +127,7 @@ public class ReservationController {
             }
         }
         model.addAttribute("chambres", chambres);
+        model.addAttribute("name","CHAMBRES");
         return "reservations/chambres/all-2";
     }
     @GetMapping("/appartements/orders")
@@ -141,6 +142,7 @@ public class ReservationController {
             }
         }
         model.addAttribute("chambres", appartements);
+        model.addAttribute("name",ECategoryChambre.APPART.toString());
         return "reservations/chambres/all-2";
     }
 
@@ -160,12 +162,12 @@ public class ReservationController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid Reservation reservation, String num, HttpServletRequest request, Model model){
+    public String save(@Valid Reservation reservation, String num,String prixU, HttpServletRequest request, Model model){
         Principal principal = request.getUserPrincipal();
         Compte compte = compteService.findByUsername(principal.getName());
         System.out.println(num);
         Chambre chambre = chambreRepository.findByNumero(num);
-        reservation.setPrixT(reservation.getPrixU() * reservation.getNbreNuits());
+        reservation.setPrixT(Double.parseDouble(prixU) * reservation.getNbreNuits());
         if (chambre != null){
             reservation.setChambre(chambre);
             TimerTask activate = new TimerTask() {
@@ -189,7 +191,7 @@ public class ReservationController {
             reservation.setCompte(compte);
             reservation.setNumReservation((reservation.getChambre().getNumero()+(reservationRepository.findAll().size()+1)).toUpperCase());
             reservationRepository.save(reservation);
-            return "redirect:/reservations/detail/"+reservation.getId();
+            return "redirect:/reservations/chambres/orders";
         }else {
             model.addAttribute("error", "There are no room with the provided number :"+num);
             return "reservations/form";

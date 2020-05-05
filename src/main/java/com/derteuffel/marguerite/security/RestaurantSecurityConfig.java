@@ -54,7 +54,7 @@ public class RestaurantSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/registration**",
+                .antMatchers("/restaurants/registration**",
                         "/js/**",
                         "/css/**",
                         "/img/**",

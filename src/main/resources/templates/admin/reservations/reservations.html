@@ -51,7 +51,7 @@
                                         <th>Debut_Reservation</th>
                                         <th>Fin_Reservation</th>
                                         <th>Montant</th>
-                                        <th>status</th>
+                                        <th>Etat</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -79,7 +79,7 @@
                                             <p class="mb-0 mt-3 mt-lg-0 " >EN_COURS</p>
                                         </td>
                                         <td th:unless="${reservation?.status}" class="badge-success">
-                                            <p class="mb-0 mt-3 mt-lg-0" >SUSPENDUS</p>
+                                            <p class="mb-0 mt-3 mt-lg-0" >TERMINER</p>
                                         </td>
                                         <td>
                                             <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${reservation?.id}" ><i class="fa fa-eye"></i></a>
@@ -158,6 +158,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
+                                                        <a  th:href="@{/admin/reservations/pdf/generate/}+${reservation?.id}" class="btn btn-outline-dark">Produire facture<i class="fa fa-long-arrow-alt-right"></i></a>
+                                                        <a th:if="${reservation?.billTrace}" th:href="${reservation?.billTrace}" class="btn btn-outline-dark">Visualiser pdf <span th:text="${reservation?.billTrace}"></span> <i class="fa fa-file-pdf"></i></a>
                                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Annuler</button>
                                                         <a th:href="@{/admin/reservations/edit/{id}(id=${reservation?.id})}"  class="btn btn-primary">Modifier</a>
                                                     </div>
@@ -167,12 +169,6 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="card-footer">
-                                <div class="button">
-                                    <a  th:href="@{/admin/reservations/pdf/generate/}+${reservation?.id}" class="btn btn-outline-dark">Produire facture reservation pdf <i class="fa fa-long-arrow-alt-right"></i></a>
-                                    <a th:if="${reservation?.billTrace}" th:href="${reservation?.billTrace}" class="btn btn-outline-dark">Visualiser pdf <span th:text="${reservation?.billTrace}"></span> <i class="fa fa-file-pdf"></i></a>
-                                </div>
                             </div>
                         </div>
                     </div>

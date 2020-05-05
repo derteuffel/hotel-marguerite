@@ -88,7 +88,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Prix de la nuite</label>
                                         <div class="col-md-9">
-                                            <input id="prixU" type="number"  th:field="*{prixU}" class="form-control">
+                                            <input id="prixU" type="number"  th:field="*{prixU}" th:value="${reservation.chambre.prix}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -98,7 +98,6 @@
                                             <span th:text="${reservation.chambre.numero}"></span>
                                             <input type="text" name="num"  class="form-control" th:value="${reservation.chambre.numero}" style="display: none">                                        </div>
                                             <input type="text" th:field="*{status}"  class="form-control"  style="display: none">
-                                    </div>
                                     </div>
                                     <div class="line"></div>
                                     <div class="form-group row">

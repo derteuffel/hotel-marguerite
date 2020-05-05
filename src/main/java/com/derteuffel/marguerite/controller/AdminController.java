@@ -243,24 +243,16 @@ public class AdminController {
             factureRepository.save(existFacture);
             model.addAttribute("facture", existFacture);
         }else {
-            System.out.println(commande.getMontantV());
-            if (commande.getMontantV() != null) {
                 facture.setArticles(names);
                 facture.setPrices(amounts);
                 facture.setQuantities(quantities);
                 facture.setCommande(commande);
                 facture.setDate(dateFormat.format(date));
                 facture.setMontantT(commande.getMontantT());
-                facture.setMontantVerse(commande.getMontantV());
-                facture.setRemboursement(commande.getRembourse());
                 facture.setNumCmd(commande.getNumTable());
                 facture.setNumeroTable(commande.getNumTable());
                 factureRepository.save(facture);
                 model.addAttribute("facture", facture);
-            }else {
-                redirectAttributes.addFlashAttribute("error","Vous ne pouvez pas produire de facture sans montant verse");
-                return "redirect:/admin/commandes/detail/"+commande.getId();
-            }
         }
         place.setStatus(false);
         commande.setStatus(false);
@@ -321,7 +313,7 @@ public class AdminController {
             table.addCell(""+facture.getMontantT()+" CDF");
 
             document.add(table);
-            Paragraph para6 = new Paragraph("Montant verse : "+facture.getMontantVerse());
+           /* Paragraph para6 = new Paragraph("Montant verse : "+facture.getMontantVerse());
             para6.setAlignment(Paragraph.ALIGN_RIGHT);
             para6.setSpacingAfter(3);
             document.add(para6);
@@ -329,7 +321,7 @@ public class AdminController {
             Paragraph para7 = new Paragraph("Montant rembourssé : "+facture.getRemboursement());
             para7.setAlignment(Paragraph.ALIGN_RIGHT);
             para7.setSpacingAfter(3);
-            document.add(para7);
+            document.add(para7);*/
 
             Paragraph para8 = new Paragraph("Montant à payer : "+facture.getMontantT());
             para8.setAlignment(Paragraph.ALIGN_RIGHT);
@@ -559,19 +551,14 @@ public class AdminController {
         Compte compte = compteService.findByUsername(principal.getName());
         request.getSession().setAttribute("compte",compte);
         model.addAttribute("chambres", chambreRepository.findAll());
+        model.addAttribute("chambre", new Chambre());
         return "admin/chambres/all";
     }
 
-    @GetMapping("/chambres/form")
-    public String form(Model model){
-        model.addAttribute("chambre", new Chambre());
-        return "admin/chambres/form";
-    }
 
     @PostMapping("/chambres/save")
     public String save(Chambre chambre, RedirectAttributes redirectAttributes) {
         chambre.setStatus(false);
-        chambre.setNumero(("C0"+(chambreRepository.findAll().size()+1)).toUpperCase().toString());
         chambreRepository.save(chambre);
         redirectAttributes.addFlashAttribute("success","You've been save your data successfully");
         return "redirect:/admin/chambres/all";
@@ -596,7 +583,7 @@ public class AdminController {
     public String update(Chambre chambre, RedirectAttributes redirectAttributes){
 
         chambreRepository.save(chambre);
-        redirectAttributes.addFlashAttribute("suuccess","You've been save your data successfully");
+        redirectAttributes.addFlashAttribute("success","You've been save your data successfully");
         return "redirect:/admin/chambres/all";
 
     }
