@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>Reservation form</title>
+    <title>Annulation d'une Reservation</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -38,27 +38,27 @@
                     <div class="col-lg-12 mb-5">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="h6 text-uppercase mb-0">Nouvelle reservation</h3>
+                                <h3 class="h6 text-uppercase mb-0">Annulation d'une reservation</h3>
                             </div>
                             <div class="card-body">
 
-                                <form  class="form-horizontal" th:object="${reservation}" th:action="@{/reservations/appartements/reserve/save/}+${appartement.id}" th:method="post">
+                                <form  class="form-horizontal" th:object="${form}" th:action="@{/reservations/cancel/}+${reservation.id}" th:method="post">
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Nom du client</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control"  id="nomClient" th:field="*{nomClient}">
+                                            <small class="text-muted" th:text="${reservation.nomClient}"></small>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Telephone</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control"  id="telephone" th:field="*{telephone}">
+                                            <small class="text-muted" th:text="${reservation.telephone}"></small>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">E-mail</label>
                                         <div class="col-md-9">
-                                            <input type="email" class="form-control"  id="email" th:field="*{email}">
+                                            <small class="text-muted" th:text="${reservation.email}"></small>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -67,11 +67,10 @@
                                             <input type="number" class="form-control"  id="nbreNuits" th:field="*{nbreNuits}">
                                         </div>
                                     </div>
-                                    <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Date du debut</label>
+                                        <label class="col-md-3 form-control-label">Date de dbut</label>
                                         <div class="col-md-9">
-                                            <input id="dateDebut" type="date"  th:field="*{dateDebut}" class="form-control">
+                                            <small class="text-muted" th:text="${reservation.dateDebut}"></small>
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -84,17 +83,16 @@
 
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Prix de la nuite</label>
-                                        <div class="col-md-9">
-                                            <input id="prixU" type="number"  th:field="*{prixU}" th:value="${appartement.prix}" class="form-control">
-                                        </div>
+                                        <label class="col-md-3 form-control-label">Chambre</label>
+                                        <div class="col-md-9 ml-auto select">
+                                            <small class="text-muted" th:text="${reservation.chambre.numero}"></small>
                                     </div>
-
+                                    </div>
                                     <div class="line"></div>
-                                    <div class="form-group row">
-                                        <div class="col-md-9 ml-auto">
+                                    <div class="card-footer">
+                                        <div class="button ml-auto">
                                             <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                            <a th:href="@{/reservations/all}"  class="btn btn-secondary">Retour</a>
+                                            <a th:href="@{/reservations/reservation}"  class="btn btn-secondary">Retour</a>
                                         </div>
                                     </div>
                                 </form>
@@ -107,7 +105,6 @@
         <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
     </div>
 </div>
-
 
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/popper.js/umd/popper.min.js}"> </script>

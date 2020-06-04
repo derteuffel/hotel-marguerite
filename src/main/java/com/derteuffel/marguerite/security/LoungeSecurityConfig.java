@@ -21,6 +21,7 @@ public class LoungeSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .antMatcher("/lounges/**").authorizeRequests()
+                .antMatchers("/downloadFile/**").permitAll()
                 .antMatchers("/lounges/**").access("hasAnyRole('ROLE_LOUNGE_BAR','ROLE_ROOT','ROLE_ADMIN')")
                 .and()
                 .formLogin()

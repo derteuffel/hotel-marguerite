@@ -30,10 +30,8 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -132,11 +130,17 @@ public class LoungeController {
         return "lounges/articles/all";
     }
 
-    @GetMapping("/articles/form/{id}")
-    public String form(Model model, @PathVariable Long id){
+    @GetMapping("/articles/form/boisson/{id}")
+    public String formBoisson(Model model, @PathVariable Long id){
         model.addAttribute("article", new Article());
         model.addAttribute("commande", commandeRepository.getOne(id));
-        return "lounges/articles/formArticle";
+        return "lounges/commandes/add-boisson";
+    }
+    @GetMapping("/articles/form/aliment/{id}")
+    public String formAliment(Model model, @PathVariable Long id){
+        model.addAttribute("article", new Article());
+        model.addAttribute("commande", commandeRepository.getOne(id));
+        return "lounges/commandes/add-aliment";
     }
 
     @PostMapping("/articles/save/{type}/{id}")
@@ -161,6 +165,18 @@ public class LoungeController {
         article.setPrixT(article.getQty() * article.getPrixU());
         Commande commande = commandeRepository.getOne(article.getCommande().getId());
         commande.setMontantT(commande.getMontantT() + article.getPrixU());
+        commandeRepository.save(commande);
+        articleRepository.save(article);
+
+        return "redirect:/lounges/commandes/detail/"+commande.getId();
+    }
+    @GetMapping("/articles/remove/{id}")
+    public String removeById(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        Article article = articleRepository.getOne(id);
+        article.setQty(article.getQty() - 1);
+        article.setPrixT(article.getQty() * article.getPrixU());
+        Commande commande = commandeRepository.getOne(article.getCommande().getId());
+        commande.setMontantT(commande.getMontantT() - article.getPrixU());
         commandeRepository.save(commande);
         articleRepository.save(article);
 
@@ -248,7 +264,7 @@ public class LoungeController {
         Bon bon = orderRepository.getOne(id);
         Document document = new Document();
         try{
-            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur()+bon.getId()+".pdf").toString())));
+            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf").toString())));
             document.open();
             document.add(new Paragraph("Marguerite Hotel"));
             document.add(new Paragraph("Secteur :   "+bon.getCommande().getSecteur()));
@@ -278,7 +294,7 @@ public class LoungeController {
             e.printStackTrace();
         }
 
-        bon.setPdfTrace("/downloadFile/"+bon.getSecteur()+bon.getId()+".pdf");
+        bon.setPdfTrace("/downloadFile/"+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf");
         orderRepository.save(bon);
 
         return "redirect:/lounges/articles/orders/"+bon.getCommande().getId();

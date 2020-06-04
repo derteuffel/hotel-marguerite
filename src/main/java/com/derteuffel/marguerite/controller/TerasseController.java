@@ -385,31 +385,25 @@ public class TerasseController {
             existFacture.setCommande(commande);
             existFacture.setDate(dateFormat.format(date));
             existFacture.setMontantT(commande.getMontantT());
-            existFacture.setMontantVerse(commande.getMontantV());
-            existFacture.setRemboursement(commande.getRembourse());
+            /*existFacture.setMontantVerse(commande.getMontantV());
+            existFacture.setRemboursement(commande.getRembourse());*/
             existFacture.setNumCmd(commande.getNumTable());
             existFacture.setNumeroTable(commande.getNumTable());
             factureRepository.save(existFacture);
             model.addAttribute("facture", existFacture);
         }else {
-            System.out.println(commande.getMontantV());
-            if (commande.getMontantV() != null) {
                 facture.setArticles(names);
                 facture.setPrices(amounts);
                 facture.setQuantities(quantities);
                 facture.setCommande(commande);
                 facture.setDate(dateFormat.format(date));
                 facture.setMontantT(commande.getMontantT());
-                facture.setMontantVerse(commande.getMontantV());
-                facture.setRemboursement(commande.getRembourse());
+                /*facture.setMontantVerse(commande.getMontantV());
+                facture.setRemboursement(commande.getRembourse());*/
                 facture.setNumCmd(commande.getNumTable());
                 facture.setNumeroTable(commande.getNumTable());
                 factureRepository.save(facture);
                 model.addAttribute("facture", facture);
-            }else {
-                redirectAttributes.addFlashAttribute("error","Vous ne pouvez pas produire de facture sans montant verse");
-                return "redirect:/terasses/commandes/detail/"+commande.getId();
-            }
         }
         place.setStatus(false);
         commande.setStatus(false);
@@ -424,7 +418,7 @@ public class TerasseController {
         Facture facture = factureRepository.getOne(id);
         Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         try{
-            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getNumCmd()+facture.getId()+".pdf").toString())));
+            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getCommande().getSecteur().toLowerCase()+"-"+facture.getCommande().getId()+".pdf").toString())));
             document.open();
             Paragraph para1 = new Paragraph("Marguerite Hotel");
             para1.setAlignment(Paragraph.ALIGN_CENTER);
@@ -488,7 +482,7 @@ public class TerasseController {
             document.add(new Paragraph("Bien vouloir livrer ces articles a la table cite en haut "));
             document.close();
             System.out.println("the job is done!!!");
-            facture.setBillTrace("/downloadFile/"+facture.getNumCmd()+facture.getId()+".pdf");
+            facture.setBillTrace("/downloadFile/"+facture.getCommande().getSecteur().toLowerCase()+"-"+facture.getCommande().getId()+".pdf");
             factureRepository.save(facture);
         } catch (FileNotFoundException | DocumentException e) {
             e.printStackTrace();
@@ -497,7 +491,7 @@ public class TerasseController {
         }
 
         model.addAttribute("facture",facture);
-        return "terasses/commandes/facture";
+        return "redirect:"+facture.getBillTrace();
     }
 
     private void addTableHeader(PdfPTable table) {

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import java.util.Collection;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
+@OnDelete(action= OnDeleteAction.NO_ACTION)
 public class Chambre implements Serializable {
 
     @Id
@@ -25,11 +28,6 @@ public class Chambre implements Serializable {
     private String categorie;
     @NotNull
     private Float prix;
-    @NotNull
-    private int nbrePlace;
-    @NotNull
-    private int nbreLit;
-    private int nbrePiece;
     private Boolean status;
     private String localisation;
     @OneToMany(mappedBy = "chambre")

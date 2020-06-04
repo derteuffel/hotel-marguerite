@@ -81,10 +81,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="button col-md-3">
-                                        <a class="btn btn-outline-blue" data-toggle="modal" data-target="#addDrinkModal" th:attr="data-target='#addDrinkModal'" >Ajouter Consomation<i class="fa fa-prescription-bottle"></i></a>
+                                        <a class="btn btn-outline-blue" th:href="@{/lounges/articles/form/boisson/}+${commande.id}" >Ajouter Consomation<i class="fa fa-prescription-bottle"></i></a>
                                     </div>
                                     <div class="button col-md-3">
-                                        <a class="btn btn-outline-blue" data-toggle="modal" data-target="#addFoodModal" th:attr="data-target='#addFoodModal'" >Ajouter aliment <i class="fa fa-birthday-cake"></i></a>
+                                        <a class="btn btn-outline-blue" th:href="@{/lounges/articles/form/aliment/}+${commande.id}" >Ajouter aliment <i class="fa fa-birthday-cake"></i></a>
                                     </div>
                                     <div class="button col-md-3">
                                         <a class="btn btn-outline-violet" th:href="@{/lounges/commandes/bill/}+${commande.id}" >Facture <i class="fa fa-print"></i></a>
@@ -113,6 +113,7 @@
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${article.qty}"></p>
                                             <a class="btn text-success" th:href="@{/lounges/articles/add/}+${article.id}" ><i class="fa fa-plus"></i></a>
+                                            <a class="btn text-danger" th:href="@{/lounges/articles/remove/}+${article.id}" ><i class="fa fa-user-clock"></i></a>
                                         </td>
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${article.prixU}"></p>
@@ -187,14 +188,14 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Quantité</label>
                                     <div class="col-md-9">
-                                        <input type="number"   th:field="*{qty}"  class="form-control">
+                                        <input type="number" id="qty"  th:field="*{qty}"  class="form-control">
                                     </div>
                                 </div>
                                 <div class="line"></div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Prix Unitaire<br>(CDF)</label>
                                     <div class="col-md-9">
-                                        <input  type="number"  th:field="*{prixU}"  class="form-control">
+                                        <input  type="number" id="prixU"  th:field="*{prixU}"  class="form-control">
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -241,14 +242,14 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Quantité</label>
                                     <div class="col-md-9">
-                                        <input type="number"   th:field="*{qty}"  class="form-control">
+                                        <input type="number" id="qty1"   th:field="*{qty}"  class="form-control">
                                     </div>
                                 </div>
                                 <div class="line"></div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Prix Unitaire <br>(CDF)</label>
                                     <div class="col-md-9">
-                                        <input  type="number"  th:field="*{prixU}"  class="form-control">
+                                        <input  type="number" id="food"  th:field="*{prixU}"  class="form-control">
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -277,6 +278,8 @@
 <script th:src="@{/js/charts-home.js}"></script>
 <script th:src="@{/js/front.js}"></script>
 <script th:src="@{/js/js.js}"></script>
+<script th:src="@{/js/pricesD.js}"></script>
+<!--script th:src="@{/js/pricesF.js}"></script-->
 <script th:src="@{/js/foods.js}"></script>
 <script th:src="@{/js/datatables.min.js}"></script>
 <script >

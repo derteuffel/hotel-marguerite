@@ -35,7 +35,7 @@ public class Commande implements Serializable {
 
     @ManyToOne
     private Chambre chambre;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Place place;
 
     @ManyToOne

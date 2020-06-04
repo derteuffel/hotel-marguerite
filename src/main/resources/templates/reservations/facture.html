@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>reservation bill detail</title>
+    <title>Facture</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -137,7 +137,7 @@
                     <div class="col-lg-8">
                         <div class="card mb-5 mb-lg-0">
                             <div class="card-header">
-                                <h2 class="h6 mb-0 text-uppercase">Reservation detail</h2>
+                                <h2 class="h6 mb-0 text-uppercase">Reservation facture detail</h2>
                             </div>
                             <div class="card-body">
                                 <section id="memo">
@@ -146,36 +146,83 @@
                                         <div class="right-arrow"></div>
                                     </div>
                                 </section>
-                                <span>Date du jour</span>
-                                <span class="text-gray mb-5" th:text="${reservation.dateJour}"></span>
-                                <div class="line"></div>
-                                <span>Numéro de réservation</span>
-                                <span class="text-gray mb-5" th:text="${reservation.numReservation}"></span>
-                                <div class="line"></div>
-                                <span>Numéro de chambre</span>
-                                <span class="text-gray mb-5" th:text="${reservation.chambre.getNumero()}"></span>
-                                <div class="line"></div>
-                                <span>Nom du client</span>
-                                <span class="text-gray mb-5" th:text="${reservation.nomClient}"></span>
-                                <div class="line"></div>
-                                <span>Numéro du téléphone</span>
-                                <span class="text-gray mb-5" th:text="${reservation.telephone}"></span>
-                                <div class="line"></div>
-                                <span>Email</span>
-                                <span class="text-gray mb-5" th:text="${reservation.email}"></span>
-                                <div class="line"></div>
-                                <span>Nombre de nuits</span>
-                                <span class="text-gray mb-5" th:text="${reservation.nbreNuits}"></span>
-                                <div class="line"></div>
-                                <span>Date debut du séjour</span>
-                                <span class="text-gray mb-5" th:text="${reservation.dateDebut}"></span>
-                                <div class="line"></div>
-                                <span>Date fin du séjour</span>
-                                <span class="text-gray mb-5" th:text="${reservation.dateFin}"></span>
-                                <div class="line"></div>
-                                <span>Prix</span>
-                                <span class="text-gray mb-5" th:text="${reservation.prixT}"></span>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Date du jour</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.dateJour}"></span></td>
+                                    </tr>
+                                </table>
 
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Numéro de réservation</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.numReservation}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Numéro de chambre</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.chambre.getNumero()}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Nom du client</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.nomClient}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Numéro du téléphone</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.telephone}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Email</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.email}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Nombre de nuits</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.nbreNuits}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Date debut du séjour</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.dateDebut}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Date fin du séjour</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.dateFin}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Prix</span></td>
+                                        <td><span class="text-gray mb-5" th:text="${reservation.prixT}"></span></td>
+                                    </tr>
+                                </table>
+                                <div class="line"></div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span>Action</span></td>
+                                        <td><a th:href="${reservation.billTrace}"><span class="text-gray mb-5">Imprimer</span></a></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>

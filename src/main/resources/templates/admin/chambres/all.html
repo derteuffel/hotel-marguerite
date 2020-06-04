@@ -45,9 +45,9 @@
                                         <span class="text-danger" th:text="${error}"></span>
                                         <p class="text-success" th:text="${success}"></p>
                                     </div>
-                                    <div class="button col-md-2">
+                                    <!--div class="button col-md-2">
                                         <a class="btn btn-outline-blue" type="button" data-toggle="modal" data-target="#addModal" href="#" ><i class="fa fa-plus"></i>&nbsp;Chambre</a>
-                                    </div>
+                                    </div-->
                                 </div>
                             </div>
                             <div class="card-body table-responsive">
@@ -57,8 +57,6 @@
                                         <th>Numero</th>
                                         <th>Categorie</th>
                                         <th>Prix</th>
-                                        <th>Nbre_place</th>
-                                        <th>Nbre_Lits</th>
                                         <th>Etat_chambre</th>
                                         <th>Actions</th>
                                     </tr>
@@ -72,13 +70,7 @@
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.categorie}"></p>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.prix}">$</p>
-                                        </td>
-                                        <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.nbrePlace}"></p>
-                                        </td>
-                                        <td>
-                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.nbreLit}"></p>
+                                            <p class="mb-0 mt-3 mt-lg-0" th:text="${chambre?.prix}+' $'">$</p>
                                         </td>
 
                                         <td class="badge-warning" th:if="${chambre.status}==true">
@@ -140,18 +132,6 @@
                                                             <strong th:text="${chambre.prix}">$</strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Nombre de place:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${chambre.nbrePlace}"></strong>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nombre de lit:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${chambre.nbreLit}"></strong>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nombre de pièces</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <strong th:text="${chambre.nbrePiece}"></strong>
-                                                        </div>
-                                                        <div class="form-group">
                                                             <label>Status</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             <strong th:if="${chambre.status}==true" class="badge-warning">Occupé </strong>
                                                             <strong th:unless="${chambre.status}==true" class="badge-success">Disponible </strong>
@@ -175,7 +155,7 @@
         </div>
         <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>
     </div>
-    <div id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" class="modal fade text-left">
+    <!--div id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" class="modal fade text-left">
         <div role="document" class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -206,33 +186,19 @@
                                 <input type="number" name="prix" id="prix" class="form-control" th:field="*{prix}"  th:value="${chambre.prix}" >
                             </div>
                         </div>
-                        <div class="line"></div>
-                        <div class="form-group row">
-                            <label class="col-md-3 form-control-label">Nombre de place</label>
-                            <div class="col-md-9">
-                                <input type="number" name="nbrePlace" id="nbrePlace" th:field="*{nbrePlace}"  th:value="${chambre.nbrePlace}" class="form-control">
-                            </div>
-                        </div>
-                        <div class="line"></div>
-                        <div class="form-group row">
-                            <label class="col-md-3 form-control-label">Nombre de Lits</label>
-                            <div class="col-md-9">
-                                <input id="nbreLit" type="number" name="nbreLit" th:field="*{nbreLit}" th:value="${chambre.nbreLit}" class="form-control">
-                            </div>
-                        </div>
 
                         <div class="line"></div>
                         <div class="form-group row">
                             <div class="col-md-9 ml-auto">
                                 <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                <a th:href="@{/admin/chambres/all}" class="btn btn-secondary">Retour</a>
+                                <a type="button" data-dismiss="modal" class="btn btn-secondary">Retour</a>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div-->
 
 </div>
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
@@ -249,7 +215,7 @@
     $(document).ready(function() {
         // Add Row
         $('#stripped').DataTable({
-            "pageLength": 5,
+            "pageLength": 10,
         });
     });
 </script>

@@ -1,6 +1,7 @@
 package com.derteuffel.marguerite.controller;
 
 import com.derteuffel.marguerite.domain.*;
+import com.derteuffel.marguerite.enums.ECategoryChambre;
 import com.derteuffel.marguerite.enums.ESecteur;
 import com.derteuffel.marguerite.helpers.CompteRegistrationDto;
 import com.derteuffel.marguerite.repository.*;
@@ -71,6 +72,8 @@ public class AdminController {
 
     @Autowired
     private CompteRepository compteRepository;
+
+
 
     @ModelAttribute("compte")
     public CompteRegistrationDto compteRegistrationDto(){
@@ -551,7 +554,39 @@ public class AdminController {
         Compte compte = compteService.findByUsername(principal.getName());
         request.getSession().setAttribute("compte",compte);
         model.addAttribute("chambres", chambreRepository.findAll());
-        model.addAttribute("chambre", new Chambre());
+        /*for (int i=0;i<10;i++){
+            Chambre chambre = new Chambre();
+            chambre.setStatus(false);
+            chambre.setCategorie(ECategoryChambre.CLASSIC.toString());
+            chambre.setNumero("10"+i);
+            chambre.setPrix(35F);
+            chambreRepository.save(chambre);
+        }
+        for (int i=0;i<10;i++){
+            Chambre chambre = new Chambre();
+            chambre.setStatus(false);
+            chambre.setCategorie(ECategoryChambre.CLASSIC.toString());
+            chambre.setNumero("21"+i);
+            chambre.setPrix(35F);
+            chambreRepository.save(chambre);
+        }
+        for (int i=0;i<10;i++){
+            Chambre chambre = new Chambre();
+            chambre.setStatus(false);
+            chambre.setCategorie(ECategoryChambre.CLASSIC.toString());
+            chambre.setNumero("32"+i);
+            chambre.setPrix(35F);
+            chambreRepository.save(chambre);
+        }
+        for (int i=0;i<10;i++){
+            Chambre chambre = new Chambre();
+            chambre.setStatus(false);
+            chambre.setCategorie(ECategoryChambre.CLASSIC.toString());
+            chambre.setNumero("43"+i);
+            chambre.setPrix(35F);
+            chambreRepository.save(chambre);
+        }*/
+        //model.addAttribute("chambre", new Chambre());
         return "admin/chambres/all";
     }
 
@@ -701,6 +736,13 @@ public class AdminController {
     public String restaurantPlaces(Model model){
         model.addAttribute("secteur",ESecteur.RESTAURANT.toString());
         model.addAttribute("places", placeRepository.findAllBySecteur(ESecteur.RESTAURANT.toString()));
+        /*for (int i=1;i<41;i++){
+            Place place= new Place();
+            place.setStatus(false);
+            place.setSecteur(ESecteur.RESTAURANT.toString());
+            place.setNumTable(""+i);
+            placeRepository.save(place);
+        }*/
         return "admin/places/all";
     }
 
@@ -708,12 +750,26 @@ public class AdminController {
     public String terassePlaces(Model model){
         model.addAttribute("secteur",ESecteur.TERASSE.toString());
         model.addAttribute("places", placeRepository.findAllBySecteur(ESecteur.TERASSE.toString()));
+        /*for (int i=1;i<41;i++){
+            Place place= new Place();
+            place.setStatus(false);
+            place.setSecteur(ESecteur.TERASSE.toString());
+            place.setNumTable(""+i);
+            placeRepository.save(place);
+        }*/
         return "admin/places/all";
     }
     @GetMapping("/places/lounge_bar/all")
     public String lounge_barPlaces(Model model){
         model.addAttribute("secteur",ESecteur.LOUNGE_BAR.toString());
         model.addAttribute("places", placeRepository.findAllBySecteur(ESecteur.LOUNGE_BAR.toString()));
+        /*for (int i=1;i<41;i++){
+            Place place= new Place();
+            place.setStatus(false);
+            place.setSecteur(ESecteur.LOUNGE_BAR.toString());
+            place.setNumTable(""+i);
+            placeRepository.save(place);
+        }*/
         return "admin/places/all";
     }
 

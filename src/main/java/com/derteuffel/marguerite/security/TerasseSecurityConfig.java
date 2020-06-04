@@ -21,6 +21,7 @@ public class TerasseSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .antMatcher("/terasses/**").authorizeRequests()
+                .antMatchers("/downloadFile/**").permitAll()
                 .antMatchers("/terasses/**").access("hasAnyRole('ROLE_TERASSE','ROLE_ROOT','ROLE_ADMIN')")
                 .and()
                 .formLogin()

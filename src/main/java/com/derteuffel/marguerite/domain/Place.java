@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +16,7 @@ import java.util.Collection;
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 @Table(name = "place")
+@OnDelete(action= OnDeleteAction.NO_ACTION)
 public class Place implements Serializable {
 
 

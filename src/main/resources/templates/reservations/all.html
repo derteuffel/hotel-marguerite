@@ -106,7 +106,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Prix total:</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <strong th:text="${reservation.prixT}">$</strong>
+                                            <strong th:text="${reservation.prixT}+'$'">$</strong>
                                         </div>
                                         <div class="form-group">
                                             <label>Status</label>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -116,7 +116,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
-                                        <a th:href="@{/reservations/edit/{id}(id=${reservation.id})}"  class="btn btn-primary">Modifier</a>
+                                        <a th:if="${reservation.status}!=true" th:href="@{/reservations/pdf/generate/{id}(id=${reservation.id})}"  class="btn btn-warning">Facture</a>
+                                        <a th:if="${reservation.status}==true" th:href="@{/reservations/annuler/{id}(id=${reservation.id})}"  class="btn btn-warning">Facture</a>
+                                        <a th:if="${reservation.status}==true" th:href="@{/reservations/edit/{id}(id=${reservation.id})}"  class="btn btn-primary">Modifier</a>
                                     </div>
                                 </div>
                             </div>

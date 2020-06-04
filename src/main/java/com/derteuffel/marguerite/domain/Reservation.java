@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.util.Timer;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
+@OnDelete(action= OnDeleteAction.NO_ACTION)
 public class Reservation implements Serializable {
 
     @Id
@@ -35,9 +38,9 @@ public class Reservation implements Serializable {
     private Double prixT;
     private Date dateJour = new Date();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Chambre chambre;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Compte compte;
 
 

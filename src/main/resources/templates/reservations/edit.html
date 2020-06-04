@@ -98,12 +98,11 @@
                                             <input type="text" name="num"  class="form-control" th:value="${reservation.chambre.numero}" style="display: none">                                        </div>
                                             <input type="text" th:field="*{status}"  class="form-control"  style="display: none">
                                     </div>
-                                    </div>
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <div class="col-md-9 ml-auto">
                                             <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                            <a th:href="@{reservations/all}"  class="btn btn-secondary">Retour</a>
+                                            <a th:href="@{/reservations/reservation}"  class="btn btn-secondary">Retour</a>
                                         </div>
                                     </div>
                                 </form>

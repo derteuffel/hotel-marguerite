@@ -4,6 +4,7 @@ import com.derteuffel.marguerite.domain.*;
 import com.derteuffel.marguerite.enums.ECategory;
 import com.derteuffel.marguerite.enums.ECategoryChambre;
 import com.derteuffel.marguerite.helpers.CompteRegistrationDto;
+import com.derteuffel.marguerite.helpers.ReservationCancel;
 import com.derteuffel.marguerite.repository.*;
 import com.derteuffel.marguerite.services.CompteService;
 import com.itextpdf.text.*;
@@ -142,8 +143,8 @@ public class ReservationController {
             }
         }
         model.addAttribute("chambres", appartements);
-        model.addAttribute("name",ECategoryChambre.APPART.toString());
-        return "reservations/chambres/all-2";
+        model.addAttribute("name","APPARTEMENTS");
+        return "reservations/appartements/all-2";
     }
 
     @GetMapping("/reservation")
@@ -189,9 +190,14 @@ public class ReservationController {
             timer.schedule(activate,reservation.getDateDebut());
             timer.schedule(deactivate,reservation.getDateFin());
             reservation.setCompte(compte);
-            reservation.setNumReservation((reservation.getChambre().getNumero()+(reservationRepository.findAll().size()+1)).toUpperCase());
+            reservation.setNumReservation((reservation.getChambre().getNumero()+"/"+(reservationRepository.findAll().size()+1)).toUpperCase());
+            chambreRepository.save(chambre);
             reservationRepository.save(reservation);
-            return "redirect:/reservations/chambres/orders";
+            if (chambre.getCategorie().equals(ECategoryChambre.CLASSIC.toString()) || chambre.getCategorie().equals(ECategoryChambre.VIP.toString())) {
+                return "redirect:/reservations/chambres/orders";
+            }else {
+                return "redirect:/reservations/appartements/orders";
+            }
         }else {
             model.addAttribute("error", "There are no room with the provided number :"+num);
             return "reservations/form";
@@ -204,6 +210,27 @@ public class ReservationController {
         Reservation reservation =  reservationRepository.findById(id).get();
         model.addAttribute("reservation", reservation);
         return "reservations/edit";
+    }
+    @GetMapping("/annuler/{id}")
+    public String cancelReservation(Model model, @PathVariable Long id, ReservationCancel form){
+        Reservation reservation =  reservationRepository.findById(id).get();
+        model.addAttribute("reservation", reservation);
+        model.addAttribute("form", form);
+        return "reservations/cancel";
+    }
+
+    @PostMapping("/cancel/{id}")
+    public String cancelReservation(@PathVariable Long id, ReservationCancel form, Model model){
+        Reservation reservation = reservationRepository.getOne(id);
+        reservation.setDateFin(form.getDateFin());
+        reservation.setNbreNuits(form.getNbreNuits());
+        reservation.setPrixT(reservation.getPrixU()*form.getNbreNuits());
+        reservation.setStatus(false);
+        Chambre chambre = reservation.getChambre();
+        chambre.setStatus(false);
+        chambreRepository.save(chambre);
+        reservationRepository.save(reservation);
+        return "redirect:/reservations/pdf/generate/"+reservation.getId();
     }
 
     @PostMapping("/update")
@@ -307,7 +334,7 @@ public class ReservationController {
             para11.setSpacingAfter(3);
             document.add(para11);
 
-            Paragraph para12 = new Paragraph("Cout du sejour :  "+reservation.getPrixT());
+            Paragraph para12 = new Paragraph("Cout du sejour :  "+reservation.getPrixT()+"$");
             para12.setAlignment(Paragraph.ALIGN_LEFT);
             para12.setSpacingAfter(3);
             document.add(para12);
