@@ -22,7 +22,7 @@ public class ReservationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .antMatcher("/reservations/**").authorizeRequests()
-                .antMatchers("/downloadFile/**").permitAll()
+                .antMatchers("/downloadFile/**","/static/**").permitAll()
                 .antMatchers("/reservations/**").access("hasAnyRole('ROLE_RESERVATION','ROLE_ROOT','ROLE_ADMIN')")
                 .and()
                 .formLogin()

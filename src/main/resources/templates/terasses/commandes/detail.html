@@ -81,10 +81,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="button col-md-3">
-                                        <a class="btn btn-outline-blue" data-toggle="modal" data-target="#addDrinkModal" th:attr="data-target='#addDrinkModal'" >Ajouter Consomation<i class="fa fa-prescription-bottle"></i></a>
+                                        <a class="btn btn-outline-blue" th:href="@{/terasses/articles/form/boisson/}+${commande.id}" >Ajouter Consomation<i class="fa fa-prescription-bottle"></i></a>
                                     </div>
                                     <div class="button col-md-3">
-                                        <a class="btn btn-outline-blue" data-toggle="modal" data-target="#addFoodModal" th:attr="data-target='#addFoodModal'" >Ajouter aliment <i class="fa fa-birthday-cake"></i></a>
+                                        <a class="btn btn-outline-blue" th:href="@{/terasses/articles/form/aliment/}+${commande.id}" >Ajouter aliment <i class="fa fa-birthday-cake"></i></a>
                                     </div>
                                     <div class="button col-md-3">
                                         <a class="btn btn-outline-violet" th:href="@{/terasses/commandes/bill/}+${commande.id}" >Facture <i class="fa fa-print"></i></a>
@@ -113,6 +113,7 @@
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${article.qty}"></p>
                                             <a class="btn text-success" th:href="@{/terasses/articles/add/}+${article.id}" ><i class="fa fa-plus"></i></a>
+                                            <a class="btn text-danger" th:href="@{/terasses/articles/remove/}+${article.id}" ><i class="fa fa-user-clock"></i></a>
                                         </td>
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${article.prixU}"></p>
@@ -156,113 +157,6 @@
                     </div>
                 </div>
             </section>
-
-            <div class="modal card fade " th:id="addDrinkModal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="card-header modal-header no-bd">
-                            <h5 class="modal-title">
-                                <span class="fw-mediumbold">
-                                    Nouvel</span>
-                                <span class="fw-light">
-                                    article
-                                </span>
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="card-body modal-body">
-                            <form  class="form-horizontal" autocomplete="off" th:object="${article}" th:action="@{/terasses/articles/save/drink/}+${commande.id}" th:method="post">
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Nom</label>
-                                    <div class="col-md-9 autocomplete">
-                                        <!--select th:field="*{nom}" class="form-control">
-                                            <option th:each=" name : ${T(com.derteuffel.marguerite.enums.EBoissonName).values()}" th:value="${name}" th:text="${name}"></option>
-                                        </select-->
-                                        <input type="text" th:field="*{nom}" class="form-control" id="boissonName">
-                                    </div>
-                                </div>
-                                <div class="line"></div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Quantité</label>
-                                    <div class="col-md-9">
-                                        <input type="number" id="qty"    th:field="*{qty}"  class="form-control">
-                                    </div>
-                                </div>
-                                <div class="line"></div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Prix Unitaire<br>(CDF)</label>
-                                    <div class="col-md-9">
-                                        <input  type="number" id="prixU"  th:field="*{prixU}"  class="form-control">
-                                    </div>
-                                </div>
-                                <div class="line"></div>
-                                <div class="form-group row">
-                                    <div class="col-md-9 ml-auto">
-                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Retour</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal card fade " th:id="addFoodModal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="card-header modal-header no-bd">
-                            <h5 class="modal-title">
-                                <span class="fw-mediumbold">
-                                    Nouvel</span>
-                                <span class="fw-light">
-                                    article
-                                </span>
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="card-body modal-body">
-                            <form  class="form-horizontal" autocomplete="off" th:object="${article}" th:action="@{/terasses/articles/save/food/}+${commande.id}" th:method="post">
-                                <div class="form-group  row">
-                                    <label class="col-md-3 form-control-label">Nom</label>
-                                    <div class="col-md-9 autocomplete">
-                                        <!--select th:field="*{nom}" class="form-control">
-                                            <option th:each=" name : ${T(com.derteuffel.marguerite.enums.EFoodName).values()}" th:value="${name}" th:text="${name}"></option>
-                                        </select-->
-
-                                        <input type="text" th:field="*{nom}" class="form-control" id="foodName">
-                                    </div>
-                                </div>
-                                <div class="line"></div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Quantité</label>
-                                    <div class="col-md-9">
-                                        <input type="number" id="qty1"    th:field="*{qty}"  class="form-control">
-                                    </div>
-                                </div>
-                                <div class="line"></div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Prix Unitaire <br>(CDF)</label>
-                                    <div class="col-md-9">
-                                        <input  type="number" id="food"  th:field="*{prixU}"  class="form-control">
-                                    </div>
-                                </div>
-                                <div class="line"></div>
-                                <div class="form-group row">
-                                    <div class="col-md-9 ml-auto">
-                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Retour</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
         <footer th:replace="~{../templates/fragments/footer :: footer}"></footer>

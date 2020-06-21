@@ -22,7 +22,7 @@ public class RestaurantSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .antMatcher("/restaurants/**").authorizeRequests()
-                .antMatchers("/downloadFile/**").permitAll()
+                .antMatchers("/downloadFile/**","/static/**").permitAll()
                 .antMatchers("/restaurants/**").access("hasAnyRole('ROLE_RESTAURANT','ROLE_ROOT','ROLE_ADMIN')")
                 .and()
                 .formLogin()

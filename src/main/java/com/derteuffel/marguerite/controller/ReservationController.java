@@ -273,16 +273,26 @@ public class ReservationController {
     @GetMapping("/pdf/generate/{id}")
     public String reservationBill(@PathVariable Long id, Model model){
         Reservation reservation = reservationRepository.getOne(id);
-        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+        Document document = new Document(PageSize.NOTE, 10, 10, 10, 10);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+"CH"+reservation.getId()+".pdf").toString())));
             document.open();
-            Paragraph para1 = new Paragraph("MARGUERITE HÔTEL");
+            Paragraph para1 = new Paragraph("HÔTEL MARGUERITE");
             para1.setAlignment(Paragraph.ALIGN_CENTER);
-            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD,
+            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD,
                     BaseColor.GREEN));
             para1.setSpacingAfter(50);
             document.add(para1);
+
+            Paragraph paragraph = new Paragraph("Ident. Nat.: 5-714-K 21286                                                                       N.R.C: 13680 KIN\n" +
+                    "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa\n" +
+                    "Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr\n");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.setFont(new Font(Font.FontFamily.TIMES_ROMAN,6,Font.BOLD));
+            document.add(paragraph);
+            Paragraph line = new Paragraph("---------------------------------------------------------------------------");
+            line.setAlignment(Element.ALIGN_CENTER);
+            document.add(line);
 
             Paragraph para5 = new Paragraph("Date du jour :  "+reservation.getDateJour());
             para5.setAlignment(Paragraph.ALIGN_CENTER);
@@ -356,6 +366,12 @@ public class ReservationController {
         return "reservations/facture";
     }
 
+    @GetMapping("/billViewer/{id}")
+    public String viewBillPdf(@PathVariable Long id, Model model){
+        Reservation reservation = reservationRepository.getOne(id);
+        model.addAttribute("item",reservation);
+        return "reservations/pdfViewer";
+    }
 
     //----- piscine methods -----//
 

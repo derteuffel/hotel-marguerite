@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bill detail</title>
+    <title>Facture</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -494,7 +494,7 @@
                             <div class="card-footer">
                                 <div class="button">
                                     <a  th:href="@{/terasses/commandes/bills/}+${facture.id}" class="btn btn-outline-dark">Produire facture pdf <i class="fa fa-long-arrow-alt-right"></i></a>
-                                    <a  th:href="${facture.billTrace}" class="btn btn-outline-dark">Visualiser pdf <span th:text="${facture.billTrace}"></span> <i class="fa fa-file-pdf"></i></a>
+                                    <a  th:href="@{/terasses/billViewer/}+${facture.id}" class="btn btn-outline-dark">Visualiser pdf <i class="fa fa-file-pdf"></i></a>
                                 </div>
                             </div>
                         </div>

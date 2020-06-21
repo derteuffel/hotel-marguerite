@@ -139,9 +139,28 @@ public class RestaurantController {
         return "restaurants/articles/formArticle";
     }
 
+    @GetMapping("/articles/form/boisson/{id}")
+    public String formBoisson(Model model, @PathVariable Long id){
+        model.addAttribute("article", new Article());
+        model.addAttribute("commande", commandeRepository.getOne(id));
+        return "restaurants/commandes/add-boisson";
+    }
+    @GetMapping("/articles/form/aliment/{id}")
+    public String formAliment(Model model, @PathVariable Long id){
+        model.addAttribute("article", new Article());
+        model.addAttribute("commande", commandeRepository.getOne(id));
+        return "restaurants/commandes/add-aliment";
+    }
+
     @PostMapping("/articles/save/{type}/{id}")
-    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable String type) {
+    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable String type, int taux) {
         Commande commande = commandeRepository.getOne(id);
+        if (article.getPrixU().toString().length()<5){
+            System.out.println("je suis la");
+            article.setPrixU(article.getPrixU() * taux);
+        }else {
+            article.setPrixU(article.getPrixU());
+        }
         article.setPrixT(article.getPrixU() * article.getQty());
         System.out.println(commande.getMontantT());
         commande.setMontantT(commande.getMontantT() + article.getPrixT());
@@ -167,6 +186,19 @@ public class RestaurantController {
         return "redirect:/restaurants/commandes/detail/"+commande.getId();
     }
 
+    @GetMapping("/articles/remove/{id}")
+    public String removeById(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        Article article = articleRepository.getOne(id);
+        article.setQty(article.getQty() - 1);
+        article.setPrixT(article.getQty() * article.getPrixU());
+        Commande commande = commandeRepository.getOne(article.getCommande().getId());
+        commande.setMontantT(commande.getMontantT() - article.getPrixU());
+        commandeRepository.save(commande);
+        articleRepository.save(article);
+
+        return "redirect:/restaurants/commandes/detail/"+commande.getId();
+    }
+
 
     @GetMapping("/articles/orders/{id}")
     public String orders(@PathVariable Long id,Model model){
@@ -175,9 +207,9 @@ public class RestaurantController {
         Optional<Bon> existFoods = orderRepository.findBySecteurAndCommande_Id("FOOD",id);
 
         model.addAttribute("commande",commande);
-        if (existDrinks.isPresent()){
+        /*if (existDrinks.isPresent()){
             model.addAttribute("drinks",existDrinks.get());
-        }else {
+        }else {*/
             List<Bon> nullDrinks = orderRepository.findAllBySecteur(null);
             if (!(nullDrinks.isEmpty())) {
                 orderRepository.deleteAll(nullDrinks);
@@ -195,11 +227,11 @@ public class RestaurantController {
             }
             orderRepository.save(drinks);
             model.addAttribute("drinks", drinks);
-        }
+        //}
 
-        if (existFoods.isPresent()){
+        /*if (existFoods.isPresent()){
             model.addAttribute("foods",existFoods.get());
-        }else {
+        }else {*/
             List<Bon> nullFoods = orderRepository.findAllBySecteur(null);
             if (!(nullFoods.isEmpty())) {
                 orderRepository.deleteAll(nullFoods);
@@ -217,7 +249,7 @@ public class RestaurantController {
             }
             orderRepository.save(foods);
             model.addAttribute("foods", foods);
-        }
+        //}
 
 
         return "restaurants/commandes/orders";
@@ -246,19 +278,40 @@ public class RestaurantController {
     @GetMapping("/articles/orders/pdf/{id}")
     public String pdfGenerator(@PathVariable Long id){
         Bon bon = orderRepository.getOne(id);
-        Document document = new Document();
+        Document document = new Document(PageSize.NOTE, 10, 10, 10, 10);
         try{
-            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur()+bon.getId()+".pdf").toString())));
+            PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf").toString())));
             document.open();
-            document.add(new Paragraph("Marguerite Hotel"));
+            Paragraph para1 = new Paragraph("HÔTEL MARGUERITE");
+            para1.setAlignment(Paragraph.ALIGN_CENTER);
+            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD,
+                    BaseColor.GREEN));
+            para1.setSpacingAfter(10);
+            document.add(para1);
+
+            Paragraph paragraph = new Paragraph("Ident. Nat.: 5-714-K 21286                                                                       N.R.C: 13680 KIN\n" +
+                    "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa\n" +
+                    "Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr\n");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.setFont(new Font(Font.FontFamily.TIMES_ROMAN,6,Font.BOLD));
+            document.add(paragraph);
+            Paragraph line = new Paragraph("----------------------------------------------------------------");
+            line.setAlignment(Element.ALIGN_CENTER);
+            document.add(line);
             document.add(new Paragraph("Secteur :   "+bon.getCommande().getSecteur()));
             document.add(new Paragraph("Numero Table :  "+bon.getCommande().getNumTable()));
             document.add(new Paragraph("Numero du bon :  "+bon.getNumBon()));
             document.add(new Paragraph("Listes des articles et quantites "));
 
             PdfPTable table = new PdfPTable(3);
+            table.setWidthPercentage(100.0f);
+            table.setWidths(new float[] {3.0f, 2.0f, 2.0f});
+            table.setSpacingBefore(10);
             table.setSpacingAfter(20f);
             table.setSpacingBefore(20f);
+            // define font for table header row
+            Font font = FontFactory.getFont(FontFactory.HELVETICA);
+            font.setColor(BaseColor.WHITE);
             addTableHeader(table);
             for (int i = 0; i<bon.getItems().size();i++){
                 table.addCell(""+(i+1));
@@ -278,7 +331,7 @@ public class RestaurantController {
             e.printStackTrace();
         }
 
-        bon.setPdfTrace("/downloadFile/"+bon.getSecteur()+bon.getId()+".pdf");
+        bon.setPdfTrace("/downloadFile/"+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf");
         orderRepository.save(bon);
 
         return "redirect:/restaurants/articles/orders/"+bon.getCommande().getId();
@@ -391,7 +444,6 @@ public class RestaurantController {
             model.addAttribute("facture", existFacture);
         }else {
             System.out.println(commande.getMontantV());
-            if (commande.getMontantV() != null) {
                 facture.setArticles(names);
                 facture.setPrices(amounts);
                 facture.setQuantities(quantities);
@@ -404,10 +456,6 @@ public class RestaurantController {
                 facture.setNumeroTable(commande.getNumTable());
                 factureRepository.save(facture);
                 model.addAttribute("facture", facture);
-            }else {
-                redirectAttributes.addFlashAttribute("error","Vous ne pouvez pas produire de facture sans montant verse");
-                return "redirect:/restaurants/commandes/detail/"+commande.getId();
-            }
         }
         place.setStatus(false);
         commande.setStatus(false);
@@ -417,19 +465,43 @@ public class RestaurantController {
 
     }
 
+    @GetMapping("/billViewer/{id}")
+    public String viewBillPdf(@PathVariable Long id, Model model){
+        Facture facture = factureRepository.getOne(id);
+        model.addAttribute("item",facture);
+        return "restaurants/pdfViewer";
+    }
+
+    @GetMapping("/bon/{id}")
+    public String viewBonPdf(@PathVariable Long id, Model model){
+        Bon bon = orderRepository.getOne(id);
+        model.addAttribute("item",bon);
+        return "restaurants/bonViewer";
+    }
+
     @GetMapping("/commandes/bills/{id}")
     public String billPdfGenerator(@PathVariable Long id, Model model){
         Facture facture = factureRepository.getOne(id);
-        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+        Document document = new Document(PageSize.A6, 10, 10, 10, 10);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getNumCmd()+facture.getId()+".pdf").toString())));
             document.open();
-            Paragraph para1 = new Paragraph("Marguerite Hotel");
+            Paragraph para1 = new Paragraph("HÔTEL MARGUERITE");
             para1.setAlignment(Paragraph.ALIGN_CENTER);
-            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD,
+            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD,
                     BaseColor.GREEN));
             para1.setSpacingAfter(50);
             document.add(para1);
+
+            Paragraph paragraph = new Paragraph("Ident. Nat.: 5-714-K 21286                                                                       N.R.C: 13680 KIN\n" +
+                    "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa\n" +
+                    "Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr\n");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.setFont(new Font(Font.FontFamily.TIMES_ROMAN,6,Font.BOLD));
+            document.add(paragraph);
+            Paragraph line = new Paragraph("---------------------------------------------------------------------------");
+            line.setAlignment(Element.ALIGN_CENTER);
+            document.add(line);
 
 
             Paragraph para2 = new Paragraph("Secteur :   "+facture.getCommande().getSecteur());
@@ -462,12 +534,10 @@ public class RestaurantController {
                 total=+facture.getQuantities().get(i);
                 System.out.println("inside the table");
             }
-            table.addCell("Total");
-            table.addCell("");
-            table.addCell(""+total);
-            table.addCell(""+facture.getMontantT()+" CDF");
 
             document.add(table);
+
+            /*
             Paragraph para6 = new Paragraph("Montant verse : "+facture.getMontantVerse());
             para6.setAlignment(Paragraph.ALIGN_RIGHT);
             para6.setSpacingAfter(3);
@@ -476,14 +546,14 @@ public class RestaurantController {
             Paragraph para7 = new Paragraph("Montant rembourssé : "+facture.getRemboursement());
             para7.setAlignment(Paragraph.ALIGN_RIGHT);
             para7.setSpacingAfter(3);
-            document.add(para7);
+            document.add(para7);*/
 
-            Paragraph para8 = new Paragraph("Montant à payer : "+facture.getMontantT());
-            para8.setAlignment(Paragraph.ALIGN_RIGHT);
+            Paragraph para8 = new Paragraph("Montant total à payer : "+facture.getMontantT());
+            para8.setAlignment(Paragraph.ALIGN_LEFT);
             para8.setSpacingAfter(6);
             document.add(para8);
 
-            document.add(new Paragraph("Bien vouloir livrer ces articles a la table cite en haut "));
+            document.add(new Paragraph("Merci d'etre passe chez nous "));
             document.close();
             System.out.println("the job is done!!!");
             facture.setBillTrace("/downloadFile/"+facture.getNumCmd()+facture.getId()+".pdf");

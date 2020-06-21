@@ -220,7 +220,7 @@
                                 <table class="table">
                                     <tr>
                                         <td><span>Action</span></td>
-                                        <td><a th:href="${reservation.billTrace}"><span class="text-gray mb-5">Imprimer</span></a></td>
+                                        <td><a th:href="@{/reservations/billViewer/}+${reservation.id}"><span class="text-gray mb-5">Imprimer</span></a></td>
                                     </tr>
                                 </table>
                             </div>

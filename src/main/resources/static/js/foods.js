@@ -25,6 +25,7 @@ var foodNames= [
     "Sausuce + Frite",
     "Cossa AcmpFrites",
     "Brochette de Boeuf",
+    "Brochette de Poulet",
     "Brochette de Capitaine",
     "Steck",
     "Poulet Entien Acomp Frites",

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <title>Orders</title>
+    <title>Bons</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -51,8 +51,8 @@
                             </div>
                             <div class="card-footer">
                                 <div class="button">
-                                    <a th:href="@{/restaurants/articles/orders/pdf/}+${drinks.id}" class="btn btn-primary">Produire facture Pdf <i class="fa fa-long-arrow-alt-right"></i></a>
-                                    <a th:if="${drinks.pdfTrace}!=null" th:href="${drinks.pdfTrace}" class="btn btn-info">Visualiser pdf<i class="fa fa-file-pdf"></i></a>                                </div>
+                                    <a th:href="@{/restaurants/articles/orders/pdf/}+${drinks.id}" class="btn btn-primary">Produire bon Pdf <i class="fa fa-long-arrow-alt-right"></i></a>
+                                    <a th:if="${drinks.pdfTrace}!=null" th:href="@{/restaurants/bon/}+${drinks.id}" class="btn btn-info">Visualiser pdf<i class="fa fa-file-pdf"></i></a>                                </div>
                             </div>
                         </div>
                     </div>
@@ -72,8 +72,8 @@
                             </div>
                             <div class="card-footer">
                                 <div class="button">
-                                    <a th:href="@{/restaurants/articles/orders/pdf/}+${foods.id}" class="btn btn-primary">Produire facture Pdf <i class="fa fa-long-arrow-alt-right"></i></a>
-                                    <a th:if="${foods.pdfTrace}!=null" th:href="${foods.pdfTrace}" class="btn btn-info">Visualiser pdf<i class="fa fa-file-pdf"></i></a>
+                                    <a th:href="@{/restaurants/articles/orders/pdf/}+${foods.id}" class="btn btn-primary">Produire bon Pdf <i class="fa fa-long-arrow-alt-right"></i></a>
+                                    <a th:if="${foods.pdfTrace}!=null" th:href="@{/restaurants/bon/}+${foods.id}" class="btn btn-info">Visualiser pdf<i class="fa fa-file-pdf"></i></a>
                                 </div>
                             </div>
                         </div>

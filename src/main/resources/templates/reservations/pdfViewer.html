@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pdf viewer</title>
+</head>
+<body>
+<div class="container">
+    <div class="px-3 justify-content-center d-flex">
+        <div>
+            <embed th:src="${item.billTrace}" width="500" height="600" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -182,11 +182,12 @@ public class RapportController {
 
 
     static void addTableHeader(PdfPTable table) {
-        Stream.of("Index", "Denomination", "Quantite")
+        Stream.of("Index", "Produit", "Quantite")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     header.setBorderWidth(2);
+                    header.setPadding(5);
                     header.setPhrase(new Phrase(columnTitle));
                     table.addCell(header);
                 });
