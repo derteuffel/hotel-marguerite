@@ -49,6 +49,9 @@ public class ReservationController {
     private CompteService compteService;
 
     @Autowired
+    private TauxRepository tauxRepository;
+
+    @Autowired
     private PiscineRepository piscineRepository;
 
     @Value("${file.upload-dir}")
@@ -168,6 +171,8 @@ public class ReservationController {
         Compte compte = compteService.findByUsername(principal.getName());
         System.out.println(num);
         Chambre chambre = chambreRepository.findByNumero(num);
+        Taux taux = tauxRepository.findFirstByOrderByIdDesc();
+        reservation.setPrixU(Double.parseDouble(prixU)* taux.getTaux());
         reservation.setPrixT(Double.parseDouble(prixU) * reservation.getNbreNuits());
         if (chambre != null){
             reservation.setChambre(chambre);

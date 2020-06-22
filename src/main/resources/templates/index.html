@@ -30,11 +30,9 @@
   <body  id="accueil" >
     <!-- navbar-->
     <header class="header" th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
-      <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow"><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a th:href="@{/}" class="navbar-brand font-weight-bold text-uppercase text-base">Marguerite Hotel</a>
+      <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow"><h1><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a th:href="@{/}" class="navbar-brand font-weight-bold text-uppercase">Marguerite Hotel</a></h1>
       </nav>
     </header>
-    <div class="d-flex align-items-stretch">
-      </div>
       <!--div class="page-holder w-100 d-flex flex-wrap" th:style="'background:url(' + @{/img/hotel.jpg} + ') no-repeat;width:100%'"-->
       <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
@@ -70,7 +68,7 @@
               </div>
 
               <div  class="col-md-4 col-sm-6 gallery-grid gal_a gal_c text-center">
-                <a  th:href="@{/reservations/login}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
+                <a  th:href="@{/admin/login}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius">
                   <div class="gallery-single fix">
                   <img  class="img-fluid" th:src="@{/img/piscine.jpg}" style="height: 261px!important;width: 345px!important;" alt="Image">
                   <div class="img-overlay text-center py-5">

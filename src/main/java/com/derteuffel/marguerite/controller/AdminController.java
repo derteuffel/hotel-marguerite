@@ -14,6 +14,7 @@ import javafx.scene.text.TextAlignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -697,6 +698,8 @@ public class AdminController {
     @PostMapping("/piscines/save")
     public String save(Piscine piscine, RedirectAttributes redirectAttributes) {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        piscine.setDate(sdf.format(new Date()));
         piscine.setPrixT(piscine.getPrixU() * piscine.getNbreHeure());
         piscineRepository.save(piscine);
         redirectAttributes.addFlashAttribute("success","You've been save your data successfully");
@@ -712,10 +715,11 @@ public class AdminController {
 
     @PostMapping("/piscines/update")
     public String update(Piscine piscine, RedirectAttributes redirectAttributes){
-
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        piscine.setDate(sdf.format(new Date()));
         piscine.setPrixT(piscine.getPrixU() * piscine.getNbreHeure());
         piscineRepository.save(piscine);
-        redirectAttributes.addFlashAttribute("suuccess","You've been save your data successfully");
+        redirectAttributes.addFlashAttribute("success","You've been save your data successfully");
         return "redirect:/admin/piscines/all";
 
     }
@@ -825,6 +829,7 @@ public class AdminController {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Optional<Rapport> existRepport = rapportRepository.findByDate(dateFormat.format(date1));
         List<Article> articles = articleRepository.findAllByDate(dateFormat.format(date1));
+        Double total = 0D;
         if (existRepport.isPresent()){
             List<Article> lounges = new ArrayList<>();
             List<Article> restaurants = new ArrayList<>();
@@ -853,6 +858,7 @@ public class AdminController {
                 existRepport.get().getQuantitiesLounges().add(article.getQty());
                 existRepport.get().getMontantLounges().clear();
                 existRepport.get().getMontantLounges().add(article.getPrixT());
+                total = Double.parseDouble(""+article.getPrixT());
 
             }
 
@@ -864,6 +870,7 @@ public class AdminController {
                 existRepport.get().getQuantitiesRestaurants().add(article.getQty());
                 existRepport.get().getMontantRestaurants().clear();
                 existRepport.get().getMontantRestaurants().add(article.getPrixT());
+                total = Double.parseDouble(""+article.getPrixT());
             }
 
             for(Article article : terrases){
@@ -873,6 +880,7 @@ public class AdminController {
                 existRepport.get().getQuantitiesTerrasses().add(article.getQty());
                 existRepport.get().getMontantTerrasses().clear();
                 existRepport.get().getMontantTerrasses().add(article.getPrixT());
+                total = Double.parseDouble(""+article.getPrixT());
 
             }
 
@@ -883,6 +891,7 @@ public class AdminController {
                 existRepport.get().getQuantitiesAutres().add(article.getQty());
                 existRepport.get().getMontantAutres().clear();
                 existRepport.get().getMontantAutres().add(article.getPrixT());
+                total = Double.parseDouble(""+article.getPrixT());
 
             }
             rapportRepository.save(existRepport.get());
@@ -1297,6 +1306,30 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("success","you've data saved successfully");
         return "redirect:/admin/stocks/mjs/"+stock.getId();
 
+    }
+
+    @Autowired
+    private TauxRepository tauxRepository;
+
+    @GetMapping("/taux")
+    public String getAll(Model model){
+        List<Taux> lists = tauxRepository.findAll();
+
+        model.addAttribute("lists",lists);
+        return "admin/taux";
+    }
+
+    @GetMapping("/taux/update/{id}")
+    public String formTaux(Model model, @PathVariable Long id){
+        Taux taux = tauxRepository.getOne(id);
+        model.addAttribute("taux",taux);
+        return "admin/tauxForm";
+    }
+
+    @PostMapping("/taux/save")
+    public String saveTaux(Taux taux){
+        tauxRepository.save(taux);
+        return "redirect:/admin/taux";
     }
 
 }

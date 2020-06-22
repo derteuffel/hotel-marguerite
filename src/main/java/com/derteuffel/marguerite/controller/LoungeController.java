@@ -57,6 +57,9 @@ public class LoungeController {
     private OrderRepository orderRepository;
 
     @Autowired
+    private TauxRepository tauxRepository;
+
+    @Autowired
     private ArticleRepository articleRepository;
 
     @Value("${file.upload-dir}")
@@ -145,12 +148,13 @@ public class LoungeController {
     }
 
     @PostMapping("/articles/save/{type}/{id}")
-    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable String type, int taux) {
+    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable String type) {
         Commande commande = commandeRepository.getOne(id);
         System.out.println("longueur -- : "+article.getPrixU().toString().length());
+        Taux taux = tauxRepository.findFirstByOrderByIdDesc();
         if (article.getPrixU().toString().length()<5){
             System.out.println("je suis la");
-            article.setPrixU(article.getPrixU() * taux);
+            article.setPrixU(article.getPrixU() * taux.getTaux());
         }else {
             article.setPrixU(article.getPrixU());
         }

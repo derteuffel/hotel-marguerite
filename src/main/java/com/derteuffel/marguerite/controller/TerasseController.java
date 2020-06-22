@@ -52,6 +52,9 @@ public class TerasseController {
     private CompteService compteService;
 
     @Autowired
+    private TauxRepository tauxRepository;
+
+    @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
@@ -154,11 +157,12 @@ public class TerasseController {
     }
 
     @PostMapping("/articles/save/{type}/{id}")
-    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable String type,int taux) {
+    public String save(Article article, @PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable String type) {
         Commande commande = commandeRepository.getOne(id);
+        Taux taux = tauxRepository.findFirstByOrderByIdDesc();
         if (article.getPrixU().toString().length()<5){
             System.out.println("je suis la");
-            article.setPrixU(article.getPrixU() * taux);
+            article.setPrixU(article.getPrixU() * taux.getTaux());
         }else {
             article.setPrixU(article.getPrixU());
         }

@@ -33,10 +33,10 @@
         <div class="pr-lg-5"><img th:src="@{/img/illustration.svg}" alt="" class="img-fluid"></div>
       </div>
       <div class="col-lg-5 px-lg-4">
-        <h1 class="text-base text-primary text-uppercase mb-4">Marguerite Hotel</h1>
+        <h2 class="text-primary text-uppercase mb-4">Marguerite Hotel</h2>
         <h2 class="mb-4 text-light">Bienvenue!</h2>
         <p th:text="${error}" class="text-danger"></p>
-        <p class="text-muted">Connectez vous a votre compte et gerez vos activites</p>
+        <p class="text-light">Connectez vous a votre compte et gerez vos activites</p>
         <div th:if="${success}" class="alert alert-success">
           <span th:text="${success}"></span>
         </div>
@@ -55,7 +55,7 @@
           </div>
           <div class="form-group mb-4">
             <div class="custom-control custom-checkbox">
-              <label class="custom-control-label">Nouveau membre? &nbsp;&nbsp;&nbsp;<a th:href="@{/reservations/registration}">Creer un compte</a></label>
+              <label class="custom-control-label text-light">Nouveau membre? &nbsp;&nbsp;&nbsp;<a th:href="@{/reservations/registration}">Creer un compte</a></label>
             </div>
           </div>
           <button type="submit" class="btn btn-primary shadow px-5">Connexion</button>
