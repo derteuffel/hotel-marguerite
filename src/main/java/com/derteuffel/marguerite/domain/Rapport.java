@@ -20,7 +20,7 @@ public class Rapport implements Serializable {
     private Long id;
     private String title;
     private String date;
-    private String recette;
+    private Float recette;
     private String resume;
     private String pdfTrace;
     private String secteur1, secteur2, secteur3,secteur4;

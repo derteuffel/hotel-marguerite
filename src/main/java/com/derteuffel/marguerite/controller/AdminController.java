@@ -823,77 +823,100 @@ public class AdminController {
     //------ Rapport methods ----//
 
     @GetMapping("/rapports/rapport")
-    public String rapport( Model model){
+    public String rapport( Model model, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        Compte compte = compteService.findByUsername(principal.getName());
         Rapport rapport = new Rapport();
         Date date1 = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Optional<Rapport> existRepport = rapportRepository.findByDate(dateFormat.format(date1));
-        List<Article> articles = articleRepository.findAllByDate(dateFormat.format(date1));
-        Double total = 0D;
+        List<Commande> commandes = commandeRepository.findAllByDate(dateFormat.format(date1));
+
         if (existRepport.isPresent()){
             List<Article> lounges = new ArrayList<>();
             List<Article> restaurants = new ArrayList<>();
             List<Article> terrases = new ArrayList<>();
             List<Article> autres = new ArrayList<>();
 
-
-            for (Article article : articles){
-                if (article.getCommande().getSecteur().equals("LOUNGE_BAR")){
-                    lounges.add(article);
-                } else if(article.getCommande().getSecteur().equals("TERASSE")){
-                    terrases.add(article);
-                }else if (article.getCommande().getSecteur().equals("RESTAURANT")){
-                    restaurants.add(article);
-                } else {
-                    autres.add(article);
+            for (Commande commande : commandes){
+                if (commande.getSecteur().equals("LOUNGE_BAR")){
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            lounges.add(article);
+                        }
+                    }
+                }else if (commande.getSecteur().equals("TERASSE")){
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            terrases.add(article);
+                        }
+                    }
+                }else if (commande.getSecteur().equals("RESTAURANT")){
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            restaurants.add(article);
+                        }
+                    }
+                }else {
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            autres.add(article);
+                        }
+                    }
                 }
-                rapport.setRecette(rapport.getRecette()+article.getPrixT());
-
             }
 
+
+            existRepport.get().getNomLounges().clear();
+            existRepport.get().getQuantitiesLounges().clear();
+            existRepport.get().getMontantLounges().clear();
+            existRepport.get().getNomRestaurants().clear();
+            existRepport.get().getQuantitiesRestaurants().clear();
+            existRepport.get().getMontantRestaurants().clear();
+            existRepport.get().getNomTerrasses().clear();
+            existRepport.get().getQuantitiesTerrasses().clear();
+            existRepport.get().getMontantTerrasses().clear();
+            existRepport.get().setRecette(0F);
             for(Article article : lounges){
-                existRepport.get().getNomLounges().clear();
                 existRepport.get().getNomLounges().add(article.getNom());
-                existRepport.get().getQuantitiesAutres().clear();
                 existRepport.get().getQuantitiesLounges().add(article.getQty());
-                existRepport.get().getMontantLounges().clear();
                 existRepport.get().getMontantLounges().add(article.getPrixT());
-                total = Double.parseDouble(""+article.getPrixT());
+                if (existRepport.get().getRecette() != null) {
+                    existRepport.get().setRecette(existRepport.get().getRecette() + article.getPrixT());
+                }
 
             }
 
 
             for(Article article : restaurants){
-                existRepport.get().getNomRestaurants().clear();
                 existRepport.get().getNomRestaurants().add(article.getNom());
-                existRepport.get().getMontantRestaurants().clear();
                 existRepport.get().getQuantitiesRestaurants().add(article.getQty());
-                existRepport.get().getMontantRestaurants().clear();
                 existRepport.get().getMontantRestaurants().add(article.getPrixT());
-                total = Double.parseDouble(""+article.getPrixT());
-            }
+                if (existRepport.get().getRecette() != null) {
+                    existRepport.get().setRecette(existRepport.get().getRecette() + article.getPrixT());
+                }else {
+                    existRepport.get().setRecette(article.getPrixT());
+                }            }
 
             for(Article article : terrases){
-                existRepport.get().getNomTerrasses().clear();
                 existRepport.get().getNomTerrasses().add(article.getNom());
-                existRepport.get().getQuantitiesTerrasses().clear();
                 existRepport.get().getQuantitiesTerrasses().add(article.getQty());
-                existRepport.get().getMontantTerrasses().clear();
                 existRepport.get().getMontantTerrasses().add(article.getPrixT());
-                total = Double.parseDouble(""+article.getPrixT());
-
+                if (existRepport.get().getRecette() != null) {
+                    existRepport.get().setRecette(existRepport.get().getRecette() + article.getPrixT());
+                }
             }
 
             for(Article article : autres){
-                existRepport.get().getNomAutres().clear();
                 existRepport.get().getNomAutres().add(article.getNom());
-                existRepport.get().getQuantitiesAutres().clear();
                 existRepport.get().getQuantitiesAutres().add(article.getQty());
-                existRepport.get().getMontantAutres().clear();
                 existRepport.get().getMontantAutres().add(article.getPrixT());
-                total = Double.parseDouble(""+article.getPrixT());
-
+                if (existRepport.get().getRecette() != null) {
+                    existRepport.get().setRecette(existRepport.get().getRecette() + article.getPrixT());
+                }
             }
+
+            existRepport.get().setCompte(compte);
             rapportRepository.save(existRepport.get());
             model.addAttribute("rapport",existRepport.get());
 
@@ -911,25 +934,41 @@ public class AdminController {
             rapport.setSecteur4("AUTRES");
 
 
-            for (Article article : articles) {
-                if (article.getCommande().getSecteur().equals("LOUNGE_BAR")) {
-                    lounges.add(article);
-                } else if (article.getCommande().getSecteur().equals("TERASSE")) {
-                    terrases.add(article);
-                } else if (article.getCommande().getSecteur().equals("RESTAURANT")) {
-                    restaurants.add(article);
-                } else {
-                    autres.add(article);
+            for (Commande commande : commandes){
+                if (commande.getSecteur().equals("LOUNGE_BAR")){
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            lounges.add(article);
+                        }
+                    }
+                }else if (commande.getSecteur().equals("TERASSE")){
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            terrases.add(article);
+                        }
+                    }
+                }else if (commande.getSecteur().equals("RESTAURANT")){
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            restaurants.add(article);
+                        }
+                    }
+                }else {
+                    for (Article article : commande.getArticles()){
+                        if (article.getCommande().getId() == commande.getId()){
+                            autres.add(article);
+                        }
+                    }
                 }
-                rapport.setRecette(rapport.getRecette() + article.getPrixT());
-
             }
 
             for (Article article : lounges) {
                 rapport.getNomLounges().add(article.getNom());
                 rapport.getQuantitiesLounges().add(article.getQty());
                 rapport.getMontantLounges().add(article.getPrixT());
-
+                for (Float montant : rapport.getMontantLounges()){
+                    rapport.setRecette(rapport.getRecette()+ montant);
+                }
             }
 
 
@@ -937,13 +976,18 @@ public class AdminController {
                 rapport.getNomRestaurants().add(article.getNom());
                 rapport.getQuantitiesRestaurants().add(article.getQty());
                 rapport.getMontantRestaurants().add(article.getPrixT());
+                for (Float montant : rapport.getMontantRestaurants()){
+                    rapport.setRecette(rapport.getRecette()+montant);
+                }
             }
 
             for (Article article : terrases) {
                 rapport.getNomTerrasses().add(article.getNom());
                 rapport.getQuantitiesTerrasses().add(article.getQty());
                 rapport.getMontantTerrasses().add(article.getPrixT());
-
+                for (Float montant : rapport.getMontantTerrasses()){
+                    rapport.setRecette(rapport.getRecette()+montant);
+                }
             }
 
             for (Article article : autres) {
@@ -951,10 +995,12 @@ public class AdminController {
                 rapport.getNomAutres().add(article.getNom());
                 rapport.getQuantitiesAutres().add(article.getQty());
                 rapport.getMontantAutres().add(article.getPrixT());
-
+                for (Float montant : rapport.getMontantAutres()){
+                    rapport.setRecette(rapport.getRecette()+montant);
+                }
             }
 
-
+            rapport.setCompte(compte);
             rapportRepository.save(rapport);
             model.addAttribute("rapport", rapport);
         }
@@ -966,7 +1012,7 @@ public class AdminController {
 
 
     static void addTableHeaderRapport(PdfPTable table) {
-        Stream.of("Index", "Denomination", "Quantite")
+        Stream.of("Index", "Produit", "Quantite")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
