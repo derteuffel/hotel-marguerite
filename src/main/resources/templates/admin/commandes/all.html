@@ -88,8 +88,8 @@
                                             <p >PAYE</p>
                                         </td>
                                         <td>
-                                            <a class="btn text-success" th:href="@{/admin/commandes/detail/}+${commande.id}" ><i class="fa fa-eye"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${commande.id}"><i class="fa fa-trash"></i></a>
+                                            <a class="btn text-success" th:href="@{/admin/commandes/detail/}+${commande.id}" title="Voir les details" ><i class="fa fa-eye"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${commande.id}" title="Supprimer"><i class="fa fa-trash"></i></a>
                                         </td>
                                         <div class="modal card fade " th:id="deleteModal+${commande.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

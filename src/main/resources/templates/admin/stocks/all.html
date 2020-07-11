@@ -141,10 +141,10 @@
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${stock?.date}"></p>
                                         </td>
                                         <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${stock.id}" ><i class="fa fa-eye"></i></a>
-                                            <a th:href="@{/admin/stocks/edit/{id}(id=${stock.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${stock.id}"><i class="fa fa-trash"></i></a>
-                                            <a class="btn text-secondary" th:href="@{/admin/stocks/mjs/}+${stock.id}"><i class="fa fa-plus"></i></a>
+                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${stock.id}" title="Voir"><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{/admin/stocks/edit/{id}(id=${stock.id})}"  class="btn text-primary" title="Modifier"><i class="fa fa-edit"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${stock.id}" title="Supprimer"><i class="fa fa-trash"></i></a>
+                                            <a class="btn text-secondary" th:href="@{/admin/stocks/mjs/}+${stock.id}" title="Ajouter"><i class="fa fa-plus"></i></a>
                                         </td>
                                         <div class="modal card fade " th:id="deleteModal+${stock.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

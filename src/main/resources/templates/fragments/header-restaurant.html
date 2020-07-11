@@ -6,7 +6,7 @@
         <ul class="ml-auto d-flex align-items-center list-unstyled mb-0">
 
             <li  class="nav-item mr-3 "><a  href=""  class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"></a>
-                <a th:href="@{/restaurants/commandes/orders}">RESTAURANT</a>
+                <a th:href="@{/restaurants/commandes/orders}" title="Voir toutes les commandes au restaurant">RESTAURANT</a>
             </li>
 
             <li class="nav-item dropdown ml-auto"><a id="userInfo" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
@@ -15,9 +15,9 @@
             </a>
                 <div aria-labelledby="userInfo" class="dropdown-menu">
                     <a href="#" class="dropdown-item"><strong class="d-block text-uppercase headings-font-family" th:text="${session.compte.username}">Mark Stephen</strong><small>Web Developer</small></a>
-                    <div class="dropdown-divider"></div><a href="#" class="dropdown-item">Settings</a>
-                    <a th:href="@{/profile/}+${session.compte.username}" class="dropdown-item">Mon Profile</a>
-                    <div class="dropdown-divider"></div><a th:href="@{/restaurants/logout}" class="dropdown-item">Deconnexion</a>
+                    <div class="dropdown-divider"></div>
+                    <a th:href="@{/profile/}+${session.compte.username}" class="dropdown-item" title="Modifier votre profile">Mon Profile</a>
+                    <div class="dropdown-divider"></div><a th:href="@{/restaurants/logout}" class="dropdown-item" title="Deconnecter votre compte">Deconnexion</a>
                 </div>
             </li>
         </ul>

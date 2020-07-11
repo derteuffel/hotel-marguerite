@@ -73,8 +73,8 @@
                                                 </td>
 
                                                 <td>
-                                                    <a class="btn text-success" data-toggle="modal" data-target="#changeRoleModal" th:attr="data-target='#changeRoleModal'+${account.id}" ><i class="fa fa-edit"></i></a>
-                                                    <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${account.id}"><i class="fa fa-trash"></i></a>
+                                                    <a class="btn text-success" data-toggle="modal" data-target="#changeRoleModal" th:attr="data-target='#changeRoleModal'+${account.id}" title="Modifier"><i class="fa fa-edit"></i></a>
+                                                    <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${account.id}" title="Supprimer"><i class="fa fa-trash"></i></a>
                                                 </td>
                                         <div class="modal card fade " th:id="deleteModal+${account.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

@@ -209,6 +209,8 @@ public class RestaurantController {
         Optional<Bon> existDrinks = orderRepository.findBySecteurAndCommande_Id("DRINK",id);
         Optional<Bon> existFoods = orderRepository.findBySecteurAndCommande_Id("FOOD",id);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
         model.addAttribute("commande",commande);
         /*if (existDrinks.isPresent()){
             model.addAttribute("drinks",existDrinks.get());
@@ -226,6 +228,7 @@ public class RestaurantController {
                     drinks.getItems().add(item.getNom());
                     drinks.getQuantities().add(item.getQty());
                     drinks.setNumTable(commande.getNumTable());
+                    drinks.setDate(sdf.format(date));
                 }
             }
             orderRepository.save(drinks);
@@ -248,6 +251,7 @@ public class RestaurantController {
                     foods.getItems().add(item.getNom());
                     foods.getQuantities().add(item.getQty());
                     foods.setNumTable(commande.getNumTable());
+                    foods.setDate(sdf.format(date));
                 }
             }
             orderRepository.save(foods);

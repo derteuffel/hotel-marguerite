@@ -82,9 +82,9 @@
                                             <p class="mb-0 mt-3 mt-lg-0" >TERMINER</p>
                                         </td>
                                         <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${reservation?.id}" ><i class="fa fa-eye"></i></a>
-                                            <a th:href="@{/admin/reservations/edit/{id}(id=${reservation?.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${reservation?.id}"><i class="fa fa-trash"></i></a>
+                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${reservation?.id}" title="Voir "><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{/admin/reservations/edit/{id}(id=${reservation?.id})}"  class="btn text-primary"title="Modifier" ><i class="fa fa-edit"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${reservation?.id}" title="Supprimer"><i class="fa fa-trash"></i></a>
                                         </td>
                                         <div class="modal card fade " th:id="deleteModal+${reservation?.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

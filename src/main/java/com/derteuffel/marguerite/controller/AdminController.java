@@ -1378,4 +1378,13 @@ public class AdminController {
         return "redirect:/admin/taux";
     }
 
+    @GetMapping("/orders")
+    public String getAllOrderByDate(Model model){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        List<Bon> lists = orderRepository.findAllByDate(sdf.format(date), Sort.by(Sort.Direction.DESC,"id"));
+        model.addAttribute("lists",lists);
+        return "admin/orders";
+    }
+
 }

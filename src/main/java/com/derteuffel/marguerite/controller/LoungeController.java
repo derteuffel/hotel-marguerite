@@ -201,14 +201,11 @@ public class LoungeController {
         Commande commande = commandeRepository.getOne(id);
 
         model.addAttribute("commande",commande);
-        /*if (existDrinks.isPresent()){
-            model.addAttribute("drinks",existDrinks.get());
-        }else {*/
-            List<Bon> nullDrinks = orderRepository.findAllBySecteur(null);
-            if (!(nullDrinks.isEmpty())) {
-                orderRepository.deleteAll(nullDrinks);
-            }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+
             Bon drinks = new Bon();
+            Bon foods = new Bon();
             for (Article item : commande.getArticles()) {
                 if (item.getType().equals("DRINK")) {
                     drinks.setSecteur(item.getType());
@@ -217,30 +214,21 @@ public class LoungeController {
                     drinks.getItems().add(item.getNom());
                     drinks.getQuantities().add(item.getQty());
                     drinks.setNumTable(commande.getNumTable());
-                }
-            }
-            orderRepository.save(drinks);
-            model.addAttribute("drinks", drinks);
-       /* }
-
-        if (existFoods.isPresent()){
-            model.addAttribute("foods",existFoods.get());
-        }else {*/
-            List<Bon> nullFoods = orderRepository.findAllBySecteur(null);
-            if (!(nullFoods.isEmpty())) {
-                orderRepository.deleteAll(nullFoods);
-            }
-            Bon foods = new Bon();
-            for (Article item : commande.getArticles()) {
-                if (item.getType().equals("FOOD")) {
+                    drinks.setDate(sdf.format(date));
+                }else if (item.getType().equals("FOOD")) {
                     foods.setSecteur(item.getType());
                     foods.setCommande(commande);
                     foods.setNumBon("BF"+(orderRepository.findAllBySecteur("FOOD").size()+1));
                     foods.getItems().add(item.getNom());
                     foods.getQuantities().add(item.getQty());
                     foods.setNumTable(commande.getNumTable());
+                    foods.setDate(sdf.format(date));
+                }else {
+                    System.out.println("je suis fou!!!");
                 }
             }
+            orderRepository.save(drinks);
+            model.addAttribute("drinks", drinks);
             orderRepository.save(foods);
             model.addAttribute("foods", foods);
         //}
@@ -272,13 +260,68 @@ public class LoungeController {
     @GetMapping("/articles/orders/pdf/{id}")
     public String pdfGenerator(@PathVariable Long id){
         Bon bon = orderRepository.getOne(id);
-        Document document = new Document(PageSize.NOTE, 10, 10, 10, 10);
+        String Header =
+                "   ****HÔTEL MARGUERITE****       \n"
+                        +"Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
+                        + "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa,  \n"
+                        + "Réf. : Croisement Av. Kabinda et Av. Bokassa  \n"
+                        + "Tél : +243 999950570, +243 998386650, +243 816896454,  \n"
+                        + "e-mail : margueritehotel@yahoo.fr  \n"
+                        + "Secteur: "+bon.getSecteur()+"     Date du: "+bon.getDate()+"\n"
+                        + "Num Bon: "+bon.getNumBon()+"     Num Table: "+bon.getNumTable()+"\n"
+                        + "---------------------------------\n"
+                        + "Nom                    Qte       \n"
+                        + "---------------------------------\n";
+
+
+        String amt  =
+                "\n \n \nMerci de livre cette commande "+"\n"
+                        + "*********************************\n"
+                        + "Merci d'etre passe chez nous. \n";
+
+        String bill = Header;
+
+        System.out.println(Header);
+        for (int i = 0; i<bon.getItems().size();i++){
+            System.out.println("je suis dedans");
+            String name =bon.getItems().get(i);
+            String qte = bon.getQuantities().get(i)+"";
+
+            if (bon.getItems().get(i).length()>12){
+                System.out.println("je suis petit");
+                name = bon.getItems().get(i).substring(0,12)+"";
+            }else{
+                    System.out.println("je suis long");
+                    name = name + " ";
+            }
+
+            if (qte.length()<=5) {
+                for (int j=0; j<=qte.length()-5;j++) {
+                    qte = qte + " ";
+                }
+            }
+
+            String items = name+"\t\t\t"+qte+"\n";
+            bill = bill + items;
+
+        }
+
+        bill = bill+amt;
+
+        System.out.println(bill);
+
+        Printer printer = new Printer();
+        printer.printString("Canon MF4400 Series",bill);
+
+        byte[] cutP = new  byte[]{0x1d,'V',1};
+        printer.printBytes("Canon MF4400 Series",cutP);
+        /*Document document = new Document(PageSize.A7, 5, 5, 5, 5);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf").toString())));
             document.open();
             Paragraph para1 = new Paragraph("HÔTEL MARGUERITE");
             para1.setAlignment(Paragraph.ALIGN_CENTER);
-            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD,
+            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 4, Font.BOLD,
                     BaseColor.GREEN));
             para1.setSpacingAfter(10);
             document.add(para1);
@@ -287,7 +330,7 @@ public class LoungeController {
                     "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa\n" +
                     "Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr\n");
             paragraph.setAlignment(Paragraph.ALIGN_CENTER);
-            paragraph.setFont(new Font(Font.FontFamily.TIMES_ROMAN,6,Font.BOLD));
+            paragraph.setFont(new Font(Font.FontFamily.TIMES_ROMAN,4,Font.BOLD));
             document.add(paragraph);
             Paragraph line = new Paragraph("----------------------------------------------------------------");
             line.setAlignment(Element.ALIGN_CENTER);
@@ -326,7 +369,7 @@ public class LoungeController {
         }
 
         bon.setPdfTrace("/downloadFile/"+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf");
-        orderRepository.save(bon);
+        orderRepository.save(bon);*/
 
         return "redirect:/lounges/bon/"+bon.getId();
     }
@@ -470,7 +513,63 @@ public class LoungeController {
     @GetMapping("/commandes/bills/{id}")
     public String billPdfGenerator(@PathVariable Long id, Model model){
         Facture facture = factureRepository.getOne(id);
-        Document document = new Document(PageSize.A6, 10, 10, 10, 10);
+
+        String Header =
+                            "   ****HÔTEL MARGUERITE****       \n"
+                            +"Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
+                           + "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa,  \n"
+                           + "Réf. : Croisement Av. Kabinda et Av. Bokassa  \n"
+                           + "Tél : +243 999950570, +243 998386650, +243 816896454,  \n"
+                           + "e-mail : margueritehotel@yahoo.fr  \n"
+                        + "Secteur: "+facture.getCommande().getSecteur()+"     Date du: "+facture.getDate()+"\n"
+                        + "Num Com: "+facture.getNumCmd()+"     Num Table: "+facture.getNumeroTable()+"\n"
+                        + "---------------------------------\n"
+                        + "Nom        Qte        Total\n"
+                        + "---------------------------------\n";
+
+
+        String amt  =
+                "\n \n \nMontant total = "+  facture.getMontantT()   +"\n"
+                        + "Tax ="   +  "0"    + "\n"
+                        + "*********************************\n"
+                        + "Merci d'etre passe chez nous. \n";
+
+        String bill = Header;
+
+        for (int i = 0; i<facture.getArticles().size();i++){
+            String name =facture.getArticles().get(i);
+            String qte = facture.getQuantities().get(i)+"";
+            String total = facture.getPrices().get(i)+"";
+            if (facture.getArticles().get(i).length()>12){
+                name = facture.getArticles().get(i).substring(0,12)+"";
+            }else{
+                for (int j=0;j<=name.length()-12;j++) {
+                    name = name + " ";
+                }
+            }
+
+            if (qte.length()<=5) {
+                for (int j=0; j<=qte.length()-5;j++) {
+                    qte = qte + " ";
+                }
+            }
+            total = total;
+
+            String items = name+"\t"+qte+"\t"+total+"\n";
+            bill = bill + items;
+
+        }
+
+        bill = bill+amt;
+
+        System.out.println(bill);
+
+        Printer printer = new Printer();
+        printer.printString("Canon MF4400 Series",bill);
+
+        byte[] cutP = new  byte[]{0x1d,'V',1};
+        printer.printBytes("Canon MF4400 Series",cutP);
+        /*Document document = new Document(PageSize.A6, 10, 10, 10, 10);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getNumCmd()+facture.getId()+".pdf").toString())));
             document.open();
@@ -481,7 +580,7 @@ public class LoungeController {
             para1.setSpacingAfter(50);
             document.add(para1);
 
-            Paragraph paragraph = new Paragraph("Ident. Nat.: 5-714-K 21286                                                                       N.R.C: 13680 KIN\n" +
+            Paragraph paragraph = new Paragraph("Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN\n" +
                     "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa\n" +
                     "Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr\n");
             paragraph.setAlignment(Paragraph.ALIGN_CENTER);
@@ -525,7 +624,7 @@ public class LoungeController {
 
             document.add(table);
 
-            /*
+            *//*
             Paragraph para6 = new Paragraph("Montant verse : "+facture.getMontantVerse());
             para6.setAlignment(Paragraph.ALIGN_RIGHT);
             para6.setSpacingAfter(3);
@@ -534,7 +633,7 @@ public class LoungeController {
             Paragraph para7 = new Paragraph("Montant rembourssé : "+facture.getRemboursement());
             para7.setAlignment(Paragraph.ALIGN_RIGHT);
             para7.setSpacingAfter(3);
-            document.add(para7);*/
+            document.add(para7);*//*
 
             Paragraph para8 = new Paragraph("Montant total à payer : "+facture.getMontantT());
             para8.setAlignment(Paragraph.ALIGN_LEFT);
@@ -552,8 +651,8 @@ public class LoungeController {
             e.printStackTrace();
         }
 
-        model.addAttribute("facture",facture);
-        return "lounges/commandes/facture";
+        model.addAttribute("facture",facture);*/
+        return "redirect:/lounges/places/orders";
     }
 
     private void addTableHeader(PdfPTable table) {

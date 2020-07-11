@@ -112,8 +112,8 @@
                                         </td>
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${article.qty}"></p>
-                                            <a class="btn text-success" th:href="@{/terasses/articles/add/}+${article.id}" ><i class="fa fa-plus"></i></a>
-                                            <a class="btn text-danger" th:href="@{/terasses/articles/remove/}+${article.id}" ><i class="fa fa-user-clock"></i></a>
+                                            <a class="btn text-success" th:href="@{/terasses/articles/add/}+${article.id}" title="Ajouter"><i class="fa fa-plus"></i></a>
+                                            <a class="btn text-danger" th:href="@{/terasses/articles/remove/}+${article.id}" title="Enlever" ><i class="fa fa-user-clock"></i></a>
                                         </td>
                                         <td>
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${article.prixU}"></p>
@@ -122,7 +122,7 @@
                                             <p class="mb-0 mt-3 mt-lg-0" th:text="${article.prixT}"></p>
                                         </td>
                                         <td>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${commande.id}"><i class="fa fa-trash"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${commande.id}" title="Supprimer"><i class="fa fa-trash"></i></a>
                                         </td>
                                         <div class="modal card fade " th:id="deleteModal+${article.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

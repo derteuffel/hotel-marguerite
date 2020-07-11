@@ -82,9 +82,9 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}" ><i class="fa fa-eye"></i></a>
-                                            <a th:href="@{/admin/chambres/edit/{id}(id=${chambre.id})}"  class="btn text-primary" ><i class="fa fa-edit"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${chambre.id}"><i class="fa fa-trash"></i></a>
+                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${chambre.id}" title="Voir les details"><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{/admin/chambres/edit/{id}(id=${chambre.id})}"  class="btn text-primary" title="Modifier"><i class="fa fa-edit"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${chambre.id}" title="Supprimer"><i class="fa fa-trash"></i></a>
                                         </td>
                                         <div class="modal card fade " th:id="deleteModal+${chambre.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

@@ -10,9 +10,9 @@
             </a>
                 <div aria-labelledby="userInfo" class="dropdown-menu">
                     <a href="#" class="dropdown-item"><strong class="d-block text-uppercase headings-font-family" th:text="${session.compte.username}">Mark Stephen</strong><small>Web Developer</small></a>
-                    <div class="dropdown-divider"></div><a href="#" class="dropdown-item">Settings</a>
-                    <a th:href="@{/profile/}+${session.compte.username}" class="dropdown-item">Mon Profile</a>
-                    <div class="dropdown-divider"></div><a th:href="@{/admin/logout}" class="dropdown-item">Deconnexion</a>
+                    <div class="dropdown-divider"></div>
+                    <a th:href="@{/profile/}+${session.compte.username}" class="dropdown-item" title="Modifier mon profile">Mon Profile</a>
+                    <div class="dropdown-divider"></div><a th:href="@{/admin/logout}" class="dropdown-item" title="Deconnectez-vous de votre compte">Deconnexion</a>
                 </div>
             </li>
         </ul>

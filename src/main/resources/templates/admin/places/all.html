@@ -74,8 +74,8 @@
                                         </td>
 
                                         <td>
-                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${place?.id}" ><i class="fa fa-eye"></i></a>
-                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${place?.id}"><i class="fa fa-trash"></i></a>
+                                            <a class="btn text-success" data-toggle="modal" data-target="#detailModal" th:attr="data-target='#detailModal'+${place?.id}" title="Voir"><i class="fa fa-eye"></i></a>
+                                            <a class="btn text-danger" data-toggle="modal" data-target="#deleteModal" th:attr="data-target='#deleteModal'+${place?.id}" title="Supprimer"><i class="fa fa-trash"></i></a>
                                         </td>
                                         <div class="modal card fade " th:id="deleteModal+${place?.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

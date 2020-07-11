@@ -407,6 +407,8 @@
                                   <div class="company-name">
                                       <span> MARGUERITE HÔTEL</span>
                                       <div class="right-arrow"></div>
+                                      <span>Ident. Nat.: 5-714-K 21286 N.R.C: 13680 KIN Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa
+                    Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr</span>
                                   </div>
                               </section>
                                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
@@ -475,14 +477,6 @@
                               </div>
                               <section id="sums">
                                   <table cellpadding="0" cellspacing="0">
-                                      <tr>
-                                          <th>Montant verse</th>
-                                          <td th:text="${facture.montantVerse}">$</td>
-                                      </tr>
-                                      <tr data-iterate="tax">
-                                          <th>Montant remboursé</th>
-                                          <td th:text="${facture.remboursement}">-$20</td>
-                                      </tr>
                                       <tr class="amount-total">
                                           <th>Total</th>
                                           <td th:text="${facture.montantT}">$</td>
@@ -493,7 +487,7 @@
 
                             <div class="card-footer">
                                 <div class="button">
-                                    <a  th:href="@{/lounges/commandes/bills/}+${facture.id}" class="btn btn-outline-dark">Produire facture pdf <i class="fa fa-long-arrow-alt-right"></i></a>
+                                    <a  th:href="@{/lounges/commandes/bills/}+${facture.id}" class="btn btn-outline-dark">Imprimer facture <i class="fa fa-long-arrow-alt-right"></i></a>
                                     <a th:if="${facture.billTrace}" th:href="@{/lounges/billViewer/}+${facture.id}" class="btn btn-outline-dark">Visualiser pdf<i class="fa fa-file-pdf"></i></a>
                                 </div>
                             </div>
