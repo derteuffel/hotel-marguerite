@@ -261,23 +261,24 @@ public class LoungeController {
     public String pdfGenerator(@PathVariable Long id){
         Bon bon = orderRepository.getOne(id);
         String Header =
-                "   ****HÔTEL MARGUERITE****       \n"
+                         "          ****HÔTEL MARGUERITE****            \n"
                         +"Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
-                        + "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa,  \n"
-                        + "Réf. : Croisement Av. Kabinda et Av. Bokassa  \n"
-                        + "Tél : +243 999950570, +243 998386650, +243 816896454,  \n"
-                        + "e-mail : margueritehotel@yahoo.fr  \n"
+                        + "Adresse: N°62, Av.Kabinda, Q/Boom, C/Kinshasa\n"
+                        + "Réf.: Croisement Av. Kabinda et Av. Bokassa  \n"
+                        + "Tél : +243999950570, +243998386650, +243816896454\n"
+                        + "e-mail : margueritehotel@yahoo.fr            \n"
+                        + "---------------------------------------------\n"
                         + "Secteur: "+bon.getSecteur()+"     Date du: "+bon.getDate()+"\n"
                         + "Num Bon: "+bon.getNumBon()+"     Num Table: "+bon.getNumTable()+"\n"
-                        + "---------------------------------\n"
-                        + "Nom                    Qte       \n"
-                        + "---------------------------------\n";
+                        + "---------------------------------------------\n"
+                        + "Nom                          Qte             \n"
+                        + "---------------------------------------------\n";
 
 
         String amt  =
                 "\n \n \nMerci de livre cette commande "+"\n"
-                        + "*********************************\n"
-                        + "Merci d'etre passe chez nous. \n";
+                        + "*********************************************\n"
+                        + "        Merci d'etre passe chez nous.        \n";
 
         String bill = Header;
 
@@ -287,12 +288,14 @@ public class LoungeController {
             String name =bon.getItems().get(i);
             String qte = bon.getQuantities().get(i)+"";
 
-            if (bon.getItems().get(i).length()>12){
+            if (bon.getItems().get(i).length()>30){
                 System.out.println("je suis petit");
-                name = bon.getItems().get(i).substring(0,12)+"";
+                name = bon.getItems().get(i).substring(0,30)+" ";
             }else{
                     System.out.println("je suis long");
-                    name = name + " ";
+                    for (int j=name.length();j<=30-name.length();j++) {
+                        name = name + " ";
+                    }
             }
 
             if (qte.length()<=5) {
@@ -311,10 +314,10 @@ public class LoungeController {
         System.out.println(bill);
 
         Printer printer = new Printer();
-        printer.printString("Canon MF4400 Series",bill);
+        printer.printString("Canon iR-ADV C5535/5540 UFR II",bill);
 
         byte[] cutP = new  byte[]{0x1d,'V',1};
-        printer.printBytes("Canon MF4400 Series",cutP);
+        printer.printBytes("Canon iR-ADV C5535/5540 UFR II",cutP);
         /*Document document = new Document(PageSize.A7, 5, 5, 5, 5);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf").toString())));
@@ -442,18 +445,6 @@ public class LoungeController {
         return "redirect:/lounges/commandes/detail/"+commande.getId();
     }
 
-    @GetMapping("/billViewer/{id}")
-    public String viewBillPdf(@PathVariable Long id, Model model){
-        Facture facture = factureRepository.getOne(id);
-        model.addAttribute("item",facture);
-        return "lounges/pdfViewer";
-    }
-    @GetMapping("/bon/{id}")
-    public String viewBonPdf(@PathVariable Long id, Model model){
-        Bon bon = orderRepository.getOne(id);
-        model.addAttribute("item",bon);
-        return "lounges/bonViewer";
-    }
 
 
     @GetMapping("/commandes/bill/{id}")
@@ -515,24 +506,25 @@ public class LoungeController {
         Facture facture = factureRepository.getOne(id);
 
         String Header =
-                            "   ****HÔTEL MARGUERITE****       \n"
-                            +"Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
-                           + "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa,  \n"
+                             "            ****HOTEL MARGUERITE****          \n"
+                           + "Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
+                           + "Adresse: N°62, Av.Kabinda, Q/Boom, C/Kinshasa,\n"
                            + "Réf. : Croisement Av. Kabinda et Av. Bokassa  \n"
-                           + "Tél : +243 999950570, +243 998386650, +243 816896454,  \n"
-                           + "e-mail : margueritehotel@yahoo.fr  \n"
-                        + "Secteur: "+facture.getCommande().getSecteur()+"     Date du: "+facture.getDate()+"\n"
-                        + "Num Com: "+facture.getNumCmd()+"     Num Table: "+facture.getNumeroTable()+"\n"
-                        + "---------------------------------\n"
-                        + "Nom        Qte        Total\n"
-                        + "---------------------------------\n";
+                           + "Tél  : +243999950570, +243998386650, +243816896454\n"
+                           + "e-mail : margueritehotel@yahoo.fr             \n"
+                           +"-----------------------------------------------\n"
+                           + "Secteur: "+facture.getCommande().getSecteur()+"     Date du: "+facture.getDate()+"\n"
+                           + "Num Com: "+facture.getNumCmd()+"     Num Table: "+facture.getNumeroTable()+"\n"
+                           + "----------------------------------------------\n"
+                           + "Nom                  Qte             Total    \n"
+                           + "----------------------------------------------\n";
 
 
         String amt  =
-                "\n \n \nMontant total = "+  facture.getMontantT()   +"\n"
-                        + "Tax ="   +  "0"    + "\n"
-                        + "*********************************\n"
-                        + "Merci d'etre passe chez nous. \n";
+                "\n \n \nMontant total = "+facture.getMontantT()+" CDF"   +"\n"
+                           + "                "+(Double)facture.getMontantT()/tauxRepository.findFirstByOrderByIdDesc().getTaux()+" (USD)" +"\n"
+                           + "**********************************************\n"
+                           + "*******  Merci d'etre passe chez nous. *******\n";
 
         String bill = Header;
 
@@ -540,10 +532,10 @@ public class LoungeController {
             String name =facture.getArticles().get(i);
             String qte = facture.getQuantities().get(i)+"";
             String total = facture.getPrices().get(i)+"";
-            if (facture.getArticles().get(i).length()>12){
-                name = facture.getArticles().get(i).substring(0,12)+"";
+            if (facture.getArticles().get(i).length()>21){
+                name = facture.getArticles().get(i).substring(0,21)+" ";
             }else{
-                for (int j=0;j<=name.length()-12;j++) {
+                for (int j=name.length();j<=21-name.length();j++) {
                     name = name + " ";
                 }
             }
@@ -565,10 +557,10 @@ public class LoungeController {
         System.out.println(bill);
 
         Printer printer = new Printer();
-        printer.printString("Canon MF4400 Series",bill);
+        printer.printString("Canon iR-ADV C5535/5540 UFR II",bill);
 
         byte[] cutP = new  byte[]{0x1d,'V',1};
-        printer.printBytes("Canon MF4400 Series",cutP);
+        printer.printBytes("Canon iR-ADV C5535/5540 UFR II",cutP);
         /*Document document = new Document(PageSize.A6, 10, 10, 10, 10);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getNumCmd()+facture.getId()+".pdf").toString())));

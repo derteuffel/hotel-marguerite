@@ -7,6 +7,7 @@ import com.derteuffel.marguerite.helpers.CompteRegistrationDto;
 import com.derteuffel.marguerite.helpers.ReservationCancel;
 import com.derteuffel.marguerite.repository.*;
 import com.derteuffel.marguerite.services.CompteService;
+import com.derteuffel.marguerite.services.Printer;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -374,8 +375,35 @@ public class ReservationController {
     @GetMapping("/billViewer/{id}")
     public String viewBillPdf(@PathVariable Long id, Model model){
         Reservation reservation = reservationRepository.getOne(id);
-        model.addAttribute("item",reservation);
-        return "reservations/pdfViewer";
+
+        String Header =
+                "            ****HOTEL MARGUERITE****          \n"
+                        + "Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
+                        + "Adresse: N°62, Av.Kabinda, Q/Boom, C/Kinshasa,\n"
+                        + "Réf. : Croisement Av. Kabinda et Av. Bokassa  \n"
+                        + "Tél  : +243999950570, +243998386650, +243816896454\n"
+                        + "e-mail : margueritehotel@yahoo.fr             \n"
+                        +"-----------------------------------------------\n"
+                        + "Secteur: Chambre"+"     Date du: "+reservation.getDateJour()+"\n"
+                        + "Num Res: "+reservation.getNumReservation()+"     Num Chambre: "+reservation.getChambre().getNumero()+"\n"
+                        + "Nom client :  "+reservation.getNomClient()+"\n"
+                        + "Telephone client :  "+reservation.getTelephone()+"\n"
+                        + "Email client :  "+reservation.getEmail()+"\n"
+                        + "Nombre de nuit :  "+reservation.getNbreNuits()+"\n"
+                        + "Debut sejour :  "+reservation.getDateDebut()+"\n"
+                        + "Fin sejour :  "+reservation.getDateFin()+"\n"
+                        + "Cout du sejour :  "+reservation.getPrixT()+" $ \n";
+
+        String bill = Header;
+
+        System.out.println(bill);
+
+        Printer printer = new Printer();
+        printer.printString("Canon iR-ADV C5535/5540 UFR II",bill);
+
+        byte[] cutP = new  byte[]{0x1d,'V',1};
+        printer.printBytes("Canon iR-ADV C5535/5540 UFR II",cutP);
+        return "redirect:/reservations/chambres/orders";
     }
 
     //----- piscine methods -----//

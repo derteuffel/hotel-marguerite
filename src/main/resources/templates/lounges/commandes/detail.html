@@ -36,39 +36,6 @@
         <div class="container-fluid px-xl-5">
             <section class="py-3">
                 <div class="row">
-                    <div class="col-lg-12 col-sm-6 mt-4 mt-lg-0">
-                        <div class="card p-2">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label">Montant total</label>
-                                        <p class="form-control"  th:text="${commande.montantT}"></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <form th:action="@{/lounges/commandes/rembourse/}+${commande.id}" method="get">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Montant verser <span th:text="${commande.montantV}"></span></label>
-                                            <input class="form-control" name="verser" id="verse">
-                                        </div>
-                                        <div class="button">
-                                            <button type="submit" class="btn-outline-secondary">Valider</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label">Montant rembourser</label>
-                                        <p class="form-control" th:text="${commande.rembourse}"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="py-3">
-                <div class="row">
                     <div class="col-lg-12 col-sm-6 mb-4 mb-lg-0">
                         <div class="card">
                             <div class="card-header">

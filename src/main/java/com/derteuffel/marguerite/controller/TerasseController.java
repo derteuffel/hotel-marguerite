@@ -5,6 +5,7 @@ import com.derteuffel.marguerite.enums.ESecteur;
 import com.derteuffel.marguerite.helpers.CompteRegistrationDto;
 import com.derteuffel.marguerite.repository.*;
 import com.derteuffel.marguerite.services.CompteService;
+import com.derteuffel.marguerite.services.Printer;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -288,13 +289,71 @@ public class TerasseController {
     @GetMapping("/articles/orders/pdf/{id}")
     public String pdfGenerator(@PathVariable Long id){
         Bon bon = orderRepository.getOne(id);
-        Document document = new Document(PageSize.NOTE, 10, 10, 10, 10);
+        String Header =
+                "          ****HÔTEL MARGUERITE****            \n"
+                        +"Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
+                        + "Adresse: N°62, Av.Kabinda, Q/Boom, C/Kinshasa\n"
+                        + "Réf.: Croisement Av. Kabinda et Av. Bokassa  \n"
+                        + "Tél : +243999950570, +243998386650, +243816896454\n"
+                        + "e-mail : margueritehotel@yahoo.fr            \n"
+                        + "---------------------------------------------\n"
+                        + "Secteur: "+bon.getSecteur()+"     Date du: "+bon.getDate()+"\n"
+                        + "Num Bon: "+bon.getNumBon()+"     Num Table: "+bon.getNumTable()+"\n"
+                        + "---------------------------------------------\n"
+                        + "Nom                          Qte             \n"
+                        + "---------------------------------------------\n";
+
+
+        String amt  =
+                "\n \n \nMerci de livre cette commande "+"\n"
+                        + "*********************************************\n"
+                        + "        Merci d'etre passe chez nous.        \n";
+
+        String bill = Header;
+
+        System.out.println(Header);
+        for (int i = 0; i<bon.getItems().size();i++){
+            System.out.println("je suis dedans");
+            String name =bon.getItems().get(i);
+            String qte = bon.getQuantities().get(i)+"";
+
+            if (bon.getItems().get(i).length()>30){
+                System.out.println("je suis petit");
+                name = bon.getItems().get(i).substring(0,30)+" ";
+            }else{
+                System.out.println("je suis long");
+                for (int j=name.length();j<=30-name.length();j++) {
+                    name = name + " ";
+                }
+            }
+
+            if (qte.length()<=5) {
+                for (int j=0; j<=qte.length()-5;j++) {
+                    qte = qte + " ";
+                }
+            }
+
+            String items = name+"\t\t\t"+qte+"\n";
+            bill = bill + items;
+
+        }
+
+        bill = bill+amt;
+
+        System.out.println(bill);
+
+        Printer printer = new Printer();
+        printer.printString("Canon iR-ADV C5535/5540 UFR II",bill);
+
+        byte[] cutP = new  byte[]{0x1d,'V',1};
+        printer.printBytes("Canon iR-ADV C5535/5540 UFR II",cutP);
+        /*Document document = new Document(PageSize.A7, 5, 5, 5, 5);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf").toString())));
             document.open();
             Paragraph para1 = new Paragraph("HÔTEL MARGUERITE");
             para1.setAlignment(Paragraph.ALIGN_CENTER);
-            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD,
+            para1.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 4, Font.BOLD,
                     BaseColor.GREEN));
             para1.setSpacingAfter(10);
             document.add(para1);
@@ -303,7 +362,7 @@ public class TerasseController {
                     "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa\n" +
                     "Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr\n");
             paragraph.setAlignment(Paragraph.ALIGN_CENTER);
-            paragraph.setFont(new Font(Font.FontFamily.TIMES_ROMAN,6,Font.BOLD));
+            paragraph.setFont(new Font(Font.FontFamily.TIMES_ROMAN,4,Font.BOLD));
             document.add(paragraph);
             Paragraph line = new Paragraph("----------------------------------------------------------------");
             line.setAlignment(Element.ALIGN_CENTER);
@@ -342,9 +401,9 @@ public class TerasseController {
         }
 
         bon.setPdfTrace("/downloadFile/"+bon.getSecteur().toLowerCase()+"_"+bon.getId()+".pdf");
-        orderRepository.save(bon);
+        orderRepository.save(bon);*/
 
-        return "redirect:/terasses/articles/orders/"+bon.getCommande().getId();
+        return "redirect:/lounges/bon/"+bon.getId();
     }
 
     @GetMapping("/articles/orders/print/{id}")
@@ -473,24 +532,69 @@ public class TerasseController {
         return "terasses/commandes/facture";
 
     }
-    @GetMapping("/billViewer/{id}")
-    public String viewBillPdf(@PathVariable Long id, Model model){
-        Facture facture = factureRepository.getOne(id);
-        model.addAttribute("item",facture);
-        return "terasses/pdfViewer";
-    }
 
-    @GetMapping("/bon/{id}")
-    public String viewBonPdf(@PathVariable Long id, Model model){
-        Bon bon = orderRepository.getOne(id);
-        model.addAttribute("item",bon);
-        return "terasses/bonViewer";
-    }
 
     @GetMapping("/commandes/bills/{id}")
     public String billPdfGenerator(@PathVariable Long id, Model model){
         Facture facture = factureRepository.getOne(id);
-        Document document = new Document(PageSize.A6, 10, 10, 10, 10);
+
+        String Header =
+                "            ****HOTEL MARGUERITE****          \n"
+                        + "Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN  \n"
+                        + "Adresse: N°62, Av.Kabinda, Q/Boom, C/Kinshasa,\n"
+                        + "Réf. : Croisement Av. Kabinda et Av. Bokassa  \n"
+                        + "Tél  : +243999950570, +243998386650, +243816896454\n"
+                        + "e-mail : margueritehotel@yahoo.fr             \n"
+                        +"-----------------------------------------------\n"
+                        + "Secteur: "+facture.getCommande().getSecteur()+"     Date du: "+facture.getDate()+"\n"
+                        + "Num Com: "+facture.getNumCmd()+"     Num Table: "+facture.getNumeroTable()+"\n"
+                        + "----------------------------------------------\n"
+                        + "Nom                  Qte             Total    \n"
+                        + "----------------------------------------------\n";
+
+
+        String amt  =
+                "\n \n \nMontant total = "+facture.getMontantT()+" CDF"   +"\n"
+                        + "                "+(Double)facture.getMontantT()/tauxRepository.findFirstByOrderByIdDesc().getTaux()+" (USD)" +"\n"
+                        + "**********************************************\n"
+                        + "*******  Merci d'etre passe chez nous. *******\n";
+
+        String bill = Header;
+
+        for (int i = 0; i<facture.getArticles().size();i++){
+            String name =facture.getArticles().get(i);
+            String qte = facture.getQuantities().get(i)+"";
+            String total = facture.getPrices().get(i)+"";
+            if (facture.getArticles().get(i).length()>21){
+                name = facture.getArticles().get(i).substring(0,21)+" ";
+            }else{
+                for (int j=name.length();j<=21-name.length();j++) {
+                    name = name + " ";
+                }
+            }
+
+            if (qte.length()<=5) {
+                for (int j=0; j<=qte.length()-5;j++) {
+                    qte = qte + " ";
+                }
+            }
+            total = total;
+
+            String items = name+"\t"+qte+"\t"+total+"\n";
+            bill = bill + items;
+
+        }
+
+        bill = bill+amt;
+
+        System.out.println(bill);
+
+        Printer printer = new Printer();
+        printer.printString("Canon iR-ADV C5535/5540 UFR II",bill);
+
+        byte[] cutP = new  byte[]{0x1d,'V',1};
+        printer.printBytes("Canon iR-ADV C5535/5540 UFR II",cutP);
+        /*Document document = new Document(PageSize.A6, 10, 10, 10, 10);
         try{
             PdfWriter.getInstance(document,new FileOutputStream(new File((fileStorage+facture.getNumCmd()+facture.getId()+".pdf").toString())));
             document.open();
@@ -501,7 +605,7 @@ public class TerasseController {
             para1.setSpacingAfter(50);
             document.add(para1);
 
-            Paragraph paragraph = new Paragraph("Ident. Nat.: 5-714-K 21286                                                                       N.R.C: 13680 KIN\n" +
+            Paragraph paragraph = new Paragraph("Ident. Nat.: 5-714-K 21286  N.R.C: 13680 KIN\n" +
                     "Adresse: N°62, Av. Kabinda, Q/Boom,   C/Kinshasa, Réf. : Croisement Av. Kabinda et Av. Bokassa\n" +
                     "Tél : +243 999950570, +243 998386650, +243 816896454, e-mail : margueritehotel@yahoo.fr\n");
             paragraph.setAlignment(Paragraph.ALIGN_CENTER);
@@ -545,7 +649,7 @@ public class TerasseController {
 
             document.add(table);
 
-            /*
+            *//*
             Paragraph para6 = new Paragraph("Montant verse : "+facture.getMontantVerse());
             para6.setAlignment(Paragraph.ALIGN_RIGHT);
             para6.setSpacingAfter(3);
@@ -554,7 +658,7 @@ public class TerasseController {
             Paragraph para7 = new Paragraph("Montant rembourssé : "+facture.getRemboursement());
             para7.setAlignment(Paragraph.ALIGN_RIGHT);
             para7.setSpacingAfter(3);
-            document.add(para7);*/
+            document.add(para7);*//*
 
             Paragraph para8 = new Paragraph("Montant total à payer : "+facture.getMontantT());
             para8.setAlignment(Paragraph.ALIGN_LEFT);
@@ -572,8 +676,8 @@ public class TerasseController {
             e.printStackTrace();
         }
 
-        model.addAttribute("facture",facture);
-        return "redirect:"+facture.getBillTrace();
+        model.addAttribute("facture",facture);*/
+        return "redirect:/lounges/places/orders";
     }
 
     private void addTableHeader(PdfPTable table) {

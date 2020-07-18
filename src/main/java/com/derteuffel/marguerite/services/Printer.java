@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,7 +61,8 @@ public class Printer implements Printable {
 
         PrintService printService[] = PrintServiceLookup.lookupPrintServices(
                 flavor, pras);
-        PrintService service = findPrintService(printerName, printService);
+        PrintService service = findPrintService(printerName);
+        System.out.println(printerName);
 
         DocPrintJob job = service.createPrintJob();
 
@@ -90,7 +92,7 @@ public class Printer implements Printable {
 
         PrintService printService[] = PrintServiceLookup.lookupPrintServices(
                 flavor, pras);
-        PrintService service = findPrintService(printerName, printService);
+        PrintService service = findPrintService(printerName);
 
         DocPrintJob job = service.createPrintJob();
 
@@ -105,7 +107,7 @@ public class Printer implements Printable {
         }
     }
 
-    private PrintService findPrintService(String printerName,
+    /*private PrintService findPrintService(String printerName,
                                           PrintService[] services) {
         for (PrintService service : services) {
             if (service.getName().equalsIgnoreCase(printerName)) {
@@ -114,5 +116,28 @@ public class Printer implements Printable {
         }
 
         return null;
+    }*/
+    /**
+     * Retrieve the specified Print Service; will return null if not found.
+     * @return
+     */
+    public static PrintService findPrintService(String printerName) {
+
+        PrintService service = null;
+
+        // Get array of all print services - sort order NOT GUARANTEED!
+        PrintService[] services = PrinterJob.lookupPrintServices();
+
+        // Retrieve specified print service from the array
+        for (int index = 0; service == null && index < services.length; index++) {
+
+            if (services[index].getName().equalsIgnoreCase(printerName)) {
+
+                service = services[index];
+            }
+        }
+
+        // Return the print service
+        return service;
     }
 }
